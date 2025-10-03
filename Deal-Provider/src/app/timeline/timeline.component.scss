@@ -1,0 +1,106 @@
+
+.timeline {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;  
+} 
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  background-color: var(--ion-color-primary);
+  top: 0; 
+  bottom: 0;
+  left: 28%;
+  margin-left: -3px; 
+} 
+.container {
+  padding: 10px 40px;
+  position: relative;
+  background-color: inherit;
+  width: 50%;
+} 
+.container::after {
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  right: -15px;
+  // clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  background-color: var(--ion-color-primary); 
+  background-image: url("../../assets/icon/checkmark-circle.svg");
+  // border: 2px solid var(--ion-color-primary);
+  top: 15px;
+  border-radius: 50%;
+  z-index: 1;
+} 
+.left {
+  left: 0;
+} 
+.right {
+  left: 28%;
+} 
+.left::before {
+  content: " ";
+  height: 0;
+  position: absolute;
+  top: 22px;
+  width: 0;
+  z-index: 1;
+  right: 30px;
+  border: medium dotted var(--ion-color-primary);
+  border-width: 10px 0 10px 10px;
+  border-color: transparent transparent transparent var(--ion-color-primary);
+} 
+.right::before {
+  content: " ";
+  height: 0;
+  position: absolute;
+  top: 22px;
+  width: 0;
+  z-index: 1;
+  left: 30px;
+  // border: medium solid white;
+  // border-width: 10px 10px 10px 0;
+  // border-color: transparent white transparent transparent;
+} 
+.right::after {
+  left: -14px;
+} 
+.content {
+  // padding: 0px 10px 10px 10px !important;
+  background-color: transparent;
+  position: relative;
+  border-radius: 6px;
+} 
+@media screen and (max-width: 600px) { 
+  .timeline::after {
+  left: 31px;
+  } 
+  .container {
+  width: 100%;
+  padding-left: 55px;
+  padding-right: 25px;
+  } 
+  .container::before {
+  left: 60px;
+  border: medium solid transparent;
+  border-width: 10px 10px 10px 0;
+  border-color: transparent transparent transparent transparent;
+  }
+  .left::after, .right::after {
+  left: 17px;
+  } 
+  .right {
+  left: 0%;
+  }
+}
+ion-list{
+  text-align: center;
+  color: white;
+  width: max-content;
+  width: 120px;
+  border-radius: 5px;
+  background-color: var(--ion-color-primary);
+  padding: 10px;
+}

@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Complaints</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+<ion-list>
+  <ion-item *ngFor="let item of complaints" button="true" (click)="viewComplaints(item)">
+    <ion-label>
+      <p>Booking Id: {{item.bookingId}}</p>
+      <h3>{{item.complaintDetail}}</h3>
+    </ion-label>
+    <ion-chip [color]="item.status == 'open' ? 'danger' : 'success'">{{item.status}}</ion-chip>
+  </ion-item>
+</ion-list>
+</ion-content>

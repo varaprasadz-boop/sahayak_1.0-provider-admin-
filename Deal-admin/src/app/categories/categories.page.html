@@ -1,0 +1,80 @@
+<!--
+  Authors : Coders Island
+  Website : https://codersisland.com
+  App Name : Deal - ionic 6 Buy and Sell, Admin, Admob
+  Created : 20-August-2022
+  This App Template Source code is licensed as per the
+  terms found in the Website https://codersisland.com/license
+  Copyright © 2022-present Coders Island.
+-->
+
+<!--===================== HEADER START =====================-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Categories
+    </ion-title>
+    <ion-buttons slot="end"  *ngIf="hasPermission(['add_categories'])" >
+      <ion-button   fill="outline" color="light"  (click)="addCategory()">Add Categories</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<!--===================== CONTENT START =====================-->
+<ion-content>
+  <ion-searchbar placeholder="Search Name" [(ngModel)]="search"></ion-searchbar>
+  <div style="overflow-x:auto;">
+    <table class="styled-table">
+      <thead>
+          <tr>
+              <th>Photo</th>
+              <th>Name</th>
+              <th *ngIf="hasPermission(['view_categories'])">Status</th>
+              <th *ngIf="hasPermission(['edit_categories'])">Edit</th>
+              <th *ngIf="hasPermission(['delete_categories'])">Delete</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of categories | search:search:'name' |  paginate: { itemsPerPage: 10, currentPage: p }">
+              <td>
+                <ion-thumbnail>
+                  <img src="{{item.image}}"/>
+                </ion-thumbnail>
+              </td>
+              <td>{{item.name}}</td>
+              <td  *ngIf="hasPermission(['view_categories'])">
+                <!-- <ion-button fill="outline" color="secondary" (click)="view(item.id)">
+                  <ion-icon slot="start" name="eye" color="secondary"></ion-icon>
+                  View
+                </ion-button> --> 
+                <ion-button fill="outline" [color]="getStatusColor(item.status)">
+                <ion-select aria-label="Status" value="{{item.status}}" (ionChange)="changeStatus($event, item.id)">
+                  <ion-select-option value="active">Active</ion-select-option>
+                  <ion-select-option value="inactive">In Active</ion-select-option>
+                </ion-select>
+              </ion-button>
+              </td>
+              <td *ngIf="hasPermission(['edit_categories'])">
+                <ion-button fill="outline" color="primary" (click)="edit(item.id)">
+                  <ion-icon slot="start" name="pencil" color="primary"></ion-icon>
+                  Edit
+                </ion-button>
+              </td>
+              <td *ngIf="hasPermission(['delete_categories'])">
+                <ion-button fill="outline" color="danger" (click)="presentConfirm(item.id)">
+                  <ion-icon slot="start" name="trash" color="danger"></ion-icon>
+                  Delete
+                </ion-button>
+              </td>
+          </tr>
+    </table>
+  </div>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+ 
+ <div class="ion-text-center" *ngFor="let item of dummyArray">
+  <ion-spinner color="danger"></ion-spinner>
+ </div>
+</ion-content>

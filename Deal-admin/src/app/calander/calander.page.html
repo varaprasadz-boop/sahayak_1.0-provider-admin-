@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Booking Calendar</ion-title>
+  </ion-toolbar>
+  <ion-grid class="ion-text-center">
+    <ion-row>
+      <ion-col size="4" sizeLg="2" class="ion-padding-top" (click)="resetFilter()"
+        ><ion-label>All</ion-label></ion-col
+      >
+      <ion-col size="4" sizeLg="2">
+        <ion-select [(ngModel)]="filter.agent" (ionChange)="segmentChanged('agent',$event.target.value)" aria-label="agents" placeholder="Select Agent">
+          <ion-select-option value="all" selected>All</ion-select-option>
+          <ion-select-option
+            *ngFor="let item of serviceProviders"
+            [value]="item.uid"
+            >{{item.name}}</ion-select-option
+          >
+        </ion-select>
+      </ion-col>
+      <ion-col (ionChange)="selectCategory($event)" size="4" sizeLg="2">
+        <ion-select [(ngModel)]="filter.category" aria-label="categories" placeholder="Category">
+          <ion-select-option value="all" selected>All</ion-select-option>
+          <ion-select-option *ngFor="let item of categories" [value]="item.id"
+            >{{item.name}}</ion-select-option
+          >
+        </ion-select></ion-col
+      >
+      <ion-col size="4" sizeLg="2">
+        <ion-select [(ngModel)]="filter.subcategory" (ionChange)="segmentChanged('subcategory',$event.target.value)" aria-label="agents" placeholder="Sub Category">
+          <ion-select-option value="all" selected>All</ion-select-option>
+          <ion-select-option
+            *ngFor="let item of subCategories"
+            [value]="item.id"
+            >{{item.name}}</ion-select-option
+          >
+        </ion-select></ion-col
+      >
+      <ion-col (ionChange)="selectCity($event)" size="4" sizeLg="2"
+        ><ion-select [(ngModel)]="filter.city" aria-label="agents" placeholder="City">
+          <ion-select-option value="all" selected>All</ion-select-option>
+          <ion-select-option *ngFor="let item of cities" [value]="item.id"
+            >{{item.name}}</ion-select-option
+          >
+        </ion-select></ion-col
+      >
+      <ion-col size="4" sizeLg="2"
+        ><ion-select [(ngModel)]="filter.area" (ionChange)="segmentChanged('area',$event.target.value)" aria-label="agents" placeholder="Area">
+          <ion-select-option value="all" selected>All</ion-select-option>
+          <ion-select-option *ngFor="let item of areas" [value]="item.id"
+            >{{item.name}}</ion-select-option
+          >
+        </ion-select></ion-col
+      >
+    </ion-row>
+  </ion-grid>
+  <!-- <ion-segment value="all" >
+ 
+    <ion-segment-button value="subCategory">
+      <ion-label></ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="city">
+      <ion-label>City</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="area">
+      <ion-label></ion-label>
+    </ion-segment-button>
+  </ion-segment> -->
+</ion-header>
+
+<ion-content>
+  <full-calendar class="ion-margin" [options]="calendarOptions"></full-calendar>
+</ion-content>

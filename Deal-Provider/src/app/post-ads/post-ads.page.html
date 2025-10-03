@@ -1,0 +1,233 @@
+<!--
+  Authors : Coders Island
+  Website : https://codersisland.com
+  App Name : Deal - ionic 6 Buy and Sell, Admin, Admob
+  Created : 20-August-2022
+  This App Template Source code is licensed as per the
+  terms found in the Website https://codersisland.com/license
+  Copyright © 2022-present Coders Island.
+-->
+
+<!-- ================ HEADER START ============== -->
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'Post New Ad' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<!-- ================ HEADER END ============== -->
+
+<!-- ================ CONTENT START ============== -->
+<ion-content>
+  <div class="main_content_div">
+    <div class="content_div">
+      <div class="ip_flex">
+        <ion-select
+          [(ngModel)]="category"
+          (ionChange)="selectCat($event)"
+          placeholder="{{ 'Category' | translate }}"
+        >
+          <ion-select-option
+            color="secondary"
+            *ngFor="let item of categories"
+            [value]="item.id"
+            >{{item.name}}</ion-select-option
+          >
+        </ion-select>
+      </div>
+
+      <div class="ip_flex" *ngIf="showCat">
+        <ion-select
+          [(ngModel)]="subcategory"
+          placeholder="{{ 'Subcategory' | translate }}"
+        >
+          <ion-select-option
+            color="secondary"
+            *ngFor="let item of subcategories"
+            [value]="item.id"
+            >{{item.name}}</ion-select-option
+          >
+        </ion-select>
+      </div>
+
+      <div class="categories-card" scrollX="true">
+        <div
+          lines="none"
+          class="category-list scrollX ion-padding-end"
+          (click)="triggerFile()"
+        >
+          <div [style.background-color]="camera" class="color_shape">
+            <ion-icon name="camera"></ion-icon>
+          </div>
+          <input
+            #fileInput
+            id="file"
+            type="file"
+            style="display: none"
+            multiple
+            (change)="detectFiles()"
+            multiple
+          />
+        </div>
+
+        <div
+          lines="none"
+          *ngFor="let image of imageSelect | slice:0:10"
+          class="category-list scrollX ion-padding-end"
+        >
+          <div
+            class="bg_image back_image"
+            [style.backgroundImage]="'url('+ image +')'"
+          >
+            <ion-icon name="trash" (click)="removePhoto(image)"></ion-icon>
+          </div>
+        </div>
+      </div>
+
+      <br />
+
+      <div class="ip_flex">
+        <ion-input
+          type="text"
+          [(ngModel)]="title"
+          placeholder="{{ 'Title' | translate }}"
+        ></ion-input>
+      </div>
+
+      <div class="ip_flex">
+        <ion-input
+          type="number"
+          [(ngModel)]="price"
+          placeholder="{{ 'Price' | translate }}"
+        ></ion-input>
+      </div>
+
+      <div class="ip_flex" (click)="shareLocation()">
+        <ion-input
+          type="text"
+          [(ngModel)]="location"
+          placeholder="{{ 'Location' | translate }}"
+          [readonly]="true"
+        ></ion-input>
+      </div>
+
+      <ion-label class="ion-padding" *ngIf="location"
+        >{{ 'Edit Location' | translate }}</ion-label
+      >
+
+      <div class="ip_flex" *ngIf="location">
+        <ion-input
+          type="text"
+          [(ngModel)]="location"
+          placeholder="{{ 'Location' | translate }}"
+        ></ion-input>
+      </div>
+
+      <div class="ip_flex">
+        <ion-select
+          [(ngModel)]="condition"
+          placeholder="{{ 'Condition' | translate }}"
+        >
+          <ion-select-option color="secondary" value="Used"
+            >{{ 'Used' | translate }}</ion-select-option
+          >
+        </ion-select>
+      </div>
+
+      <ion-textarea
+        type="text"
+        [(ngModel)]="description"
+        autoGrow="true"
+        placeholder="{{ 'Description' | translate }}"
+      ></ion-textarea>
+      <br />
+      <div class="ip_flex">
+        <ion-input
+          type="text"
+          [(ngModel)]="displayName"
+          [readonly]="true"
+        ></ion-input>
+      </div>
+
+      <div class="ip_flex">
+        <ion-input
+          type="text"
+          [(ngModel)]="phoneNumber"
+          placeholder="{{ 'Phone number' | translate }}"
+        ></ion-input>
+      </div>
+      <ion-item lines="none">
+        <ion-checkbox [(ngModel)]="isGST" slot="end"></ion-checkbox>
+        <ion-label>I have GST</ion-label>
+      </ion-item>
+      <div *ngIf="isGST">
+        <div class="ip_flex">
+          <ion-input
+            type="text"
+            [(ngModel)]="buisnessName"
+            placeholder="{{ 'Buisness Name' | translate }}"
+          ></ion-input>
+        </div>
+        <div class="ip_flex">
+          <ion-input
+            type="text"
+            [(ngModel)]="buisnessGST"
+            placeholder="{{ 'Buisness GST' | translate }}"
+          ></ion-input>
+        </div>
+        <div class="ip_flex">
+          <ion-input
+            type="text"
+            [(ngModel)]="buisnessAddress"
+            placeholder="{{ 'Buisness Address' | translate }}"
+          ></ion-input>
+        </div>
+      </div>
+      <!-- <div class="ip_flex" >
+        <ion-select  
+        placeholder="{{ 'Select Package' | translate }}"
+        >
+          <ion-select-option  color="secondary" value="Used"
+            >
+            <h1>{{item.name}}</h1>
+            <h1></h1>
+            <h1></h1>
+            <h1></h1>
+            </ion-select-option
+          >
+        </ion-select>
+      </div> -->
+      <ion-button expand="block" fill="outline" id="open-modal" *ngIf="!isGST"  style="margin-bottom:10px;">{{selectedPackage}}</ion-button> 
+        <ion-modal #modal trigger="open-modal" [initialBreakpoint]="0.75">
+          <ng-template style="background-color: #F2F2F2;">
+            <ion-content style="background-color: #F2F2F2;" class="ion-padding">
+              <ion-list class="list-array" *ngFor="let item of packages; let i = index" [ngClass]="{ 'green-border': item.checkboxChecked }" (click)="changeColor(item, i)">
+                <ion-item button="false" lines="none" style="--ripple-color: transparent;">
+                  <ion-label>
+                    <h2><b>Package Name:</b> {{item.name | titlecase}}</h2>
+                    <h2><b>No. of Ads:</b>{{item.noOfAds}}</h2>
+                    <h2><b>Cost:</b>  {{item.cost |currency:'INR':'symbol'}}</h2>
+                    <h2><b>Duration:</b>  {{item.duration}}</h2>
+                </ion-label>
+                <ion-checkbox slot="end" mode="ios"  class="checkbox" [checked]="item.checkboxChecked" [ngStyle]="{ 'color': item.checkboxChecked ? 'var(--ion-color-primary)' : '#000201' }"></ion-checkbox>
+                </ion-item>
+            </ion-list>
+            <ion-button (click)="modalCtrl.dismiss()" mode="ios" expand="block" class="button-continue">{{'Continue'}}</ion-button>
+            </ion-content>
+          </ng-template>
+        </ion-modal> 
+      <ion-button
+        (click)="submit()"
+        [disabled]="!title || !price || !location || !condition || !description || !phoneNumber || imageSelect.length === 0"
+        expand="block"
+        mode="ios"
+        class="block_btn"
+      >
+        {{ 'Post Ad' | translate }}
+      </ion-button>
+    </div>
+  </div>
+</ion-content>
+<!-- ================ CONTENT END ============== -->

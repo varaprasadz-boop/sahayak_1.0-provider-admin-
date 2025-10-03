@@ -1,0 +1,55 @@
+<!--
+  Authors : Coders Island
+  Website : https://codersisland.com
+  App Name : Deal - ionic 6 Buy and Sell, Admin, Admob
+  Created : 20-August-2022
+  This App Template Source code is licensed as per the
+  terms found in the Website https://codersisland.com/license
+  Copyright © 2022-present Coders Island.
+-->
+
+<!--===================== HEADER START =====================-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Comments
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!--===================== CONTENT START =====================-->
+<ion-content>
+  <div style="overflow-x:auto;">
+    <table class="styled-table">
+      <thead>
+          <tr>
+              <th>Sender</th>
+              <th>Reason</th>
+              <th>Description</th>
+              <th>Item</th>
+              <th>Date</th>
+              <th>Delete</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of reports">
+              <td>
+                {{getUserName(item.userId)}}
+              </td>
+              <td>{{item.reason}}</td>
+              <td text-wrap>{{item.description}}</td>
+              <td>{{getItemName(item.itemId)}}</td>
+              <td>{{item.reportDate | date}}</td>
+              <td>
+                <ion-button (click)="presentConfirm(item.id)" fill="outline" color="danger">Delete</ion-button>
+              </td>
+          </tr>
+    </table>
+  
+  </div>
+
+</ion-content>
+

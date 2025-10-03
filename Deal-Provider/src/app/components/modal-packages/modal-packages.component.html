@@ -1,0 +1,33 @@
+
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+          <ion-button fill="clear" (click)="modalController.dismiss()">
+            <ion-icon
+              name="arrow-back-outline"
+              style="font-size: 25px"
+            ></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <ion-title class="ion-text-start">Choose Date</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-text-center ion-padding">
+      <ion-card class="ion-no-border date-card" >
+        <ion-datetime (ionChange)="chooseDate($event)" presentation="date" color="primary" size="cover" mode="ios"></ion-datetime>
+      </ion-card>
+        <ion-row>
+          <ion-col size="4" *ngFor="let time of times">
+            <ion-card class="time-card" button="true" (click)="chooseTime(time)" [ngClass]="time == schedule.time ? 'time-card-selected' : ''">
+              <ion-text>
+                <p>{{ convertTo12HourFormat(time) }}</p>
+              </ion-text>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+    </ion-content>
+    <ion-footer class="ion-no-border ion-padding">
+      <ion-button (click)="bookNow()" [disabled]="!schedule.date || !schedule.time" mode="ios" expand="block" 
+      >Choose Address</ion-button
+    >
+    </ion-footer>

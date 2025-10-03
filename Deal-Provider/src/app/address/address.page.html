@@ -1,0 +1,41 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-title>Address</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding" [ngClass]="{ 'ion-text-center': !address.length }">
+  <h6 class="ion-margin-start" *ngIf="address.length">Your Address</h6>
+  <h1 class="ion-margin-start" *ngIf="!address.length">No Address Found</h1>
+  <ion-card *ngFor="let item of address">
+    <ion-card-header >
+      <ion-card-title>
+        <ion-label>
+          <h2>{{item.name}}</h2>
+        </ion-label>
+        <ion-buttons mode="ios">
+          <ion-button (click)="editAddress(item)" >
+            <ion-icon name="create-outline" color="primary"></ion-icon>
+          </ion-button>
+          <ion-button (click)="deleteAddress(item)">
+            <ion-icon name="trash" color="danger"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-card-title>
+      <ion-card-subtitle>{{item.cityName}}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      {{item.address}}
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+<ion-footer class="ion-no-border ion-padding">
+  <ion-toolbar> 
+      <ion-button mode="ios" expand="block"  color="primary" (click)="openModal()">
+        <ion-icon name="add"></ion-icon>
+        Add Address
+      </ion-button> 
+  </ion-toolbar>
+</ion-footer>

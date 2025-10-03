@@ -1,0 +1,40 @@
+.card {
+    background: #fff;
+    border-radius: 7px;
+    height: auto;
+    width: 100%;
+   margin-top: 10px;
+    box-shadow: 0 3px 4px -2px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+}
+.cards {
+    background: #fff;
+    border-radius: 7px;
+    //height: 180px;
+    height: auto;
+    width: 100%;
+   // margin: 10px;
+    box-shadow: 0 3px 4px -2px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+}
+#map{
+    height: 150px; //50vh;
+    width: 100%;
+   // border: 1px solid gray;
+   box-shadow: 0 3px 4px -2px rgba(0, 0, 0, 0.2);
+   margin-bottom: 10px;
+   border-radius: 7px;
+}
+.cards_price {
+    background: #fff;
+    border-radius: 7px;
+    //height: 180px;
+    display: flex;
+    justify-content: space-between;
+    height: auto;
+    padding: 10px;
+    width: 100%;
+   // margin: 10px;
+    box-shadow: 0 3px 4px -2px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+}

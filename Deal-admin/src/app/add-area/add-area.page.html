@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Add Area</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="form">
+    <ion-item>
+      <ion-label position="floating">City</ion-label>
+      <ion-select [(ngModel)]="city" interface="alert">
+        <ion-select-option *ngFor="let item of cities" [value]="item.id"
+          >{{item.name}}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+
+    <br />
+
+    <ng-container *ngFor="let area of areas; let i = index">
+      <ion-item>
+        <ion-label position="floating">Area Name</ion-label>
+        <ion-input [(ngModel)]="area.name"></ion-input>
+        <ion-button
+          slot="end"
+          *ngIf="i > 0"
+          size="small"
+          color="danger"
+          (click)="removeArea(i)"
+        >
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
+        <ion-button
+          *ngIf="i === areas.length - 1"
+          slot="end"
+          fill="outline"
+          expand="block"
+          (click)="addArea()"
+        >
+          <ion-icon name="add"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <hr />
+    </ng-container>
+
+    <ion-button
+      *ngIf="!spin"
+      size="large"
+      (click)="setup()"
+      [disabled]="!city"
+      >Submit</ion-button
+    >
+    <div class="ion-text-center" *ngIf="spin">
+      <ion-spinner color="secondary"></ion-spinner>
+    </div>
+  </div>
+</ion-content>

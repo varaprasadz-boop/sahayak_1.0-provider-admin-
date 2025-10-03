@@ -1,0 +1,16 @@
+[
+    {
+      "origin": [
+        "http://localhost:8100",
+        "https://admin.sahayakonline.com"
+      ],
+      "method": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "maxAgeSeconds": 3600
+    }
+  ]
+  

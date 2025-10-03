@@ -1,0 +1,40 @@
+<div class="calendar-container">
+  <ion-item lines="none">
+    <ion-buttons slot="start">
+      <ion-button color="primary" (click)="previousMonth()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+      <div>{{ currentMonth | date: 'MMMM yyyy' }}</div>
+      <ion-button color="primary" (click)="nextMonth()">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="scrollToCurrentDate()">
+        Today
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+  <div class="calendar-dates">
+    <ng-container *ngFor="let date of dates">
+      <div *ngIf="isToday(date); else notToday" class="calendar-date" 
+           [class.selected]="isSelectedDate(date)" 
+           (click)="selectDate(date)"
+           attr.data-date="{{date.getDate()}}"
+           #dateElement>
+        <div>{{ date.getDate() }}</div>
+        <div>{{ getDayName(date) }}</div>
+      </div>
+      <ng-template #notToday>
+        <div class="calendar-date" 
+             [class.selected]="isSelectedDate(date)" 
+             (click)="selectDate(date)"
+             attr.data-date="{{date.getDate()}}"
+             #dateElement>
+          <div>{{ date.getDate() }}</div>
+          <div>{{ getDayName(date) }}</div>
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+ion-content {
+    padding: 5px !important;
+  .date-card {
+    box-shadow: none;
+    --background: none;
+    display: flex;
+    margin: none;
+    justify-content: center;
+  }
+  ion-col {
+    padding: 0px;
+    .time-card {
+      box-shadow: none;
+      border-radius: 10px;
+      margin: none;
+    }
+    .time-card-selected {
+      background: rgb(248 168 114 / 13%);
+      color: var(--ion-color-primary);
+      font-weight: bold;
+      border: 1px solid var(--ion-color-primary);
+    }
+  }
+}
+ion-footer {
+  background: #f2f2f2;
+}

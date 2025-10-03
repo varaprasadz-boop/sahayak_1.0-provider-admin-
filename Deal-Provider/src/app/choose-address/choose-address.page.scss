@@ -1,0 +1,17 @@
+ion-content {
+    ion-card {
+        margin: 10px 0px 10px 0px;
+        border-radius: 15px;
+        box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+        ion-card-title {
+        display: flex;
+        justify-content: space-between;
+        ion-icon {
+            font-size: 22px;
+        }
+    }
+    }
+}
+ion-footer {
+    background-color: #f2f2f2;
+}

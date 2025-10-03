@@ -1,0 +1,118 @@
+<!--
+  Authors : Coders Island
+  Website : https://codersisland.com
+  App Name : Deal - ionic 6 Buy and Sell, Admin, Admob
+  Created : 20-August-2022
+  This App Template Source code is licensed as per the
+  terms found in the Website https://codersisland.com/license
+  Copyright © 2022-present Coders Island.
+-->
+
+<!-- ================== HEADER START ================= -->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ serviceDetail?.name }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="!haveILiked ? addToWishlist() : removeToWishlist()" fill="clear">
+        <ion-icon name="heart" color="light" *ngIf="!haveILiked" style="font-size: 25px;"></ion-icon>
+        <ion-icon color="danger" name="heart" *ngIf="haveILiked" style="font-size: 25px;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<!-- ================== HEADER END ================= -->
+
+<!-- ================== CONTENT START ================= -->
+<ion-content >
+  <div class="main_content_div" [hidden]="!serviceDetail">
+      <div class="home_slider">
+        <!-- Swiper js, as ion-slides has depreciated in ionic 6 -->
+        <!-- <swiper #swiper [config]="config" (slideChange)="swiperSlideChanged($event)"> -->
+          <!-- <ng-template swiperSlide  > -->
+            <img style="object-fit: cover;" [src]="image"  />
+          <!-- </ng-template> -->
+        <!-- </swiper> -->
+      </div>
+      <div class="card">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <ion-label>
+                <h6><b>{{ 'Name' | translate }}</b></h6>
+                <p>{{name}}</p>
+              </ion-label>
+            </ion-col>
+            <ion-col size="6">
+              <ion-label>
+                <h6><b>{{ 'Price' | translate }}</b></h6>
+                <p>INR {{price}}</p>
+              </ion-label>
+            </ion-col>
+            <ion-col size="6">
+              <ion-label>
+                <h6><b>{{ 'Category' | translate }}</b></h6>
+                <p>{{getCategory()}}</p>
+              </ion-label>
+            </ion-col>
+            <ion-col size="6">
+              <ion-label>
+                <h6><b>{{ 'Subcategory' | translate }}</b></h6>
+                <p>{{getSubcategory()}}</p>
+              </ion-label> 
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <div class="cards" >
+        <h6 class="ion-text-wrap ion-padding">
+          {{description}}
+        </h6>
+      </div>
+
+  </div>
+
+  <div class="ion-text-center" style="padding-top: 50px" [hidden]="serviceDetail">
+    <ion-spinner color="secondary"></ion-spinner>
+ </div>
+
+</ion-content>
+<!-- ================== CONTENT END ================= -->
+<ion-footer class="ion-no-border" [hidden]="!serviceDetail" *ngIf="subscription">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button fill="outline" style="text-transform: none;" expand="block" (click)="chat()">
+          <ion-icon slot="start" name="chatbox-ellipses" style="font-size: 25px;"></ion-icon>
+          {{ 'Chat' | translate }}
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button style="text-transform: none;" color="secondary" expand="block" (click)="call()">
+          <ion-icon slot="start" name="call" style="font-size: 25px;"></ion-icon>
+          {{ 'Call' | translate }}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+<ion-footer class="ion-no-border" [hidden]="!serviceDetail" *ngIf="!subscription">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label>
+            <h6 class="ion-float-left ion-font-large"><b>{{ 'Price' | translate }}</b></h6>
+            <ion-text class="ion-float-right" style="font-size: large;">INR {{price}}</ion-text>
+          </ion-label>
+        </ion-item>
+        <ion-button fill="solid" style="text-transform: none;" expand="block" (click)="bookNow()">
+          {{ 'Book Now' | translate }}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

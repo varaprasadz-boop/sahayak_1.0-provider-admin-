@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'Edit Ads' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header> 
+<ion-content>
+  <div class="main_content_div">
+    <div class="content_div">
+      <div class="ip_flex">
+        <ion-select [(ngModel)]="category" (ionChange)="selectCat($event)" placeholder="{{ 'Category' | translate }}">
+          <ion-select-option color="secondary" *ngFor="let item of categories" [value]="item.id">{{item.name}}</ion-select-option>
+        </ion-select>
+      </div>
+      <div class="ip_flex">
+        <ion-select [(ngModel)]="subcategory" placeholder="{{ 'Subcategory' | translate }}">
+          <ion-select-option color="secondary" *ngFor="let item of subcategories" [value]="item.id">{{item.name}}</ion-select-option>
+        </ion-select>
+      </div>
+      <div class="categories-card" scrollX="true">
+        <div lines="none" *ngFor="let image of images | slice:0:10" class="category-list scrollX ion-padding-end">
+          <div class="bg_image back_image" [style.backgroundImage]="'url('+ image +')'">
+            <ion-icon name="trash" (click)="removePhoto(image)"></ion-icon>
+          </div>
+        </div>
+      </div> 
+      <br/>
+      <div class="ip_flex">
+        <ion-input type="text" [(ngModel)]="title" placeholder="{{ 'Title' | translate }}"></ion-input>
+      </div> 
+      <div class="ip_flex">
+        <ion-input type="text" [(ngModel)]="price" placeholder="{{ 'Price' | translate }}"></ion-input>
+      </div> 
+      <div class="ip_flex" (click)="shareLocation()">
+        <ion-input type="text" [(ngModel)]="location" placeholder="{{ 'Location' | translate }}" [readonly]="true"></ion-input>
+      </div> 
+      <ion-label class="ion-padding" *ngIf="location">{{ 'Edit Location' | translate }}</ion-label>
+      <div class="ip_flex" *ngIf="location">
+        <ion-input type="text" [(ngModel)]="location" placeholder="Location"></ion-input>
+      </div> 
+      <div class="ip_flex">
+        <ion-select [(ngModel)]="condition" placeholder="{{ 'Condition' | translate }}">
+          <ion-select-option color="secondary" value="Used">{{ 'Used' | translate }}</ion-select-option>
+          <ion-select-option color="secondary" value="New">{{ 'New' | translate }}</ion-select-option>
+        </ion-select>
+      </div>
+      <ion-textarea type="text" [(ngModel)]="description" autoGrow="true" placeholder="{{ 'Description' | translate }}"></ion-textarea>
+      <div class="ip_flex">
+        <ion-input type="text" [(ngModel)]="phoneNumber" placeholder="{{ 'Phone' | translate }}"></ion-input>
+      </div>
+      <br/>
+      <ion-button (click)="submit()" [disabled]="!title || !price || !location || !condition || !description || !phoneNumber || images.length === 0" expand="block" mode="ios" class="block_btn">
+        {{ 'Update' | translate }}
+      </ion-button>
+    </div>
+  </div>
+</ion-content> 

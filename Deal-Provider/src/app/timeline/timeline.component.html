@@ -1,0 +1,78 @@
+<div class="timeline">
+  <div class="container right" *ngIf="booking.jobStatus !== 'completed'">
+    <div class="content" >
+      <ion-list lines="none">{{booking.hasAgentAccepted===true? 'Assigned':'Upcoming'}}</ion-list>
+      <!-- <ion-chip [color]="booking.jobStatus === 'completed' ? 'success' : 'warning'">{{booking.jobStatus | titlecase}}</ion-chip> -->
+    </div>
+  </div>
+  <!-- <div class="container right" *ngIf="booking.paymentStatus == 'paid' && booking.paymentType == 'online'">
+    <div class="content" >
+      <ion-list lines="none">{{booking.paymentStatus}}</ion-list>
+      <ion-button style="margin-top: 10px;" expand="block" >
+        <ion-icon slot="start" name="receipt-outline"></ion-icon>
+        Download Invoice
+      </ion-button>
+    </div>
+  </div> -->
+  <div class="container right" *ngIf="booking.agentStatus == 'assigned'">
+    <div class="content">
+      <ion-list lines="none">Customer</ion-list>
+      <ion-chip *ngIf="booking.agentStatus !== 'assigned'" [color]="booking.agentStatus === 'assigned' ? 'success' : 'warning'">{{booking.agentStatus | titlecase}}</ion-chip>
+      <ion-item >
+        <ion-label>
+          <h2> {{getuser(booking.uid)}}</h2>
+        </ion-label>
+        <ion-buttons slot="end" *ngIf="booking.jobStatus !== 'completed'">
+          <ion-button style="font-size: small;" (click)="chat(booking.uid, booking.id)">
+            Chat Now
+            <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </div>
+  </div>
+  <div class="container right" *ngIf="booking.jobStatus == 'in-progress'">
+    <div class="content">
+      <ion-list lines="none">Job is in progress</ion-list>
+      <!-- <ion-button class="ion-margin" (click)="markAsComplete()" expand="block">
+        <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+        Mark as Complete
+      </ion-button> -->
+    </div>
+  </div>
+  <div class="container right" *ngIf="booking.completed && booking.jobStatus == 'completed'">
+    <div class="content">
+      <ion-list lines="none"> Job is {{(booking.completed ? 'completed' : 'not completed') | titlecase}}</ion-list>
+      <!-- <ion-chip [color]="booking.completed ? 'success' : 'warning'">{{booking.completed ? 'completed' : 'not completed' | titlecase}}</ion-chip> -->
+      <p>{{booking.completed ? 'completed on ' + booking.completedTime : 'not completed on ' + booking.completedTime}}</p>
+      <div *ngIf="booking.isRated">
+        You got rating with 
+        <ion-text
+          [color]="booking.rating < 3 ? 'danger':(booking.rating > 4 ? 'success':'warning')">
+          <b>
+            <ion-icon *ngFor="let start of stars" name="star"
+              [color]="booking.rating < 3 ? 'danger':(booking.rating > 4 ? 'success':'warning')">
+            </ion-icon>
+          </b>
+        </ion-text>
+        star
+      </div>
+    </div>
+  </div>
+  <div class="container right" *ngIf="booking.completed && booking.jobStatus == 'completed'">
+    <div class="content">
+      <!-- <ion-list lines="none">
+
+      </ion-list> -->
+      <!-- <ion-chip [color]="booking.completed ? 'success' : 'warning'">{{booking.completed ? 'completed' : 'not completed' | titlecase}}</ion-chip> -->
+      <ion-button style="margin-top: 10px;" expand="block" (click)="phoneCall()">
+        <ion-icon slot="start" name="call-outline"></ion-icon>
+        Raise a Complaint
+      </ion-button>
+      <ion-button *ngIf="booking.agentPaymentStatus==='paid'"  style="margin-top: 10px;" expand="block" (click)="generateInvoice()">
+        <ion-icon slot="start" name="cloud-download-outline"  ></ion-icon>
+        Download Invoice
+      </ion-button>
+    </div>
+  </div>
+</div>

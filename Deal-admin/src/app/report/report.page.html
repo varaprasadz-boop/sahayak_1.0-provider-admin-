@@ -1,0 +1,292 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="openSplitPane()" >
+        <ion-icon slot="icon-only" name="menu"></ion-icon>
+      </ion-button>
+  </ion-buttons>
+    <ion-title>Report</ion-title>
+  </ion-toolbar>  
+  <ion-segment value="bookings" [(ngModel)]="selectedSegment" (ionChange)="valueChange($event)">
+    <ion-grid>
+      <ion-row>
+        <ion-segment-button size="6" sizeLg="3" value="bookings">
+          <ion-label>Bookings</ion-label>
+        </ion-segment-button>
+        <ion-segment-button size="6" sizeLg="3" value="providers">
+          <ion-label>Service Providers</ion-label>
+        </ion-segment-button>
+        <!-- <ion-segment-button size="6" sizeLg="3" value="transactions">
+          <ion-label>Transactions</ion-label>
+        </ion-segment-button> -->
+        <ion-segment-button size="6" sizeLg="3" value="payments">
+          <ion-label>Service Provider Payment</ion-label>
+        </ion-segment-button>
+        <ion-segment-button size="6" sizeLg="3" value="refund">
+          <ion-label>Customer Refund</ion-label>
+        </ion-segment-button>
+      </ion-row>
+    </ion-grid>
+  </ion-segment>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" sizeLg="3">
+        <ion-label class="ion-float-left">From Date</ion-label>
+        <ion-item
+          class="ion-float-left"
+          style="
+            border: 1px solid rgb(141, 141, 141);
+            width: 100%;
+            border-radius: 5px;
+            margin-top: 10px;"
+        >
+          <ion-input type="date" placeholder="From Date" [(ngModel)]="filter.from"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6" sizeLg="3">
+        <ion-label class="ion-float-left">To Date</ion-label>
+        <ion-item
+          class="ion-float-left"
+          style="
+            border: 1px solid rgb(141, 141, 141);
+            width: 100%;
+            border-radius: 5px;
+            margin-top: 10px;
+          "
+        >
+          <ion-input type="date" placeholder="To Date" [(ngModel)]="filter.to"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6" sizeLg="3">
+        <ion-button
+          expand="block"
+          color="secondary"
+          style="margin-top: 37px"
+          (click)="segmentChanged()"
+          >fetch data</ion-button
+        >
+      </ion-col>
+      <ion-col size="6" sizeLg="3">
+        <ion-button (click)="exportToExcel()" expand="block" color="primary" style="margin-top: 37px"
+          >Export </ion-button
+        >
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div [ngSwitch]="selectedSegment">
+    <div *ngSwitchCase="'bookings'" style="overflow-x: auto">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Booking ID</th>
+            <th>Customer Name</th>
+            <th>Service Provider Name</th>
+            <th>Customer Phone Number</th>
+            <th>City</th>
+            <th>Area</th>
+            <th>Category</th>
+            <th>Sub Category</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of bookings; let i = index">
+            <td (click)="viewBooking(item)"><span style="text-decoration: underline;cursor: pointer;">{{item.bookingId}}</span></td>
+            <td>{{ getUserName(item.uid) }}</td>
+            <td>{{ getProviderName(item.agentId) }}</td>
+            <td>{{ getUserPhone(item.uid) }}</td>
+             <!-- <td>{{ item.uid }}</td> -->
+             <!-- <td>{{ item.uid }}</td> -->
+            <td>{{ item.address.cityName }}</td>
+            <td>{{ item.address.areaName }}</td>
+            <td>{{getCategoryName(item.service.category)}}</td>
+            <td>{{getSubCategoryName(item.service.subCategory)}}</td>
+            <td>{{ item.service.price | currency:'INR':'symbol' }}</td>
+            <td>
+              <ion-chip [color]="getStatusColor('job',item.jobStatus)">
+                {{item.jobStatus |titlecase}}
+              </ion-chip>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngSwitchCase="'providers'" style="overflow-x: auto">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Service Provider ID</th>
+            <th>Service Provider Name</th>
+            <!-- <th>Customer Name</th> -->
+            <th>Service Provider Ph No.</th>
+            <th>City</th>
+            <th>Area</th>
+            <th>Category</th>
+            <th>Sub Category</th>
+            <!-- <th>Service</th> -->
+            <!-- <th>Package</th> -->
+            <th>Date of Approval</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of serviceProviderReports; let i = index">
+            <td>{{item.SrNo}}</td>
+            <td>{{item.name}}</td>
+            <!-- <td>{{getUserName(item.uid)}}</td> -->
+            <td>{{item.mobile}}</td>
+            <td>{{getCities(item.city)}}</td>
+            <td>{{getArea(item.area)}}</td>
+            <td>{{getCategoryName(item.category)}}</td>
+            <td>
+               
+                {{getSubCategoryName(item.subCategory)}}
+               
+            </td> 
+            <td>{{item.dateOfApproval}}</td>
+            <td>{{item.status}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- <div *ngSwitchCase="'transactions'" style="overflow-x: auto">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Booking ID</th>
+            <th>Date of Booking</th>
+            <th>Customer Phone Number</th>
+            <th>City</th>
+            <th>Area</th>
+            <th>Category</th>
+            <th>Sub Category</th>
+            <th>Service</th>
+            <th>Amount</th>
+            <th>Payment Mode</th>
+            <th>Status</th>
+          </tr>
+        </thead> 
+        <tbody>
+          <tr *ngFor="let item of bookings; let i = index">
+            <td>{{item.bookingId}}</td>
+            <td>{{ item.schedule.date }}</td>
+            <td>{{ getUserPhone(item.uid) }}</td>
+            <td>{{ item.address.cityName }}</td>
+            <td>{{ item.address.areaName }}</td>
+            <td>{{getCategoryName(item.service.category)}}</td>
+            <td>{{getSubCategoryName(item.service.subCategory)}}</td>
+            <td>{{ item.service.name}}</td>
+            <td>
+                {{item.service.price | currency:'INR':'symbol'}}</td>
+            <td>
+              {{item.paymentType}}
+            </td>
+            <td>
+              {{item.service.status}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div> -->
+    <div *ngSwitchCase="'payments'" style="overflow-x: auto">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Booking ID</th>
+            <th>Date of Booking</th>
+            <th>Service Provider Name</th>
+            <th>Customer Name</th>
+            <th>Service provider ID</th>
+            <th>Category</th>
+            <th>Sub Category</th>
+            <th>Service</th>
+            <th>Total Amount</th>
+            <th>Net Payable</th>
+            <th>Job Status</th>
+            <th>Agent Payment Status</th> 
+            <th>Transfer ID</th>
+            <th>Transfer Mode</th>
+            <th>Transfer Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of bookings; let i = index">
+            <td>{{item.bookingId}}</td>
+            <td> {{ item.schedule.date|date:'dd/MM/yyyy':'' }} </td>
+            <td>{{ item.agentName }}</td>
+            <td>{{ getUserName(item.uid) }}</td>
+            <td>{{getProviderID(item.agentId)}}  </td> 
+            <td>{{getCategoryName(item.service.category)}}</td>
+            <td>{{getSubCategoryName(item.service.subCategory)}}</td>
+            <td>{{ item.service.name}}</td>
+            <td>{{item.service.price | currency:'INR':'symbol' }} </td>
+            <td>{{item.service.serviceProviderCharge}}</td>
+            <td>
+              <ion-chip [color]="getStatusColor('job',item.jobStatus)">
+                {{item.jobStatus|titlecase }}
+              </ion-chip>
+            </td>
+            <td>
+              <ion-chip [color]="item.agentPaymentStatus && item.agentPaymentStatus == 'paid' ? 'success' : 'danger'">
+                {{(item.agentPaymentStatus && item.agentPaymentStatus? (item.agentPaymentStatus == 'paid' ? 'paid' : 'Not Paid')  :'Not Paid') | titlecase }}
+              </ion-chip>
+              <!-- {{ item.agentPaymentStatus && item.agentPaymentStatus == 'paid' ? '' : item.completed_at | timeAgo }} -->
+            </td>
+            <td>{{item.transferID}}</td>
+            <td>{{item.transferMode}}</td>
+            <td>
+              {{item.paymentDate|date:'dd/MM/yyyy':''}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngSwitchCase="'refund'" style="overflow-x: auto">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Booking ID</th>
+            <th>Customer Name</th>
+            <th>Customer Phone Number</th>
+            <th>Date of Booking</th> 
+            <th>Category</th>
+            <th>Sub Category</th>
+            <th>Service</th>
+            <th>Total Amount</th>
+            <th>Net Payable</th>
+            <th>Job Status</th> 
+            <th>Transfer ID</th>
+            <th>Transfer Mode</th>
+            <th>Transfer Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of refundBookings; let i = index">
+            <td>{{item.bookingId}}</td>
+            <td>{{ getUserName(item.uid) }}</td>
+            <td>{{ getUserPhone(item.uid)}}</td>
+            <td> {{ item.schedule.date }} </td> 
+            <td>{{getCategoryName(item.service.category)}}</td>
+            <td>{{getSubCategoryName(item.service.subCategory)}}</td>
+            <td>{{ item.service.name}}</td>
+            <td>{{item.service.price | currency:'INR':'symbol' }} </td>
+            <td>{{item.service.serviceProviderCharge}}</td>
+            <td>
+              <ion-chip [color]="getStatusColor('job',item.jobStatus)">
+                {{item.jobStatus|titlecase }}
+              </ion-chip>
+            </td>
+            <td>{{item.transferID}}</td>
+            <td>{{item.transferMode}}</td>
+            <td>
+              {{item.paymentDate ? item.paymentDate : 'Not Paid' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ion-content>

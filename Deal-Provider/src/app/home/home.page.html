@@ -1,0 +1,79 @@
+<ion-header style=" background: #f2f2f2;">
+  <ion-toolbar style="--background: #f2f2f2;" [hidden]="backToTop">
+    <!-- <img style="height:60px;width:65px;float: left;margin-left:10px;margin-top:8px;border-radius: 10px;" src="../../assets/logo-provider.png" alt=""> -->
+    <ion-title class="ion-text-start" style=" font-family: Argentic; font-size: 40px;">{{ 'Sahayak'}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button style="font-size: smaller" (click)="modal.present()">
+        {{ location | slice:0:16 }} <ion-icon name="chevron-down"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <app-event-calendar (getBookings)="getBookings($event)" style="margin-bottom: 20px;"></app-event-calendar>
+</ion-header > 
+<ion-content [fullscreen]="true" [scrollEvents]="true" [scrollEvents]="true" (ionScroll)="getScrollPos($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <app-event-timeline [booking]="bookings"></app-event-timeline>
+
+  <!-- Spinner loader -->
+  <div *ngFor="let item of dummyArray" class="ion-text-center" style="padding-top: 50px" >
+    <ion-spinner color="secondary"></ion-spinner>
+  </div>
+
+  <!--Scroll To Top -->
+  <div class="back-to-top-btn" *ngIf="backToTop" (click)="gotToTop()">
+    <ion-icon name="chevron-up-outline" color="light"></ion-icon>
+  </div>
+</ion-content>
+<!-- ================== CONTENT END ================= -->
+
+<ion-modal #modal [initialBreakpoint]="0.55">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Choose Location</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modal.dismiss()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-label>
+        <h2>Select City</h2>
+      </ion-label>
+      <ion-item lines="none">
+        <ion-select
+          [(ngModel)]="citySelected"
+          [placeholder]="'Select City' | translate"
+          (ionChange)="changeCity($event)"
+        >
+          <ion-select-option *ngFor="let city of cities" [value]="city.id"
+            >{{city.name}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+      <ion-label>
+        <h2>Select Area</h2>
+      </ion-label>
+      <ion-item lines="none">
+        <ion-select
+          [(ngModel)]="areaSelected"
+          [placeholder]="'Select Area' | translate"
+          (ionChange)="changeCity($event)"
+        >
+          <ion-select-option *ngFor="let city of areas" [value]="city.id"
+            >{{city.name}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+      <ion-button class="ion-margin-top" expand="block" (click)="modal.dismiss()"> Save </ion-button>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+
+

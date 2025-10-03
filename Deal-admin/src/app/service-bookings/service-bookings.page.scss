@@ -1,0 +1,95 @@
+/* Thumbnail styling */
+ion-thumbnail {
+  border: 2px solid gray;
+  padding: 5px;
+}
+
+/* Table container with overflow */
+.table-container {  
+  overflow-y: auto; 
+  max-height: 100%; /* Allow the container to expand */
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Header and row styles */
+.styled-table thead {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 10;
+}
+
+.styled-table th, .styled-table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.styled-table th {
+  background-color: black;
+  color: white;
+  border-bottom: 2px solid #ddd;
+}
+
+/* Rows styling */
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid black;
+}
+
+.styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: black;
+}
+
+/* Scrollbar styling */
+.main-class-overflow::-webkit-scrollbar {
+  height: 25px;
+  background-color: #f3f3f3; 
+}
+
+.main-class-overflow::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 10px;
+}
+
+/* Media Queries */
+@media screen and (max-width: 1024px) {
+  .table-responsive {
+    height: 400px;  
+  }
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1439px) {
+  .table-responsive {
+    height: 450px;  
+  }
+}
+
+@media screen and (min-width: 1440px) and (max-width: 1599px) {
+  .table-responsive {
+    height: 550px;  
+  }
+}
+
+@media screen and (min-width: 1600px) and (max-width: 2559px) {
+  .table-responsive {
+    height: 680px;  
+  }
+}
+
+@media screen and (min-width: 2560px) {
+  .table-responsive {
+    height: 1000px;  
+  }
+}

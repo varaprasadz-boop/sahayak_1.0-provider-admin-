@@ -1,0 +1,77 @@
+<!--
+  Authors : Coders Island
+  Website : https://codersisland.com
+  App Name : Deal - ionic 6 Buy and Sell, Admin, Admob
+  Created : 20-August-2022
+  This App Template Source code is licensed as per the
+  terms found in the Website https://codersisland.com/license
+  Copyright © 2022-present Coders Island.
+ -->
+
+<!-- ================ HEADER START ============== -->
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons fill="clear" slot="start" (click)="goBack()">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'My Ads' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list class="ion-padding">
+    <div  *ngFor="let item of items" style="border-bottom: 1px solid gray; padding-bottom: 10px;">
+      <ion-item (click)="viewDetails(item.id)" lines="none">
+        <ion-thumbnail
+          slot="start"
+          style="height: 130px; width: 130px"
+          *ngFor="let img of item.images | slice:0:1"
+        >
+          <img src="{{img}}" style="border-radius: 5px" />
+        </ion-thumbnail>
+        <ion-label>
+          <h3 style="font-family: bold">{{item.title}}</h3>
+          <p>
+            <ion-icon name="location-outline"></ion-icon>
+            {{item.locality}}
+          </p>
+          <h2 style="font-family: bold; color: green">
+            {{item.price | currency:'INR':'symbol'}}
+          </h2>
+        </ion-label>
+        <ion-chip slot="end" mode="ios" [color]="getStatusColor(item.adStatus)"
+          >{{item.adStatus}}</ion-chip
+        >
+      </ion-item>
+      <div class="ion-justify-content-evenly">
+        <ion-button fill="outline" color="dark" (click)="edit(item.id)">
+          <ion-icon name="pencil" slot="icon-only"></ion-icon>
+          {{ 'Edit' | translate }}
+        </ion-button>
+        <ion-button fill="outline" color="danger" (click)="delete(item.id)">
+          <ion-icon name="trash" slot="icon-only"></ion-icon>
+          {{ 'Delete' | translate }}
+        </ion-button>
+      </div>
+    </div>
+  </ion-list>
+  <!-- Loading -->
+  <div
+    class="ion-text-center"
+    style="padding-top: 50px"
+    *ngFor="let item of dummyArray"
+  >
+    <ion-spinner color="secondary"></ion-spinner>
+  </div>
+
+  <div
+    *ngIf="!items.length  && !dummyArray.length"
+    class="ion-text-center"
+    style="padding-top: 40px"
+  >
+    <img src="assets/camera.png" width="150px" height="150px" />
+    <h5 class="empty" style="font-family: bold">
+      {{ 'No Ads yet' | translate }}
+    </h5>
+  </div>
+</ion-content>
+<!-- ================ CONTENT END ============== -->

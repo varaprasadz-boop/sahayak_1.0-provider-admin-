@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> Packages </ion-title>
+    <ion-buttons slot="end" *ngIf="hasPermission(['add_packages'])">
+      <ion-button fill="outline" color="light" routerLink="/add-package"
+        >Add Package</ion-button
+      >
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div style="overflow-x: auto">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Package Name</th>
+          <th>No. of Bookings</th>
+          <th>Duration</th>
+          <th>Cost</th>
+          <th *ngIf="hasPermission(['delete_packages'])">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of packages">
+          <td>{{item.name | titlecase}}</td>
+          <td>{{item.noOfBookings}}</td>
+          <td>{{item.duration}}</td>
+          <td>{{item.cost}}</td>
+          <td *ngIf="hasPermission(['delete_packages'])">
+            <ion-buttons>
+              <ion-button (click)="deletePackage(item.id)" fill="outline" color="danger">
+                <ion-icon name="trash"></ion-icon>
+                Delete</ion-button
+              >
+              <ion-button (click)="updatePackage(item)" fill="outline" color="warning">
+                <ion-icon name="create"></ion-icon>
+                Edit</ion-button
+              >
+            </ion-buttons>
+          </td>
+        </tr>
+        <ion-spinner *ngIf="!packages" color="danger"></ion-spinner>
+      </tbody>
+    </table>
+  </div>
+</ion-content>

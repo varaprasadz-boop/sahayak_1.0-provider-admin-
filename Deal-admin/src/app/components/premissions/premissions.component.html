@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Permissions</ion-title>
+    <ion-buttons slot="end" >
+      <ion-button *ngIf="type == 'view'" (click)="confirm()" [strong]="true">Choose</ion-button>
+      <ion-button *ngIf="type == 'edit-permission'" (click)="update()" [strong]="true">Update</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div style="overflow-x: auto;">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Module</th>
+          <th class="ion-text-center">Add</th>
+          <th class="ion-text-center">View</th>
+          <th class="ion-text-center">Edit</th>
+          <th class="ion-text-center">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of permissionsList">
+          <td><ion-label style="padding-left: 10px;">{{item.name}}</ion-label></td>
+          <td class="ion-text-center">   
+            <ion-checkbox [checked]="checkPermissions(item, 'add') ? true : false" labelPlacement="end" (ionChange)="valuePass($event, item, 'add')">view </ion-checkbox>  
+        </td>
+          <td class="ion-text-center">   
+              <ion-checkbox [checked]="checkPermissions(item, 'view') ? true : false" labelPlacement="end" (ionChange)="valuePass($event, item, 'view')">view </ion-checkbox>  
+          </td>
+          <td class="ion-text-center">    
+              <ion-checkbox [checked]="checkPermissions(item, 'edit') ? true : false" labelPlacement="end" (ionChange)="valuePass($event, item, 'edit')">edit </ion-checkbox>
+          </td>
+          <td class="ion-text-center">
+              <ion-checkbox [checked]="checkPermissions(item, 'delete') ? true : false" labelPlacement="end" (ionChange)="valuePass($event, item, 'delete')">delete </ion-checkbox>
+          </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+</ion-content>

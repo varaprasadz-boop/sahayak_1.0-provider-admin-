@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{content.title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" (click)="modalController.dismiss()">
+        <ion-icon  name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+<div [innerHTML]="content.data"></div>
+</ion-content>

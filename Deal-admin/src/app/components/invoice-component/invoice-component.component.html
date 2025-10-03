@@ -1,0 +1,116 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Invoice</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="captureArea">
+    <ion-list class="ion-padding">
+      <img style="width: 120px;height: 120px;border-radius:100px;float: left;" src="../../../assets/logo.jpg" alt="">
+      <ion-item lines="none" style="float: right;width: 300px;">
+        <ion-label>
+          <h2>Swayankrushi Home Services LLP</h2>
+          <p>2-22-278 Plot.no. 12 BHEL Colony,<br>
+            Rasoolpura,Secunderabad<br>
+            Telangana - 500003<br>
+            Phone No. : +91-90000 80492<br>
+            E : {{'support@sahayakonline.com'}}<br></p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <div style="border:2px solid #eee;width: 95%;margin-right: auto;margin-left: auto;"></div>
+    <ion-item lines="none">
+      <ion-label style="float: left;padding-left: 15px;"><b>Provider Invoice No : {{'INV-'+
+          invoiceDetail.bookingId}}</b></ion-label>
+      <ion-label slot="end" style="padding-right: 15px;"><b>Invoice Date : {{ currentDate | date:'yyyy-MM-dd' }}
+        </b></ion-label>
+    </ion-item>
+    <div style="width: 400px;float: left;margin-left: 20px; background-color: #fff;">
+      <h3 style="float: left;width: 100%;padding-left: 10px;">Bill No:</h3>
+      <p style="float: left;padding-left: 18px;">{{getCustomerName(invoiceDetail.uid)}}<br>
+        {{invoiceDetail.address.flat}}, {{invoiceDetail.address.landmark}},<br>
+        {{invoiceDetail.address.areaName}}, {{invoiceDetail.address.cityName}}<br>
+      </p>
+    </div>
+    <table style="width: 92%;margin-left: auto;margin-right: auto;">
+      <tr>
+        <th colspan="4">Particulars</th>
+        <th colspan="6">Units</th>
+        <th colspan="2">Base Rate</th>
+        <th colspan="2">Total</th>
+      </tr>
+      <tr>
+        <td class="ion-padding" colspan="4">{{invoiceDetail.service.name}}</td>
+        <td class="ion-padding" colspan="6">1</td>
+        <td class="ion-padding" colspan="2">{{invoiceDetail.service.price | currency:'INR':'symbol'}}</td>
+        <td class="ion-padding" colspan="2">{{invoiceDetail.service.price | currency:'INR':'symbol'}}</td>
+      </tr>
+    </table>
+    <table style="width: 92%;margin-left: auto;margin-right: auto;">
+      <tr>
+        <td class="ion-padding" colspan="4">
+          <div class="columns ion-float-left">
+            <h5>Payment Method:</h5>
+            <p>BANK NAME: {{setServiceProvidersDetail.bankName}} <br>
+              ACCOUNT HOLDER NAME: {{setServiceProvidersDetail.accountHolderName}}<br>
+              ACCOUNT NUMBER: {{setServiceProvidersDetail.accountNumber}}<br>
+              TRANSFER ID: {{setServiceProvidersDetail.transferID}}<br>
+            </p>
+          </div>
+        </td>
+        <td class="ion-padding" colspan="2" >
+          <div style="width: 100%;display: flex;justify-content: space-between;">
+            <ion-label  >
+        <h5>Subtotal</h5> 
+            </ion-label>
+            <ion-label>
+            <h5>{{invoiceDetail.service.price | currency:'INR':'symbol' }}</h5> 
+            </ion-label>
+          </div>
+          <div style="width: 100%;display: flex;justify-content: space-between;">
+            <ion-label  > 
+              <h5>Commission(%)</h5>
+            </ion-label>
+              <ion-label>
+              <h5>{{invoiceDetail.service.commission}}%</h5>
+            </ion-label>
+          </div>
+          <div style="width: 100%;display: flex;justify-content: space-between;" >
+            <ion-label  >
+              <h5>Total</h5>
+            </ion-label>
+            <ion-label  >
+              <h5>{{invoiceDetail.service.serviceProviderCharge | currency:'INR':'symbol' }}</h5>
+            </ion-label>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="ion-padding" colspan="4"><b> Amount In World : {{this.convertedNumber | titlecase}} Rupee</b></td>
+        <td colspan="2" class="ion-padding">
+          <div style="width: 100%;display: flex;justify-content: space-between;" >
+            <ion-label  >
+              <h5>Total</h5>
+            </ion-label>
+            <ion-label>
+              <h5>{{invoiceDetail.service.serviceProviderCharge | currency:'INR':'symbol' }}</h5>
+            </ion-label>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <ion-item lines="none" style="padding-left: 25px;">
+      <h3>Note:</h3>
+    </ion-item>
+    <ul style="padding-left: 65px;">
+      <li>All Amount are in Indian Currency (INR) </li>
+      <li>SGST and CGST rates may vary as per Government guidelines.</li>
+      <li>Kindly leave a feedback on the service once it is completed</li>
+      <li>your feedback will help us provide quality service.</li>
+      <li> Thank you for using Sahayak service by doing so you have helped our cause...</li>
+      <li> Read more - bit.ly/Sahayak</li>
+      <li> you can write to use for any queries - {{'support@sahayakonline.com'}}</li>
+    </ul>
+  </div>
+</ion-content>

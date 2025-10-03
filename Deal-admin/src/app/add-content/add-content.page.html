@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="primary" [class]="type == 'edit' ? 'ion-text-center' : ''">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="start" *ngIf="type == 'edit'">
+      <ion-button fill="outline" (click)="modalController.dismiss()">
+        <ion-icon slot="start" name="close"></ion-icon>
+        Cancel
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Add Content</ion-title>
+    <ion-buttons slot="end" *ngIf="type == 'edit'">
+      <ion-button fill="outline" (click)="editContent()">
+        <ion-icon slot="start" name="create"></ion-icon>
+        Update
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+<ion-list>
+  <ion-item>
+      <ion-label>Type</ion-label>
+      <ion-select [(ngModel)]="content.type" value="privacy" multiple="false" placeholder="Select Type">
+        <ion-select-option value="privacy">Privacy Policy - Customer </ion-select-option>
+        <ion-select-option value="privacy-provider">Privacy Policy - Service Provider</ion-select-option>
+        <ion-select-option value="about">About Us</ion-select-option>
+        <ion-select-option value="terms-user">Terms & Condition for Users</ion-select-option>
+        <ion-select-option value="terms-provider">Terms & Condition for Service Providers</ion-select-option>
+        <ion-select-option value="refund-policy">Refund Policy  - Customer</ion-select-option>
+        <ion-select-option value="cancellation-policy">Cancellation Policy  - Customer</ion-select-option>
+      </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Title</ion-label>
+    <ion-input type="text" [(ngModel)]="content.title"></ion-input>
+  </ion-item>
+  <ion-button *ngIf="!spin" [disabled]="!content.type || !content.title || !content.data"  (click)="addContent()">Submit</ion-button>
+</ion-list>
+<quill-editor [(ngModel)]="content.data"></quill-editor>
+<div class="ion-text-center" *ngIf="spin">
+  <ion-spinner color="secondary"></ion-spinner>
+</div>
+</ion-content>

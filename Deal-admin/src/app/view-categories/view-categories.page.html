@@ -1,0 +1,69 @@
+<!--
+  Authors : Coders Island
+  Website : https://codersisland.com
+  App Name : Deal - ionic 6 Buy and Sell, Admin, Admob
+  Created : 20-August-2022
+  This App Template Source code is licensed as per the
+  terms found in the Website https://codersisland.com/license
+  Copyright © 2022-present Coders Island.
+-->
+
+<!--===================== HEADER START =====================-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-title>
+      {{name}} Subcategories
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/add-sub-category" fill="outline" color="dark">Add SubCategories</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<!--===================== CONTENT START =====================-->
+<ion-content class="ion-padding">
+  <div style="overflow-x:auto;">
+    <table class="styled-table">
+      <thead>
+          <tr>
+              <th>Photo</th>
+              <th>Name</th>
+              <th>Edit</th>
+              <th>Delete</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of subcategories">
+              <td>
+                <ion-thumbnail>
+                  <img src="{{item.image}}"/>
+                </ion-thumbnail>
+              </td>
+              <td>{{item.name}}</td>
+             
+              <td>
+                <ion-button fill="outline" color="primary" (click)="edit(item.id)">
+                  <ion-icon slot="start" name="pencil" color="primary"></ion-icon>
+                  Edit
+                </ion-button>
+              </td>
+              <td>
+                <ion-button fill="outline" color="danger" (click)="presentConfirm(item.id)">
+                  <ion-icon slot="start" name="trash" color="danger"></ion-icon>
+                  Delete
+                </ion-button>
+              </td>
+          </tr>
+    </table>
+  </div>
+ 
+ <div class="ion-text-center" *ngFor="let item of dummyArray">
+  <ion-spinner color="danger"></ion-spinner>
+ </div>
+ 
+</ion-content>

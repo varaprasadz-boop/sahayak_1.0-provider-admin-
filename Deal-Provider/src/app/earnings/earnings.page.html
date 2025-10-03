@@ -1,0 +1,53 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-title class="ion-text-center">Earning</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+    <ion-segment value="pending" [(ngModel)]="currentSegment" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="pending">
+        <ion-label>UnPaid</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="paid">
+        <ion-label>Paid</ion-label></ion-segment-button
+      >
+    </ion-segment>
+  
+</ion-header>
+
+<ion-content class="ion-no-padding">
+
+  <ion-card class="ion-no-border" style="box-shadow: none; border-bottom: 1px solid gray;"  *ngFor="let item of filteredBookings">
+   <ion-card-header (click)="bookingView(item)">
+     <ion-card-title ><div class="ion-float-left"><ion-label>{{getSubCategory(item.service.subCategory)}}</ion-label></div>
+       <div style="float: right;">
+         <ion-chip color="dark">
+           <ion-icon name="checkmark-circle"></ion-icon>
+           <ion-label>{{item.agentPaymentStatus == 'pending' ? 'Unpaid' : 'Paid' | titlecase}}</ion-label>
+         </ion-chip>
+       </div>
+     </ion-card-title>
+     <ion-card-subtitle> Price : ₹ {{item.service.price}}</ion-card-subtitle>
+     <ion-card-subtitle> Admin Commission : {{item.service.commission}} %</ion-card-subtitle>
+     <ion-card-subtitle> Total Earning : ₹ {{item.service.serviceProviderCharge}}</ion-card-subtitle>
+     <!-- <ion-card-subtitle>{{convertTo12HourFormat(item.completed_at)}}</ion-card-subtitle> -->
+   </ion-card-header> 
+   <!-- <ion-buttons style="justify-content: flex-end;" *ngIf="item.agentPaymentStatus !== 'pending' && item.invoicePrintUrl">
+    <ion-button (click)="downloadInvoice(item)">
+      <ion-icon slot="start" name="arrow-down-circle-outline"></ion-icon>
+      Download Invoice
+    </ion-button>
+   </ion-buttons> -->
+   <!-- <ion-card-content>
+     <ion-list class="ion-no-padding" style="border-top:1px solid rgb(190, 190, 190);">
+       <ion-item lines="none" class="ion-no-padding">
+         <ion-thumbnail slot="start" style="--border-radius: 100px;height: 40px;width: 40px;">
+           <img alt="Silhouette of mountains" [src]="item.service.image" />
+         </ion-thumbnail>
+         <ion-label style="font-size:20px;">{{item.agentName}}</ion-label>
+       </ion-item>
+     </ion-list>
+   </ion-card-content> -->
+ </ion-card> 
+</ion-content>

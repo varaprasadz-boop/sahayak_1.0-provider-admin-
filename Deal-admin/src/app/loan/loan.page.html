@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title> Loan Applications</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div style="overflow-x: auto">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Loan For</th>
+          <th>Name</th>
+          <th>Phone Number</th>
+          <th>Brand</th>
+          <th>Model</th>
+          <th>Year of Manufacturing</th>
+          <th>Loan amount required</th>
+          <th>PAN No.</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of items">
+          <td>{{item.loanFor}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.phone}}</td>
+          <td>{{item.brand}}</td>
+          <td>{{item.model}}</td>
+          <td>{{item.manufacturing}}</td>
+          <td>{{item.loan}}</td>
+          <td>{{item.panNo}} </td>
+          <td>
+            <ion-buttons>
+              <ion-button fill="outline" color="danger" (click)="deleteItemData(item.id)">
+              <ion-icon name="trash"></ion-icon>
+                Delete
+              </ion-button>
+            </ion-buttons>
+          </td>
+        </tr> 
+      </tbody>
+    </table>
+  </div>
+</ion-content>

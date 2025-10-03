@@ -1,0 +1,122 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Add Service Provider
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-grid>
+    <ion-row> 
+      <ion-col sizeLg="4">
+        <ion-item>  
+          <ion-input placeholder="Name" [(ngModel)]="this.addService.name"></ion-input>
+        </ion-item>
+      </ion-col> 
+      <ion-col sizeLg="4">
+        <ion-item>
+          <ion-input placeholder="Address" [(ngModel)]="this.addService.address"></ion-input>
+        </ion-item>
+      </ion-col> 
+      <ion-col size="4" sizeLg="4">
+        <ion-item>
+          <ion-input placeholder="Mobile" [(ngModel)]="this.addService.mobile"></ion-input>
+        </ion-item>
+      </ion-col> 
+      <ion-col sizeLg="4">
+        <ion-item>
+          <ion-input placeholder="Email" [(ngModel)]="this.addService.email"></ion-input>
+        </ion-item>
+      </ion-col> 
+      <ion-col sizeLg="4">
+        <ion-item>
+          <ion-input placeholder="password" [(ngModel)]="this.addService.password"></ion-input>
+        </ion-item>
+      </ion-col> 
+      <ion-col sizeLg="4">
+        <ion-item> 
+          <ion-select aria-label="agents" placeholder="Select City" [(ngModel)]="this.addService.city" (ionChange)="selectCity($event)">
+            <ion-select-option [value]="item.id" *ngFor="let item of allCities">{{item.name}}</ion-select-option>
+          </ion-select>  
+        </ion-item>
+      </ion-col> 
+      <ion-col size="4" sizeLg="4">
+        <ion-item>
+          <ion-select aria-label="agents" placeholder="Select Area" [(ngModel)]="this.addService.area">
+            <ion-select-option [value]="item.id"  *ngFor="let item of allAreas">{{item.name}}</ion-select-option>
+          </ion-select> 
+        </ion-item>
+      </ion-col> 
+      <ion-col sizeLg="4">
+        <ion-item>
+          <ion-select aria-label="agents" placeholder="Select Category" [(ngModel)]="this.addService.category" (ionChange)="categoriesById($event)">
+            <ion-select-option [value]="item.id" *ngFor="let item of categories">{{item.name}}</ion-select-option>
+          </ion-select>  
+        </ion-item>
+      </ion-col> 
+      <ion-col sizeLg="4">
+        <ion-item>
+          <ion-select aria-label="agents" placeholder="Select Sub Category" [(ngModel)]="this.addService.subCategory">
+            <ion-select-option [value]="item.id" *ngFor="let item of subCategories">{{item.name}}</ion-select-option>
+          </ion-select>   
+        </ion-item>
+      </ion-col> 
+      <ion-col size="4" sizeLg="4">
+        <ion-label class="ion-padding">PAN Card</ion-label>
+        <ion-item lines="none" style="border:1px solid rgb(155, 155, 155); border-radius: 10px; margin-top: 10px;">
+          <input type="file" (change)="onFileSelected($event)"  accept=".pdf, .doc, .docx" >
+        </ion-item>
+      </ion-col>
+      <ion-col size="4" sizeLg="4">
+        <ion-label class="ion-padding">Aadhar Card</ion-label>
+         <ion-item lines="none" style="border:1px solid rgb(155, 155, 155) ;border-radius: 10px;margin-top: 10px;">
+           <input type="file" (change)="onFileSelected2($event)" accept=".pdf, .doc, .docx"  >
+         </ion-item>
+       </ion-col> 
+       <ion-col size="4" sizeLg="4">
+        <ion-label >Police Verification</ion-label>
+         <ion-item lines="none" style="border:1px solid rgb(155, 155, 155) ;border-radius: 10px;margin-top: 10px;">
+           <input type="file" (change)="onFileSelected3($event)" accept=".pdf, .doc, .docx"   >
+         </ion-item>
+       </ion-col> 
+       <ion-col sizeLg="3">
+        <ion-item>  
+          <ion-input placeholder="Account Holder Name" [(ngModel)]="this.addService.accountHolderName"></ion-input>
+        </ion-item>
+      </ion-col> 
+      <ion-col sizeLg="3">
+        <ion-item>
+          <ion-input placeholder="Bank Account Number" [(ngModel)]="this.addService.accountNumber"></ion-input>
+        </ion-item>
+      </ion-col> 
+      <ion-col size="4" sizeLg="3">
+        <ion-item>
+          <ion-input placeholder="Bank Name" [(ngModel)]="this.addService.bankName"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="4" sizeLg="3">
+        <ion-item>
+          <ion-input placeholder="GST" [(ngModel)]="this.addService.gst"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col sizeLg="4">
+        <ion-item lines="none">  
+          <div *ngIf="!this.addService.photoURL " (click)="uploadImage()">
+            <img src="assets/placeholder.jpg" width="500px" height="500px" style="object-fit: contain;"/>
+          </div>
+          <div *ngIf="this.addService.photoURL" (click)="uploadImage()">
+            <img src="{{this.addService.photoURL}}" width="500px" height="500px" style="object-fit: contain;"/>
+          </div>
+        </ion-item>
+      </ion-col> 
+    </ion-row>
+  </ion-grid>
+  <div class="ion-text-center" style="width: 50%;margin-left: auto;margin-right: auto;margin-top: 30px;">
+  <ion-button expand="block" mode="ios" (click)="setup()">Add Service Provider</ion-button>
+</div>
+</ion-content>

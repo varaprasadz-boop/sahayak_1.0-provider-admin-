@@ -1,0 +1,23 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="ion-no-border" color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Payment</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card *ngFor="let item of paymemnt" (click)="choosePayment(item)">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-label>
+          <h2>{{item.name}}</h2>
+        </ion-label>
+        <ion-icon color="primary"  *ngIf="item.checked && item.isActive" name="checkmark-circle"></ion-icon>
+      </ion-card-title>
+      <ion-card-subtitle [ngStyle]="{'color': item.isActive ? 'green' : 'red'}">{{item.isActive ? 'Active' : 'Inactive'}}</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+  <ion-button mode="ios" class="ion-margin" expand="block" (click)="modalCtrl.dismiss('confirm')">Pay Now</ion-button>
+</ion-content>

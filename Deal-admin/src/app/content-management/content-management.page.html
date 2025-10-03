@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Content Management</ion-title>
+
+    <ion-button fill="outline" slot="end" color="light" routerLink="/add-content">
+      <ion-icon name="add"></ion-icon>
+      Add Content
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div style="overflow-x: auto">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Sr No.</th>
+          <!-- <th>Type</th> -->
+          <th>Title</th>
+          <th>Content</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of content; let i = index">
+          <td>{{i + 1}}</td>
+          <!-- <td>{{item.type}}</td> -->
+          <td>{{item.title}}</td>
+          <td>
+            <ion-button fill="outline" (click)="viewContent(item)">
+              <ion-icon slot="start" name="eye"></ion-icon>
+              View
+            </ion-button>
+          </td>
+          <td>
+            <ion-buttons slot="end">
+            <ion-button
+              fill="outline"
+              color="danger"
+              (click)="deleteContent(item)"
+              >
+              <ion-icon name="trash"></ion-icon>
+              Delete</ion-button
+            >
+            <ion-button
+              fill="outline"
+              color="warning"
+              (click)="editContent(item)"
+              >
+              <ion-icon name="create"></ion-icon>
+              Edit</ion-button
+            >
+            </ion-buttons>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ion-content>

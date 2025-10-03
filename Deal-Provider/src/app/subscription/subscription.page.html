@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>Subscription</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of packages" class="package-item" (click)="choosePackage(item.id)">
+      <ion-label>
+        <p class="package-name">{{item.name | uppercase}}</p>
+        <h1 class="package-bookings">{{item.noOfBookings}} - Bookings</h1>
+      </ion-label>
+      <ion-label slot="end" class="package-price">
+        <p>Price</p>
+        <h2>{{item.cost | currency:'USD':'INR':'1.0-0'}}</h2>
+      </ion-label>
+      <!-- <ion-button slot="end" color="primary" >
+        Buy
+      </ion-button> -->
+    </ion-item>
+  </ion-list>
+</ion-content>

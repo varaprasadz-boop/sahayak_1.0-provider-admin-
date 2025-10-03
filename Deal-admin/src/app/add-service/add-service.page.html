@@ -1,0 +1,72 @@
+<!--
+  Authors : Coders Island
+  Website : https://codersisland.com
+  App Name : Deal - ionic 6 Buy and Sell, Admin, Admob
+  Created : 20-August-2022
+  This App Template Source code is licensed as per the
+  terms found in the Website https://codersisland.com/license
+  Copyright © 2022-present Coders Island.
+-->
+
+<!--===================== HEADER START =====================-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Add Service
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!--===================== CONTENT START =====================-->
+<ion-content class="ion-padding">
+ <div class="form">
+   <br/>
+   <ion-item>
+    <ion-label position="floating">Category</ion-label>
+    <ion-select [(ngModel)]="category" [interfaceOptions]="customAlertOptions" interface="alert" (ionChange)="getSubCategories()">
+      <ion-select-option *ngFor="let item of categories" [value]="item.id">{{item.name}}</ion-select-option>
+    </ion-select>
+   </ion-item>
+   <ion-item>
+    <ion-label position="floating">Sub Category</ion-label>
+    <ion-select [(ngModel)]="subCategory" [interfaceOptions]="customAlertOptions" interface="alert">
+      <ion-select-option *ngFor="let item of subCategories" [value]="item.id">{{item.name}}</ion-select-option>
+    </ion-select>
+   </ion-item>
+   <ion-item>
+    <ion-label position="floating">Service Name</ion-label>
+    <ion-input [(ngModel)]="name"></ion-input>
+   </ion-item>
+   <ion-item>
+    <ion-label position="floating">Description</ion-label>
+    <ion-textarea [(ngModel)]="description"></ion-textarea>
+   </ion-item>
+   <ion-item>
+    <ion-label position="floating">Price (Including GST)</ion-label>
+    <ion-input type="number" [(ngModel)]="price" (ionChange)="calculateCommission()"></ion-input>
+   </ion-item>
+   <ion-item>
+    <ion-label position="floating">Commission % (Including GST) </ion-label>
+    <ion-input type="number" [(ngModel)]="commission" (ionChange)="calculateCommission()"></ion-input>
+   </ion-item>
+   <ion-item>
+    <ion-label position="floating">Service Provider Charge (Including GST)</ion-label>
+    <ion-input readonly="true" type="number" [(ngModel)]="serviceProviderCharge"></ion-input>
+   </ion-item>
+    <h6>Upload image (Image resolution 500x500) </h6>
+    <div *ngIf="!imageView" (click)="uploadImage()">
+      <img src="assets/placeholder.jpg" width="500px" height="300px" style="object-fit: contain;"/>
+    </div>
+    <div *ngIf="imageView" (click)="uploadImage()">
+      <img src="{{imageView}}" width="500px" height="300px" style="object-fit: contain;"/>
+    </div>
+  <ion-button *ngIf="!spin" size="large" mode="ios"  [disabled]="!name || !category" (click)="setup()">Submit</ion-button>
+  <div class="ion-text-center" *ngIf="spin">
+    <ion-spinner color="secondary"></ion-spinner>
+  </div>
+ </div>
+</ion-content>
+<!--===================== CONTENT END =====================-->

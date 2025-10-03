@@ -1,0 +1,78 @@
+ion-thumbnail {
+    border: 2px solid gray;
+    padding: 5px;
+  }
+
+  
+  .styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+  background-color: black;
+  color: #ffffff;
+  text-align: left;
+}
+
+/* Container to allow scrolling */
+.table-container {
+  // max-height: 550px; /* Set a max height for the table's container */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Style for the table header */
+.styled-table thead th {
+  // position: sticky;
+  // top: 0;
+  // z-index: 12; /* Make sure the header stays on top */
+  background-color: black; /* Set the header background color */
+  color: white;
+  // padding: 12px 15px;
+}
+
+
+.styled-table td {
+  color: black;
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid black;
+}
+
+.styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: black;
+}
+th {
+  position: sticky;
+  // top: 50px;  /* 0px if you don't have a navbar, but something is required */
+}
+.main-class-overflow::-webkit-scrollbar {
+  height: 25px;
+  background-color: #f3f3f3;
+}
+.main-class-overflow::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 10px; 
+  cursor:col-resize ;
+}
+.main-class-overflow, .styled-table{
+  transform:rotateX(180deg);
+    -ms-transform:rotateX(180deg); /* IE 9 */
+    -webkit-transform:rotateX(180deg); /* Safari and Chrome */
+    
+}

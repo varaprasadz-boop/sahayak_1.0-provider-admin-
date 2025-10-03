@@ -1,0 +1,328 @@
+<!--
+  Authors : Coders Island
+  Website : https://codersisland.com
+  App Name : Deal - ionic 6 Buy and Sell, Admin, Admob
+  Created : 20-August-2022
+  This App Template Source code is licensed as per the
+  terms found in the Website https://codersisland.com/license
+  Copyright © 2022-present Coders Island.
+-->
+
+<!--===================== HEADER START =====================-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Dashboard
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">Logout</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<!--===================== CONTENT START =====================-->
+<ion-content>
+  <div class="desktop_container">
+  <ion-grid>
+    <ion-row>
+      <ion-col sizeLg="3" size="6">
+        <div class="card_stat_one" routerLink="/categories">
+          <div class="round_div">
+            <ion-icon name="grid"></ion-icon>
+         </div>
+         <ion-label class="ion-padding">
+          <h1 style="font-size: 20px;">Categories</h1>
+          <h1 style="font-size:30px">{{categories.length}}</h1>
+         </ion-label>
+        </div>
+      </ion-col> 
+      <ion-col sizeLg="3"  size="6">
+        <div class="card_stat_two" routerLink="/items">
+          <div class="round_div">
+            <ion-icon name="list"></ion-icon>
+         </div>
+         <ion-label class="ion-padding">
+          <h1 style="font-size: 20px;">Services List</h1>
+          <h1 style="font-size:30px">{{items.length}}</h1>
+         </ion-label>
+        </div>
+      </ion-col>
+      <ion-col sizeLg="3" size="6">
+        <div class="card_stat_three" routerLink="/users">
+          <div class="round_div">
+            <ion-icon name="people"></ion-icon>
+         </div>
+         <ion-label class="ion-padding">
+          <h1 style="font-size: 20px;">Users</h1>
+          <h1 style="font-size:30px">{{users.length}}</h1>
+         </ion-label>
+        </div>
+      </ion-col>
+      <ion-col sizeLg="3" size="6">
+        <div class="card_stat_last"  routerLink="/sub-categories" >
+          <div class="round_div">
+            <ion-icon name="people"></ion-icon>
+         </div>
+         <ion-label class="ion-padding">
+          <h1 style="font-size: 20px;">Subcategories</h1>
+          <h1 style="font-size:30px">{{subcategories.length}}</h1>
+         </ion-label>
+        </div>
+      </ion-col>
+      <ion-col sizeLg="3" size="6">
+        <div class="card_stat_last1"  routerLink="/service-bookings" >
+          <div class="round_div">
+            <ion-icon name="book-outline"></ion-icon>
+         </div>
+         <ion-label class="ion-padding">
+          <h1 style="font-size: 20px;">Total Booking</h1>
+          <h1 style="font-size:30px">{{bookings.length}}</h1>
+         </ion-label>
+        </div>
+      </ion-col>
+      <ion-col sizeLg="3" size="6">
+        <div class="card_stat_last2"  routerLink="/service-bookings" [queryParams]="{filter:'pending'}" >
+          <div class="round_div">
+            <ion-icon name="timer-outline"></ion-icon>
+         </div>
+         <ion-label class="ion-padding">
+          <h1 style="font-size: 20px;">Pending Booking</h1>
+          <h1 style="font-size:30px">{{pendingBookings.length}}</h1>
+         </ion-label>
+        </div>
+      </ion-col>
+      <ion-col sizeLg="3" size="6">
+        <div class="card_stat_last3"  routerLink="/service-bookings" [queryParams]="{filter:'completed'}" >
+          <div class="round_div">
+            <ion-icon name="checkbox-outline"></ion-icon>
+         </div>
+         <ion-label class="ion-padding">
+          <h1 style="font-size: 20px;">Complete Booking</h1>
+          <h1 style="font-size:30px">{{completeBookings.length}}</h1>
+         </ion-label>
+        </div>
+      </ion-col>
+      <ion-col sizeLg="3" size="6">
+        <div class="card_stat_last4"  routerLink="/service-providers" >
+          <div class="round_div">
+            <ion-icon name="construct-outline"></ion-icon>
+         </div>
+         <ion-label class="ion-padding">
+          <h1 style="font-size: 20px;">Service Providers</h1>
+          <h1 style="font-size:30px">{{serviceProvider.length}}</h1>
+         </ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid   >
+    <ion-row>
+      <ion-col routerLink="/categories" sizeLg="4" size="6">
+        <div class="card">
+          <img src="assets/icon/categories.png"/>
+          <span style="padding-top: 15px; font-family: 'regular';">Categories</span>
+        </div>
+      </ion-col>
+      <ion-col routerLink="/sub-categories"  sizeLg="4" size="6">
+        <div class="card">
+          <img src="assets/icon/subcategories.png"/>
+          <span style="padding-top: 15px; font-family: 'regular';">Subcategories</span> 
+        </div>
+      </ion-col>
+      <ion-col routerLink="/items" sizeLg="4" size="6">
+        <div class="card">
+          <img style="height:65px;width:65px;" src="assets/icon/services.png"/>
+          <span style="padding-top: 15px; font-family: 'regular';">Services List</span>
+        </div>
+      </ion-col>
+      <ion-col routerLink="/users"  sizeLg="4" size="6">
+        <div class="card">
+          <img src="assets/icon/team.png"/>
+          <span style="padding-top: 15px">Users</span>
+        </div>
+      </ion-col>
+      <ion-col routerLink="/calender"  sizeLg="4" size="6">
+        <div class="card">
+          <img style="height:70px;width:70px;" src="assets/icon/schedule.png"/>
+          <span style="padding-top: 15px">Calendar</span>
+        </div>
+      </ion-col>
+      <ion-col routerLink="/notifications"  sizeLg="4" size="6">
+        <div class="card">
+          <img src="assets/icon/notification.png"/>
+          <span style="padding-top: 15px">Notifications</span> 
+        </div>
+      </ion-col>
+      <ion-col routerLink="/cities"  sizeLg="4" size="6">
+        <div class="card"> 
+          <img style="height:70px;width:70px;" src="assets/icon/map.png"/>
+          <span style="padding-top: 15px">Cities</span> 
+        </div>
+      </ion-col>
+      <ion-col routerLink="/service-providers"  sizeLg="4" size="6">
+        <div class="card">
+          <img style="height:70px;width:70px;" src="assets/icon/provider.png"/>
+          <span style="padding-top: 15px">Service Provider</span> 
+        </div>
+      </ion-col>
+      <ion-col routerLink="/package"  sizeLg="4" size="6">
+        <div class="card">
+          <img style="height:70px;width:70px;" src="assets/icon/package.png"/>
+          <span style="padding-top: 15px">packages</span> 
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div style="overflow-x:auto;">
+    <table class="styled-table">
+      <thead>
+          <tr>
+              <th>Photo</th>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Delete</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of users">
+              <td>
+                <ion-avatar>
+                  <img src="{{item.photoURL}}"/>
+                </ion-avatar>
+              </td>
+              <td>{{item.displayName}}</td>
+              <td>{{item.phoneNumber}}</td>
+              <td>{{item.email}}</td>
+              <td>
+                <ion-button (click)="presentConfirm(item.id)" fill="outline" color="danger">Delete</ion-button>
+              </td>
+          </tr>
+    </table>
+  </div>
+  </div>
+
+
+  <!-- <ion-grid *ngIf="!desktop">
+    <ion-row>
+      <ion-col size="6">
+        <div class="card_stat_one_mobile">
+          <div class="round_div_mobile">
+            <ion-icon name="grid"></ion-icon>
+         </div>
+         <ion-label class="ion-padding">
+          <h6>Categories</h6>
+          <h1 style="text-align:center">{{categories.length}}</h1>
+         </ion-label>
+        </div>
+      </ion-col> 
+      <ion-col  size="6">
+        <div class="card_stat_two_mobile">
+          <div class="round_div_mobile">
+            <ion-icon name="list"></ion-icon>
+         </div>
+         <ion-label class="ion-padding">
+          <h6>Items</h6>
+          <h1 style="text-align:center">{{items.length}}</h1>
+         </ion-label>
+        </div>
+      </ion-col>
+      <ion-col  size="6">
+        <div class="card_stat_three_mobile">
+          <div class="round_div_mobile">
+            <ion-icon name="people"></ion-icon>
+         </div>
+         <ion-label class="ion-padding">
+          <h6>Users</h6>
+          <h1 style="text-align:center">{{users.length}}</h1>
+         </ion-label>
+        </div>
+      </ion-col>
+      <ion-col  size="6">
+        <div class="card_stat_last_mobile">
+          <div class="round_div_mobile">
+            <ion-icon name="people"></ion-icon>
+         </div>
+         <ion-label class="ion-padding">
+          <h6>Subcategories</h6>
+          <h1 style="text-align:center">{{users.length}}</h1>
+         </ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->
+
+  <!-- <ion-grid *ngIf="!desktop">
+    <ion-row>
+      <ion-col routerLink="/categories" size="4">
+        <div class="card">
+          <img src="assets/icon/categories.png"/>
+          <span style="padding-top: 15px; font-family: 'regular'; font-size: 13px">Categories</span>
+        </div>
+      </ion-col>
+      <ion-col routerLink="/sub-categories" size="4">
+        <div class="card">
+          <img src="assets/icon/subcategories.png"/>
+          <span style="padding-top: 15px; font-family: 'regular'; font-size: 13px">Sub-Categories</span> 
+        </div>
+      </ion-col>
+      <ion-col routerLink="/items" size="4">
+        <div class="card">
+          <img src="assets/icon/item.png"/>
+          <span style="padding-top: 15px; font-family: 'regular'; font-size: 13px">Items</span>
+        </div>
+      </ion-col>
+      <ion-col routerLink="/users" size="4">
+        <div class="card">
+          <img src="assets/icon/team.png"/>
+          <span style="padding-top: 15px; font-family: 'regular'; font-size: 13px">Users</span>
+        </div>
+      </ion-col>
+      <ion-col routerLink="/emergency" size="4">
+        <div class="card">
+          <img src="assets/icon/emergency.png"/>
+          <span style="padding-top: 15px; font-family: 'regular'; font-size: 13px">Reports</span>
+        </div>
+      </ion-col>
+      <ion-col routerLink="/notifications" size="4">
+        <div class="card">
+          <img src="assets/icon/notification.png"/>
+          <span style="padding-top: 15px; font-family: 'regular'; font-size: 13px">Notifications</span> 
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->
+
+    <!-- <div style="overflow-x:auto;" *ngIf="!desktop">
+      <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of users">
+                <td>
+                  <ion-avatar>
+                    <img src="{{item.photoURL}}"/>
+                  </ion-avatar>
+                </td>
+                <td>{{item.displayName}}</td>
+                <td>{{item.phoneNumber}}</td>
+                <td>{{item.email}}</td>
+                <td>
+                  <ion-button (click)="presentConfirm(item.id)" fill="outline" color="danger">Delete</ion-button>
+                </td>
+            </tr>
+      </table>
+    </div> -->
+  
+</ion-content>

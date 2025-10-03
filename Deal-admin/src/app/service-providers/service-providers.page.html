@@ -1,0 +1,198 @@
+<ion-header>
+  <ion-toolbar style="--background: black; color: white">
+    <ion-title>Service Providers</ion-title>
+    <ion-buttons slot="end">
+      <!-- *ngIf="hasPermission(['add_service_providers'])" -->
+      <ion-button fill="outline" color="light" (click)="addServiceProvider()">
+        <ion-icon name="add"></ion-icon>
+        Add Service Provider</ion-button
+      >
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-segment
+    [(ngModel)]="segment"
+    value="all"
+    (ionChange)="onsegmentChanged($event)"
+  >
+    <!-- (ionChange)="filterData($event)" -->
+    <ion-segment-button value="all">
+      <ion-label>All</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="received">
+      <ion-label>Received</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="approved">
+      <ion-label>Approved</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="rejected">
+      <ion-label>Rejected</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="hold">
+      <ion-label>Hold</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+<ion-content>
+  <ion-searchbar
+    placeholder="Search Name"
+    [(ngModel)]="searchValue"
+  ></ion-searchbar>
+  <div class="main-class-overflow table-container">
+    <div class="table-responsive">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>City</th>
+            <th>Area</th>
+            <th>Category</th>
+            <th>Sub Category</th>
+            <th>Pan Card</th>
+            <th>Aadhar Card</th>
+            <th>Police Verification</th>
+            <th>Account Holder Name</th>
+            <th>Bank Account Number</th>
+            <th>Bank Name</th>
+            <th>GST</th>
+            <th>Status</th>
+            <th>No. Of Rejected Bookings</th>
+            <th>Date Of Approval</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let item of filteredItems | search:searchValue:'name' | paginate: { itemsPerPage: 10, currentPage: p }; let i = index"
+            [ngClass]="{'even-row': i % 2 == 0, 'odd-row': i % 2 != 0}"
+            style="text-align: center"
+          >
+            <td>{{item.SrNo}}</td>
+            <td>
+              <img
+                *ngIf="item.photoURL; else defaultImage"
+                [src]="item.photoURL"
+                style="height: 50px; width: 50px; border-radius: 100px"
+                alt=""
+              />
+              <ng-template #defaultImage>
+                <img
+                  src="../../assets/Avatar-Profile-PNG-Photos.png"
+                  style="height: 50px; width: 50px"
+                  alt=""
+                />
+              </ng-template>
+            </td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.address }}</td>
+            <td>{{ item.mobile }}</td>
+            <td>{{ item.email }}</td>
+            <td>{{ getCities(item.city) }}</td>
+            <td>{{ getCitiesById(item.area) }}</td>
+            <td>{{ getCategory(item.category) }}</td>
+            <td>
+              <ion-button
+                fill="outline"
+                color="secondary"
+                (click)="setOpen(item.subCategory)"
+              >
+                <ion-icon slot="start" name="eye" color="secondary"></ion-icon>
+                View
+              </ion-button>
+            </td>
+            <td>
+              <ion-button
+                fill="outline"
+                (click)="documentOne(item.kycDoc1)"
+                *ngIf="item.kycDoc1 != '' && item.kycDoc1 !== 'none'"
+              >
+                <ion-icon
+                  name="eye-outline"
+                  style="padding-right: 10px"
+                ></ion-icon>
+                Pan Card
+              </ion-button>
+            </td>
+            <td>
+              <ion-button
+                fill="outline"
+                (click)="documentOne(item.kycDoc2)"
+                *ngIf="item.kycDoc2 != '' && item.kycDoc2 !== 'none'"
+              >
+                <ion-icon
+                  name="eye-outline"
+                  style="padding-right: 10px"
+                ></ion-icon>
+                Aadhar Card
+              </ion-button>
+            </td>
+            <td>
+              <ion-button
+                fill="outline"
+                (click)="documentOne(item.kycDoc3)"
+                *ngIf="item.kycDoc3 != '' && item.kycDoc3 !== 'none'"
+              >
+                <ion-icon
+                  name="eye-outline"
+                  style="padding-right: 10px"
+                ></ion-icon>
+                Police Verification
+              </ion-button>
+            </td>
+            <td>{{ item.accountHolderName }}</td>
+            <td>{{ item.accountNumber }}</td>
+            <td>{{ item.bankName }}</td>
+            <td>{{ item.gst }}</td>
+            <td>
+              <ion-button
+                mode="ios"
+                fill="outline"
+                [color]="getStatus(item.status)"
+              >
+                <ion-select
+                  mode="md"
+                  style="margin: 0px !important; opacity: 1"
+                  aria-label="Status"
+                  value="{{item.status}}"
+                  (ionChange)="changeStatus($event, item.id, item)"
+                >
+                  <ion-select-option value="received"
+                    >Received</ion-select-option
+                  >
+                  <ion-select-option value="approved"
+                    >Approved</ion-select-option
+                  >
+                  <ion-select-option value="rejected"
+                    >Rejected</ion-select-option
+                  >
+                  <ion-select-option value="hold">Hold</ion-select-option>
+                </ion-select>
+              </ion-button>
+            </td>
+            <td>{{ item.noOfRejectedBookings }}</td>
+            <td>{{ item.dateOfApproval }}</td>
+            <td>
+              <ion-button
+                fill="outline"
+                color="secondary"
+                (click)="onClick(item)"
+              >
+                <ion-icon slot="start" name="eye" color="secondary"></ion-icon>
+                View / Edit
+              </ion-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </ion-toolbar>
+</ion-footer>

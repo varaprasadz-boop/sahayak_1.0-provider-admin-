@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> Subscription </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" color="light"  routerLink="/add-subscription">Add Subscription</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div style="overflow-x: auto">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>User Id</th>
+          <th>User Name</th>
+          <th>Package Name</th>
+          <th>Price</th>
+          <th>Start & End Date</th>
+          <th>Status </th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr> 
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td> 
+        <ion-buttons>
+            <ion-button
+              fill="outline"
+              color="danger"
+            
+              >
+              <ion-icon name="trash"></ion-icon>
+              Delete</ion-button
+            >
+            <!-- <ion-button
+            fill="outline"
+            color="warning"
+            
+            >
+            <ion-icon name="create"></ion-icon>
+            Edit</ion-button
+            > -->
+        </ion-buttons>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- <div class="ion-text-center" *ngFor="let item of dummyArray">
+  <ion-spinner color="danger"></ion-spinner>
+ </div> -->
+</ion-content>
+

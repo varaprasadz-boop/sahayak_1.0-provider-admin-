@@ -1,0 +1,54 @@
+<!--
+  Authors : Coders Island
+  Website : https://codersisland.com
+  App Name : Deal - ionic 6 Buy and Sell, Admin, Admob
+  Created : 20-August-2022
+  This App Template Source code is licensed as per the
+  terms found in the Website https://codersisland.com/license
+  Copyright © 2022-present Coders Island.
+ -->
+
+<!-- ================ HEADER START ============== -->
+<ion-content [fullscreen]="true">
+  <swiper [config]="slideOpts"  class="swiper-container">
+    <ng-template swiperSlide>
+      <div  class="ion-text-center slide1">
+        <img src="assets/slide1.png" width="150px" height="150px" style="margin-top: 120px"/>
+        <div class="slider-text ion-text-center">
+          <h2 style="font-family: bold; margin-top: 18vh;">{{ 'Discover Quality Services' | translate }}</h2>
+          <p>
+            {{ 'Make easy contact to negotiate and make offers with service providers.' | translate }}
+          </p>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <div  class="ion-text-center slide2">
+        <img src="assets/slide2.png" width="150px" height="150px" style="margin-top: 120px"/>
+        <div class="slider-text ion-text-center">
+          <h2 style="font-family: bold; padding-left: 15px; padding-right: 15px; margin-top: 18vh;">{{ 'Get the Best Deals' | translate }}</h2>
+          <p style="font-family: regular; padding-left: 15px; padding-right: 15px">
+            {{ 'Discover and access the best services around you quickly.' | translate }}
+          </p>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <div  class="ion-text-center slide3">
+        <img src="assets/slide3.png" width="150px" height="150px" style="margin-top: 120px"/>
+        <div class="slider-text ion-text-center">
+          <h2 style="font-family: bold; padding-left: 15px; padding-right: 15px; margin-top: 18vh;">{{ 'Get Started' | translate }}</h2>
+          <p style="font-family: regular; padding-left: 15px; padding-right: 15px">
+            {{ 'Make easy contact to negotiate and make offers with service providers.' | translate }}
+          </p>
+        </div>
+        <div style="margin-top: 50px; padding: 20px">
+          <ion-button shape="round" fill="outline" color="dark" expand="block" (click)="goHome()">{{ 'Get Started' | translate }}</ion-button>
+        </div>
+      </div>
+    </ng-template>
+  </swiper>
+
+</ion-content>

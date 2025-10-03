@@ -1,0 +1,25 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"> 
+      <ion-icon style="font-size: 25px;margin-left: 15px;" name="arrow-back-outline" (click)="onClick()"></ion-icon>
+    </ion-buttons>
+    <ion-title> Your Request </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-text-center">
+
+  <img style="height: 150px;width: 150px;margin-right: auto;margin-left:auto;margin-top: 100px;" src="../../assets/clipboard-request-icon-outline-clipboard-request-vector-icon-color-flat-isolated-clipboard-request-icon-color-outline-vector-234053759.webp" alt="">
+  <h2>
+    Your request has been submitted successfully.
+  </h2>
+    We will get back to you shortly.
+    Thank you for using our platform.
+    <br>
+    <br>
+    Best regards
+<div style="width: 100%;margin-top: 20px;margin-bottom: 10px;">
+<ion-button expand="block" (click)="logout()"><ion-icon name="log-out-outline" ></ion-icon> &nbsp;logout</ion-button>
+</div>
+<ion-label class="ion-text-center"><p>View <a style="color: var(--ion-color-primary);text-decoration: underline;" (click)="openTermsCondition()">Tems & Conditions</a></p></ion-label>
+</ion-content>

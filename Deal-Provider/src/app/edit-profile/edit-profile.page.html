@@ -1,0 +1,517 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'Account' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="main_content_div">
+    <div
+      class="container"
+      style="border: 3px solid #111111; border-radius: 100%"
+    >
+      <div
+        class="outer"
+        [ngStyle]="{'background-image': 'url(' + photoURL + ')'}"
+      >
+        <div class="inner" (click)="uploadImage()">
+          <ion-icon name="camera" class="camera-icon"></ion-icon>
+        </div>
+      </div>
+    </div>
+    <form #signupForm="ngForm" style="padding-bottom: 10px">
+      <ion-label class="title" style="width: 100%; padding-top: 10px"
+        >{{ 'Name' | translate }}</ion-label
+      >
+      <ion-item
+        style="border-radius: 7px; margin-bottom: 15px; margin-top: 10px"
+        lines="none"
+      >
+        <ion-input
+          [(ngModel)]="registerData.name"
+          name="displayName"
+          #displayNameNgModel="ngModel"
+          required
+          style="
+            font-size: 18px;
+            width: 100%;
+            border: 1px solid rgb(92, 92, 92);
+          "
+          class="no-bottom-line"
+          placeholder="{{ 'Name' | translate }}"
+        >
+        </ion-input>
+      </ion-item>
+      <ion-row
+        *ngIf="displayNameNgModel.invalid && (displayNameNgModel.dirty || displayNameNgModel.touched)"
+      >
+        <ion-text color="primary" style="margin-top: -40px; margin-left: 20px">
+          <p *ngIf="displayNameNgModel.errors?.['required']">
+            {{ 'Name is required.' | translate }}
+          </p>
+        </ion-text>
+      </ion-row>
+      <ion-label class="title" style="width: 100%; padding-top: 10px"
+        >{{ 'Email' | translate }}</ion-label
+      >
+      <ion-item
+        style="border-radius: 7px; width: 100%; margin-bottom: 15px"
+        lines="none"
+      >
+        <ion-input
+          [(ngModel)]="registerData.email"
+          name="email"
+          [readonly]="true"
+          #emailNgModel="ngModel"
+          required
+          email
+          style="
+            font-size: 18px;
+            width: 100%;
+            margin-top: 10px;
+            border: 1px solid rgb(92, 92, 92);
+          "
+          class="no-bottom-line"
+          placeholder="{{ 'Email' | translate }}"
+        >
+        </ion-input>
+      </ion-item>
+      <ion-row
+        *ngIf="emailNgModel.invalid && (emailNgModel.dirty || emailNgModel.touched)"
+      >
+        <ion-text color="primary" style="margin-top: -40px; margin-left: 20px">
+          <p *ngIf="emailNgModel.errors?.['required']">
+            {{ 'Email is required.' | translate }}
+          </p>
+          <p *ngIf="emailNgModel.errors?.['email']">
+            {{ 'Invalid email.' | translate }}
+          </p>
+        </ion-text>
+      </ion-row>
+      <ion-label class="title" style="width: 100%; padding-top: 10px"
+        >{{ 'password' | translate }}</ion-label
+      >
+      <ion-item
+        style="border-radius: 7px; width: 100%; margin-bottom: 15px"
+        lines="none"
+      >
+        <ion-input
+          [(ngModel)]="registerData.password"
+          name="password"
+          [readonly]="true"
+          #passwordNgModel="ngModel"
+          required
+          type="password"
+          style="
+            font-size: 18px;
+            width: 100%;
+            margin-top: 10px;
+            border: 1px solid rgb(92, 92, 92);
+          "
+          class="no-bottom-line"
+          placeholder="{{ 'password' | translate }}"
+        >
+        </ion-input>
+      </ion-item>
+      <ion-row
+        *ngIf="passwordNgModel.invalid && (passwordNgModel.dirty || passwordNgModel.touched)"
+      >
+        <ion-text color="primary" style="margin-top: -40px; margin-left: 20px">
+          <p *ngIf="passwordNgModel.errors?.['required']">
+            {{ 'Password is required.' | translate }}
+          </p>
+        </ion-text>
+      </ion-row>
+      <ion-label class="title" style="width: 100%; padding-top: 10px"
+        >{{ 'Phone Number' | translate }}</ion-label
+      >
+      <ion-item
+        style="border-radius: 7px; margin-bottom: 15px; margin-top: 10px"
+        lines="none"
+      >
+        <ion-input
+          [(ngModel)]="registerData.mobile"
+          name="phoneNumber"
+          #phoneNumberNgModel="ngModel"
+          required
+          pattern="^[0-9]*$"
+          style="
+            font-size: 18px;
+            width: 100%;
+            border: 1px solid rgb(92, 92, 92);
+          "
+          class="no-bottom-line"
+          placeholder="{{ 'Phone Number' | translate }}"
+        >
+        </ion-input>
+      </ion-item>
+      <ion-row
+        *ngIf="phoneNumberNgModel.invalid && (phoneNumberNgModel.dirty || phoneNumberNgModel.touched)"
+      >
+        <ion-text color="primary" style="margin-top: -40px; margin-left: 20px">
+          <p *ngIf="phoneNumberNgModel.errors?.['required']">
+            {{ 'Phone number is required.' | translate }}
+          </p>
+          <p *ngIf="phoneNumberNgModel.errors?.['pattern']">
+            {{ 'Phone number must contain only digits.' | translate }}
+          </p>
+        </ion-text>
+      </ion-row>
+      <ion-label class="title" style="width: 100%; padding-top: 10px"
+        >{{ 'Category' | translate }}</ion-label
+      >
+      <ion-item
+        class="ion-no-padding"
+        lines="none"
+        style="
+          border: 1px solid rgb(155, 155, 155);
+          border-radius: 10px;
+          margin-top: 10px;
+          width: 90%;
+          margin-left: auto;
+          margin-right: auto;
+        "
+      >
+        <ion-select
+          multiple="false"
+          [(ngModel)]="registerData.category"
+          name="category"
+          #categoryNgModel="ngModel"
+          required
+          placeholder="Select Category"
+          (ionChange)="categoriesById($event)"
+        >
+          <ion-select-option [value]="item.id" *ngFor="let item of categories"
+            >{{item.name}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+      <ion-row
+        *ngIf="categoryNgModel.invalid && (categoryNgModel.dirty || categoryNgModel.touched)"
+      >
+        <ion-text color="primary" style="margin-top: 10px">
+          <p *ngIf="categoryNgModel.errors?.['required']">
+            {{ 'Category is required.' | translate }}
+          </p>
+        </ion-text>
+      </ion-row>
+      <ion-label
+        class="title"
+        style="width: 100%; margin-top: 10px; float: left; margin-bottom: 10px"
+        >{{ 'Subcategory' | translate }}</ion-label
+      >
+      <ion-item
+        class="ion-no-padding"
+        lines="none"
+        style="
+          border: 1px solid rgb(155, 155, 155);
+          border-radius: 10px;
+          margin-top: 10px;
+          width: 90%;
+          margin-left: auto;
+          margin-right: auto;
+        "
+      >
+        <ion-select
+          multiple="true"
+          [(ngModel)]="registerData.subCategory"
+          name="subCategory"
+          #subCategoryNgModel="ngModel"
+          required
+          placeholder="Select Sub Category"
+          (ionChange)="selectServices($event)"
+        >
+          <ion-select-option
+            [value]="item.id"
+            *ngFor="let item of subCategories"
+            >{{item.name}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+      <ion-row
+        *ngIf="subCategoryNgModel.invalid && (subCategoryNgModel.dirty || subCategoryNgModel.touched)"
+      >
+        <ion-text color="primary" style="margin-top: 10px">
+          <p *ngIf="subCategoryNgModel.errors?.['required']">
+            {{ 'Subcategory is required.' | translate }}
+          </p>
+        </ion-text>
+      </ion-row>
+      <!-- <ion-label
+        class="title"
+        style="
+          width: 100%;
+          padding-left: 20px;
+          margin-top: 10px;
+          float: left;
+          margin-bottom: 10px;
+        "
+        >{{ 'Services' | translate }}</ion-label
+      >
+      <ion-item
+        class="ion-no-padding"
+        lines="none"
+        style="
+          border: 1px solid rgb(155, 155, 155);
+          border-radius: 10px;
+          margin-top: 10px;
+          width: 90%;
+          margin-left: auto;
+          margin-right: auto;
+        "
+      >
+        <ion-select
+          multiple="true"
+          [(ngModel)]="registerData.servicesList"
+          name="services"
+          #servicesNgModel="ngModel"
+          required
+          placeholder="Select Services"
+        >
+          <ion-select-option [value]="item.id" *ngFor="let item of servicesList"
+            >{{item.name}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+      <ion-row
+        *ngIf="servicesNgModel.invalid && (servicesNgModel.dirty || servicesNgModel.touched)"
+      >
+        <ion-text color="primary" style="margin-top: 10px">
+          <p *ngIf="servicesNgModel.errors?.['required']">
+            {{ 'Services are required.' | translate }}
+          </p>
+        </ion-text>
+      </ion-row> -->
+      <ion-label
+        class="title"
+        style="
+          padding-left: 20px;
+          margin-top: 10px;
+          float: left;
+          margin-bottom: 10px;
+        "
+        >{{ 'City' | translate }}</ion-label
+      >
+      <ion-item
+        class="ion-no-padding"
+        lines="none"
+        style="
+          border: 1px solid rgb(155, 155, 155);
+          border-radius: 10px;
+          margin-top: 10px;
+          width: 90%;
+          margin-left: auto;
+          margin-right: auto;
+        "
+      >
+        <ion-select
+          [(ngModel)]="registerData.city"
+          name="city"
+          #cityNgModel="ngModel"
+          required
+          placeholder="Select City"
+          (ionChange)="selectCity($event)"
+        >
+          <ion-select-option [value]="item.id" *ngFor="let item of cities"
+            >{{item.name}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+      <ion-row
+        *ngIf="cityNgModel.invalid && (cityNgModel.dirty || cityNgModel.touched)"
+      >
+        <ion-text color="primary" style="margin-top: 10px">
+          <p *ngIf="cityNgModel.errors?.['required']">
+            {{ 'City is required.' | translate }}
+          </p>
+        </ion-text>
+      </ion-row>
+      <ion-label
+        class="title"
+        style="
+          padding-left: 20px;
+          margin-top: 10px;
+          float: left;
+          margin-bottom: 10px;
+        "
+        >{{ 'Area' | translate }}</ion-label
+      >
+      <ion-item
+        class="ion-no-padding"
+        lines="none"
+        style="
+          border: 1px solid rgb(155, 155, 155);
+          border-radius: 10px;
+          margin-top: 10px;
+          width: 90%;
+          margin-left: auto;
+          margin-right: auto;
+        "
+      >
+        <ion-select
+          [(ngModel)]="registerData.area"
+          name="area"
+          #areaNgModel="ngModel"
+          required
+          placeholder="Select Area"
+        >
+          <ion-select-option [value]="item.id" *ngFor="let item of areas"
+            >{{item.name}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+      <ion-row
+        *ngIf="areaNgModel.invalid && (areaNgModel.dirty || areaNgModel.touched)"
+      >
+        <ion-text color="primary" style="margin-top: 10px">
+          <p *ngIf="areaNgModel.errors?.['required']">
+            {{ 'Area is required.' | translate }}
+          </p>
+        </ion-text>
+      </ion-row>
+      <ion-label class="title" style="margin-top: 10px; float: left"
+        >{{ 'Address' | translate }}</ion-label
+      >
+      <ion-item
+        style="
+          border-radius: 7px;
+          margin-bottom: 15px;
+          margin-top: 10px;
+          width: 100%;
+        "
+        lines="none"
+      >
+        <ion-input
+          [(ngModel)]="registerData.address"
+          name="address"
+          #addressNgModel="ngModel"
+          required
+          style="
+            font-size: 18px;
+            width: 100%;
+            border: 1px solid rgb(92, 92, 92);
+          "
+          class="no-bottom-line"
+          placeholder="{{ 'Address' | translate }}"
+        >
+        </ion-input>
+      </ion-item>
+      <ion-row
+        *ngIf="addressNgModel.invalid && (addressNgModel.dirty || addressNgModel.touched)"
+      >
+        <ion-text color="primary" style="margin-top: -40px; margin-left: 20px">
+          <p *ngIf="addressNgModel.errors?.['required']">
+            {{ 'Address is required.' | translate }}
+          </p>
+        </ion-text>
+      </ion-row>
+      <!-- <ion-label class="title" style="width: 100%; padding-top: 10px"
+        >{{ 'GST' | translate }}</ion-label
+      > -->
+      <!-- <ion-item
+        style="border-radius: 7px; margin-bottom: 15px; margin-top: 10px"
+        lines="none"
+      >
+        <ion-input
+          [(ngModel)]="registerData.gst"
+          name="gst"
+          #gstNgModel="ngModel"
+          required
+          style="
+            font-size: 18px;
+            width: 100%;
+            border: 1px solid rgb(92, 92, 92);
+          "
+          class="no-bottom-line"
+          placeholder="{{ 'GST' | translate }}"
+        >
+        </ion-input>
+      </ion-item> -->
+      <!-- <ion-row
+        *ngIf="gstNgModel.invalid && (gstNgModel.dirty || gstNgModel.touched)"
+      >
+        <ion-text color="primary" style="margin-top: -40px; margin-left: 20px">
+          <p *ngIf="gstNgModel.errors?.['required']">
+            {{ 'GST is required.' | translate }}
+          </p>
+        </ion-text>
+      </ion-row> -->
+      <ion-label class="title" style="width: 100%; padding-top: 10px"
+        >{{ 'Account Holder Name' | translate }}</ion-label
+      >
+      <ion-item
+        style="border-radius: 7px; margin-bottom: 15px; margin-top: 10px"
+        lines="none"
+      >
+        <ion-input
+          [(ngModel)]="registerData.accountHolderName"
+          name="accountHolderName"
+          #accountHolderNameNgModel="ngModel"
+          required
+          style="
+            font-size: 18px;
+            width: 100%;
+            border: 1px solid rgb(92, 92, 92);
+          "
+          class="no-bottom-line"
+          placeholder="{{ 'Account Holder Name' | translate }}"
+        >
+        </ion-input>
+      </ion-item>
+      <ion-row
+        *ngIf="accountHolderNameNgModel.invalid && (accountHolderNameNgModel.dirty || accountHolderNameNgModel.touched)"
+      >
+        <ion-text color="primary" style="margin-top: -40px; margin-left: 20px">
+          <p *ngIf="accountHolderNameNgModel.errors?.['required']">
+            {{ 'Account holder name is required.' | translate }}
+          </p>
+        </ion-text>
+      </ion-row>
+      <ion-label class="title" style="width: 100%; padding-top: 10px"
+        >{{ 'Account Number' | translate }}</ion-label
+      >
+      <ion-item
+        style="border-radius: 7px; margin-bottom: 15px; margin-top: 10px"
+        lines="none"
+      >
+        <ion-input
+          [(ngModel)]="registerData.accountNumber"
+          name="accountNumber"
+          #accountNumberNgModel="ngModel"
+          required
+          minlength="5"
+          maxlength="100"
+          style="
+            font-size: 18px;
+            width: 100%;
+            border: 1px solid rgb(92, 92, 92);
+          "
+          class="no-bottom-line"
+          placeholder="{{ 'Account Number' | translate }}"
+        >
+        </ion-input>
+      </ion-item>
+      <ion-row
+        *ngIf="accountNumberNgModel.invalid && (accountNumberNgModel.dirty || accountNumberNgModel.touched)"
+      >
+        <ion-text color="primary" style="margin-top: -40px; margin-left: 20px">
+          <p *ngIf="accountNumberNgModel.errors?.['required']">
+            {{ 'Account number is required.' | translate }}
+          </p>
+          <p *ngIf="accountNumberNgModel.errors?.['minlength']">
+            {{ 'Account number must be at least 5 characters long.' | translate
+            }}
+          </p>
+          <p *ngIf="accountNumberNgModel.errors?.['maxlength']">
+            {{ 'Account number cannot exceed 100 characters.' | translate }}
+          </p>
+        </ion-text>
+      </ion-row>
+      <ion-button class="btn" expand="block" shape="round" (click)="setup()">
+        {{ 'Update' | translate }}
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

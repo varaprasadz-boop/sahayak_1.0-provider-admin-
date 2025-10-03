@@ -1,0 +1,72 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-title>Bookings</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-segment value="upcoming" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="upcoming">
+      <ion-label>Upcoming</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="completed">
+      <ion-label>Completed</ion-label></ion-segment-button
+    >
+  </ion-segment>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+  <ion-card
+    class="ion-no-border"
+    style="box-shadow: none"
+    *ngFor="let item of filteredBookings"
+  >
+    <ion-card-header (click)="bookingView(item)">
+      <ion-card-title
+        ><div class="ion-float-left">
+          <ion-label>{{getSubCategory(item.service.subCategory)}}</ion-label>
+        </div>
+        <div style="float: right">
+          <ion-chip color="dark">
+            <ion-icon name="checkmark-circle"></ion-icon>
+            <ion-label *ngIf="item.jobStatus !== 'completed'"
+              >{{item.agentStatus | titlecase}}</ion-label
+            >
+            <ion-label *ngIf="item.jobStatus == 'completed'"
+              >{{item.jobStatus | titlecase}}</ion-label
+            >
+          </ion-chip>
+        </div>
+      </ion-card-title>
+      <ion-card-subtitle
+        >{{item.schedule.date | date: 'dd MMM yyyy'}}</ion-card-subtitle
+      >
+      <ion-card-subtitle
+        >{{convertTo12HourFormat(item.schedule.time)}}</ion-card-subtitle
+      >
+    </ion-card-header>
+    <ion-card-content (click)="bookingView(item)">
+      <ion-list
+        class="ion-no-padding"
+        style="border-top: 1px solid rgb(190, 190, 190)"
+      >
+        <ion-item lines="none" class="ion-no-padding">
+          <ion-thumbnail
+            slot="start"
+            style="--border-radius: 100px; height: 40px; width: 40px"
+          >
+            <img alt="Silhouette of mountains" [src]="item.service.image" />
+          </ion-thumbnail>
+          <ion-label style="font-size: 20px"
+            >{{getCustomerName(item.uid)}}</ion-label
+          >
+          <ion-chip [color]="item.hasAgentAccepted ? 'success' : 'warning'">{{item.hasAgentAccepted ? 'Accepted' : 'Pending'}}</ion-chip>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+    <!-- <ion-buttons *ngIf="item.agentAcceptedStatus == 'pending'" class="ion-justify-content-center">
+      <ion-button (click)="rejectBooking(item, false)" shape="round" fill="outline" color="danger">Reject</ion-button>
+      <ion-button (click)="acceptBooking(item, true)" shape="round" fill="solid" color="primary">Accept</ion-button>
+    </ion-buttons> -->
+  </ion-card>
+</ion-content>

@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> Area </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" color="light"  *ngIf="hasPermission(['add_areas'])" (click)="addArea()"
+        >Add Area</ion-button
+      >
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-searchbar [(ngModel)]="searchValue" placeholder="Search by Area Name"></ion-searchbar>
+  <div style="overflow-x: auto">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>City Name</th>
+          <th>Area</th>
+          <th *ngIf="hasPermission(['delete_areas'])">Delete</th>
+          <th *ngIf="hasPermission(['edit_areas'])">Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of areas | search:searchValue:'name' | paginate: { itemsPerPage: 10, currentPage: p }">
+          <td>{{item.cityName}}</td>
+          <td>{{item.name}}</td>
+          <td *ngIf="hasPermission(['delete_areas'])"> 
+              <ion-button
+              (click)="presentConfirm(item.id)"
+              fill="outline"
+              color="danger"
+             
+              >
+              <ion-icon name="trash"></ion-icon>
+              Delete</ion-button
+            >
+          </td>
+          <td *ngIf="hasPermission(['edit_areas'])">
+            <ion-button
+              fill="outline"
+              color="warning"
+              (click)="editArea(item.id, item.name)"
+              >
+              <ion-icon name="create"></ion-icon>
+              Edit</ion-button
+            > 
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  <!-- <div class="ion-text-center" *ngFor="let item of dummyArray">
+  <ion-spinner color="danger"></ion-spinner>
+ </div> -->
+</ion-content>

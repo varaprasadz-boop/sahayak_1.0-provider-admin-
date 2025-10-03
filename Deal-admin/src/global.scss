@@ -1,0 +1,225 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+@import 'swiper/scss';
+@import 'swiper/scss/navigation';
+@import 'swiper/scss/pagination';
+
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.snow.css';
+
+@import 'ngx-toastr/toastr';
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+// @use '@angular/material' as mat;
+
+// // Customize the entire app. Change :root to your selector if you want to scope the styles.
+// :root {
+//   @include mat.paginator-overrides((
+//     container-text-color: orange,
+//     container-background-color: red,
+//   ));
+// }
+
+[contenteditable] {
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+
+@font-face {
+    font-family: 'regular';
+    src: url('./assets/fonts/bolt-regular.ttf');
+}
+
+@font-face {
+    font-family: 'bold';
+    src: url('./assets/fonts/bolt-semibold.ttf');
+}
+
+h1,h2,h3,h4,h5,h6,p,ion-label {
+    font-family: 'bold';
+    --font-family: 'bold';
+}
+
+* {
+    font-family: 'regular';
+    --font-family: 'regular';
+    
+}
+
+
+
+table{
+    width: 100%;
+    background: #ffffff;
+    border-radius: 4px;
+}
+thead{
+    background:  #FFA500;
+    color: #000;
+}
+tr, th{
+    border: 1px solid #eee;
+    padding: 15px;
+    text-align: left;
+}
+td{
+    padding: 4px;
+}
+.dp{
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+}
+.split-pane-visible >.split-pane-side {
+    min-width: 220px!important;
+    max-width: 220px!important;
+}
+  
+ion-textarea, ion-select{
+    // margin-top: 1rem !important;
+   // border: 2px solid #eee !important;
+}
+
+
+.active-link{
+    color: #ffc107 !important;
+}
+
+/*ion-item {
+    --highlight-color-valid: transparent;
+    --highlight-color-invalid: transparent;
+    --highlight-color-focused: transparent;
+  }*/
+
+
+ion-menu {
+    // --ion-background-color: #000;
+    --ion-text-color: black;
+    --width: 300px;
+    width: 300px;
+    ion-icon{
+        color: #fff;
+    }
+    ion-toolbar {
+        --background: #000;
+    }
+
+    ion-list {
+        background: transparent;
+    }
+}
+
+.notice {
+    color: #2196F3;
+    font-size: 14px;
+    background: #E3F2FD;
+    padding: 12px;
+    border-radius: 4px;
+    text-align: center;
+    border: 1px solid #2196F3;
+}
+
+p{
+    margin: 4px;
+}
+ion-button{
+    --box-shadow:none;
+}
+
+.back_image {
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    // background-size: cover !important;
+    position: relative !important;
+    object-fit: cover;
+}
+
+ion-alert.custom-alert {
+    --backdrop-opacity: 0.7;
+  }
+  .custom-alert .alert-button-group {
+    padding: 8px;
+  }
+  button.alert-button.alert-button-confirm {
+    background-color: #FFA500;
+    color: var(--ion-color-success-contrast);
+  }
+  button.alert-button.alert-button-cancel {
+    background-color: black;
+    color: var(--ion-color-success-contrast);
+  }
+  .md button.alert-button.alert-button-confirm {
+    border-radius: 4px;
+  }
+  .md button.alert-button.alert-button-cancel {
+    border-radius: 4px;
+  }
+  
+  .ios .custom-alert button.alert-button {
+    border: 0.55px solid rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.2);
+  }
+  
+  .ios button.alert-button.alert-button-cancel {
+    border-right: 0;
+    border-bottom-left-radius: 13px;
+    border-top-left-radius: 13px;
+  }
+  
+  .ios button.alert-button.alert-button-confirm {
+    border-bottom-right-radius: 13px;
+    border-top-right-radius: 13px;
+  }
+  ion-accordion {
+    ion-icon {
+        color: black;
+    }
+  }
+  div[slot='content'] {
+    background: none;
+    padding: 5px 5px 0px; 
+  }
+  .without-icon {
+    ion-icon {
+        display: none;
+    }
+  }
+  .custom-fullscreen-modal {
+    --width: 80%;
+    --height: 80%; 
+    --border-radius: 0;
+    --margin-top: 0;
+    --margin-bottom: 0;
+    --margin-start: 0;
+    --margin-end: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+  }

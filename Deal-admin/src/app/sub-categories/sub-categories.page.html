@@ -1,0 +1,96 @@
+<!--
+  Authors : Coders Island
+  Website : https://codersisland.com
+  App Name : Deal - ionic 6 Buy and Sell, Admin, Admob
+  Created : 20-August-2022
+  This App Template Source code is licensed as per the
+  terms found in the Website https://codersisland.com/license
+  Copyright © 2022-present Coders Island.
+-->
+
+<!--===================== HEADER START =====================-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Subcategories
+    </ion-title>
+    <ion-buttons slot="end" *ngIf="hasPermission(['add_subcategories'])">
+      <ion-button   fill="outline" color="light" (click)="goToSubCategory()">Add SubCategories</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<!--===================== CONTENT START =====================-->
+<ion-content>
+  <ion-searchbar placeholder="Search SubCategory" [(ngModel)]="searchText"></ion-searchbar>
+  <ion-row>
+  <ion-col size="6" >
+    <ion-select style="border-bottom: 1px solid;" placeholder="Select Category" (ionChange)="filterByCategory($event)"> 
+      <ion-select-option value="all">All</ion-select-option>
+      <ion-select-option *ngFor="let item of categories" [value]="item.id">{{item.name}}</ion-select-option>
+    </ion-select>
+</ion-col>
+<!-- <ion-col size="4">
+  <ion-item>
+    <ion-select placeholder="Select SubCategory">
+      <ion-select-option *ngFor="let item of subcategories" [value]="item.id">{{item.name}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-col> -->
+</ion-row>
+  <div style="overflow-x:auto;">
+    <table class="styled-table">
+      <thead>
+          <tr>
+              <th>Photo</th>
+              <th>Category</th>
+              <th>SubCategory</th>
+              <th>Status</th>
+              <th  *ngIf="hasPermission(['edit_subcategories'])">Edit</th>
+              <th  *ngIf="hasPermission(['delete_subcategories'])">Delete</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of fiteredSubcategories | search:searchText:'name' | paginate: { itemsPerPage: 10, currentPage: p }">
+              <td>
+                <ion-thumbnail>
+                  <img src="{{item.image}}"/>
+                </ion-thumbnail>
+              </td>
+              <td>
+                {{getCategory(item.category)}}
+              </td>
+              <td>{{item.name}}</td>
+              <td>
+                <ion-button fill="outline" [color]="getStatusColor(item.status)">
+                  <ion-select aria-label="Status" value="{{item.status}}" (ionChange)="changeStatus($event, item.id)">
+                    <ion-select-option value="active">Active</ion-select-option>
+                    <ion-select-option value="inactive">In Active</ion-select-option>
+                  </ion-select>
+                </ion-button>
+              </td>
+              <td  *ngIf="hasPermission(['edit_subcategories'])">
+                <ion-button fill="outline" color="primary" (click)="edit(item.id)">
+                  <ion-icon slot="start" name="pencil" color="primary"></ion-icon>
+                  Edit
+                </ion-button>
+              </td>
+              <td *ngIf="hasPermission(['delete_subcategories'])">
+                <ion-button fill="outline" color="danger" (click)="presentConfirm(item.id)">
+                  <ion-icon slot="start" name="trash" color="danger"></ion-icon>
+                  Delete
+                </ion-button>
+              </td>
+          </tr>
+    </table>
+    <pagination-controls (pageChange)="p= $event"></pagination-controls>
+  </div>
+ 
+ <div class="ion-text-center" *ngFor="let item of dummyArray">
+  <ion-spinner color="danger"></ion-spinner>
+ </div>
+
+</ion-content>

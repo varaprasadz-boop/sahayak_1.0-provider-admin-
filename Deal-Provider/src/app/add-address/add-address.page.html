@@ -1,0 +1,49 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back" class="ion-margin-start" style="font-size: 25px;" (click)="cancel()"></ion-icon>
+      <ion-title>{{type == 'add' ? 'Add Address' : 'Edit Address'}}</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="main_content_div">
+    <div class="content_div">
+      <ion-label>Name</ion-label>
+      <div class="ip_flex">
+        <ion-input type="text" placeholder="Full Name" [(ngModel)]="address.name" required></ion-input>
+      </div>
+      <ion-label>City</ion-label>
+      <div class="ip_flex">
+          <ion-select [(ngModel)]="address.city"  placeholder="Select City" (ionChange)="chooseCity($event)">
+            <ion-select-option *ngFor="let item of cities" [value]="item.id">{{item.name}}</ion-select-option>
+          </ion-select>
+      </div>
+      <ion-label>Area</ion-label>
+      <div class="ip_flex">
+        <ion-select [(ngModel)]="address.area" placeholder="Select Area">
+          <ion-select-option *ngFor="let item of areas" [value]="item.id" >{{item.name}}</ion-select-option>
+        </ion-select>
+      </div>
+      <ion-label>Location</ion-label>
+      <div class="ip_flex">
+        <ion-input type="text" placeholder="Location" [(ngModel)]="address.location" required (click)="shareLocation()"></ion-input>
+      </div>
+      <ion-label>Address</ion-label>
+      <div class="ip_flex">
+        <ion-input type="text" placeholder="Address" [(ngModel)]="address.address" required></ion-input>
+      </div>
+      <ion-label>Phone Number</ion-label>
+      <div class="ip_flex">
+        <ion-input type="number" placeholder="Phone Number" [(ngModel)]="address.phone" required></ion-input>
+      </div>
+      <ion-button *ngIf="type == 'add'" (click)="goToSubmit()" expand="block" mode="ios" class="block_btn" [disabled]="!address.name || !address.city || !address.area || !address.location || !address.address || !address.phone">
+        Add
+      </ion-button>
+      <ion-button *ngIf="type == 'edit'" (click)="updateAddress()" expand="block" mode="ios" class="block_btn" [disabled]="!address.name || !address.city || !address.area || !address.location || !address.address || !address.phone">
+        Update
+      </ion-button>
+    </div>
+    
+</div>
+</ion-content>

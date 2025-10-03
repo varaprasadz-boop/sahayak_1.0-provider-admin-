@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> Cities </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" color="light" *ngIf="hasPermission(['add_cities'])" (click)="addCities()"
+        >Add Cities</ion-button
+      >
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+  <ion-searchbar [(ngModel)]="searchValue" placeholder="Search by City Name"></ion-searchbar>
+  <div style="overflow-x: auto">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>City Name</th>
+          <th>State Name</th>
+          <th>Country Name</th> 
+          <th *ngIf="hasPermission(['delete_cities'])">Delete </th>
+          <th *ngIf="hasPermission(['edit_cities'])">Edit </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of cities |search:searchValue:'name' | paginate: { itemsPerPage: 10, currentPage: p }">
+          <td>{{item.name}}</td>
+          <td>{{item.stateCode}}</td>
+          <td>{{item.countryCode}}</td>
+          <td *ngIf="hasPermission(['delete_cities'])"> 
+              <ion-button 
+              fill="outline"
+              color="danger"
+              (click)="deleteCity(item.id)"
+              >
+              <ion-icon name="trash"></ion-icon>
+              Delete</ion-button
+            >
+            </td>
+            <td *ngIf="hasPermission(['edit_cities'])">
+            <ion-button 
+              fill="outline"
+              color="warning"
+              (click)="editCity(item)"
+              >
+              <ion-icon name="create"></ion-icon>
+              Edit</ion-button
+            >
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+  <!-- <div class="ion-text-center" *ngFor="let item of dummyArray">
+  <ion-spinner color="danger"></ion-spinner>
+ </div> -->
+</ion-content>

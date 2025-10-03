@@ -1,0 +1,143 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Services List</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" color="light" (click)="addService()">
+        <ion-icon name="add"></ion-icon>
+        Add Service
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar
+    placeholder="Search Service"
+    [(ngModel)]="search"
+    [debounce]="250"
+    searchIcon="search"
+  ></ion-searchbar>
+  
+  <ion-row>
+    <ion-col size="6">
+      <ion-label>Select Category</ion-label>
+      <ion-item>
+        <ion-select 
+          [(ngModel)]="selectedCategory"
+          placeholder="Select Category"
+          (ionChange)="categoriesById($event)"
+        >
+          <ion-select-option value="all">All</ion-select-option>
+          <ion-select-option *ngFor="let item of categories" [value]="item.id">
+            {{ item.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+    <ion-col size="6">
+      <ion-label>Select SubCategory</ion-label>
+      <ion-item>
+        <ion-select
+          [disabled]="selectedCategory === 'all'"
+          [(ngModel)]="selectedSubCategory"
+          placeholder="Select SubCategory"
+          (ionChange)="subCategoryById($event)"
+        >
+          <ion-select-option value="all">
+            {{ subCategoriesByCategory.length > 0 ? 'All' : 'Please Select Category' }}
+          </ion-select-option>
+          <ion-select-option *ngFor="let item of subCategoriesByCategory" [value]="item.id">
+            {{ item.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <div class="main-class-overflow table-container">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Sno.</th>
+          <th>Category</th>
+          <th>Sub Category</th>
+          <th>Photo</th>
+          <th>Service Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filteredServices | search: search : 'name' | paginate: { itemsPerPage: 10, currentPage: p }, let i = index">
+          <td>{{ calculateSerialNumber(i) }}</td>
+          <td>{{ getCategory(item.category) }}</td>
+          <td>{{ getSubCategory(item.subCategory) }}</td>
+          <td>
+            <ion-thumbnail>
+              <img [src]="item.image" alt="Service image"/>
+            </ion-thumbnail>
+          </td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.description | slice: 0:20 }}</td>
+          <td>{{ item.price | currency:'INR':'symbol' }}</td>
+          <td>
+            <ion-chip mode="ios" [color]="getStatusColor(item.status)">
+              {{ item.status }}
+            </ion-chip>
+          </td>
+          <td>
+            <ion-buttons>
+              <ion-button
+                *ngIf="hasPermission(['view_items'])"
+                mode="ios"
+                fill="outline"
+                (click)="openProductDetail(item)"
+                color="primary"
+              >
+                <ion-icon slot="start" name="eye"></ion-icon>
+                View
+              </ion-button>
+              <ion-button
+                *ngIf="hasPermission(['delete_items'])"
+                mode="ios"
+                fill="outline"
+                color="danger"
+                (click)="presentConfirm(item.id)"
+              >
+                <ion-icon slot="start" name="trash" color="danger"></ion-icon>
+                Delete
+              </ion-button>
+              <ion-button
+                *ngIf="hasPermission(['edit_items'])"
+                mode="ios"
+                fill="outline"
+                [color]="getStatusColor(item.status)"
+              >
+                <ion-select
+                  style="margin: 0px !important"
+                  aria-label="Status"
+                  value="{{ item.status }}"
+                  (ionChange)="changeStatus($event, item.id)"
+                >
+                  <ion-select-option value="active">Active</ion-select-option>
+                  <ion-select-option value="paused">Paused</ion-select-option>
+                </ion-select>
+              </ion-button>
+            </ion-buttons>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </ion-toolbar>
+</ion-footer>

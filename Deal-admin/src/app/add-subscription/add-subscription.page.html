@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Add Subscription
+    </ion-title>
+  </ion-toolbar>
+</ion-header> 
+<ion-content class="ion-padding">
+ <div class="form">
+  <ion-grid>
+    <ion-row>
+      <ion-col sizeMd="6">  
+        <ion-item>
+        <ion-label position="floating">Select User</ion-label>
+        <ion-select>
+          <ion-select-option *ngFor="let item of user">{{item.name}}</ion-select-option>
+        </ion-select>
+       </ion-item>
+      </ion-col>
+      <ion-col sizeMd="6">
+        <ion-item>
+          <ion-label position="floating">Select Package</ion-label>
+          <ion-select>
+            <ion-select-option  *ngFor="let item of Package">{{item.name}}</ion-select-option>
+          </ion-select>
+         </ion-item>
+      </ion-col>
+      <ion-col sizeMd="6">
+        <ion-item lines="none">
+          <ion-label position="floating" style="margin-left:5px;" datetime="datetime">Start Date</ion-label>
+          <ion-datetime-button datetime="datetime" style="margin-top:30px;"></ion-datetime-button>
+        <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime presentation="date" id="datetime"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+         </ion-item>
+      </ion-col>
+      <ion-col sizeMd="6">
+        <ion-item lines="none">
+          <ion-label position="floating" style="margin-left:5px;" datetime="datetime">End Date</ion-label>
+          <ion-datetime-button datetime="datetime" style="margin-top:30px;"></ion-datetime-button>
+        <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime presentation="date" id="datetime"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+         </ion-item>
+      </ion-col>
+      <ion-col sizeMd="6" style="margin-left: auto;margin-right: auto;margin-top:30px;">
+      <ion-button  mode="ios" expand="block">Submit</ion-button>
+      </ion-col>
+</ion-row>
+</ion-grid>
+ </div>
+</ion-content> 

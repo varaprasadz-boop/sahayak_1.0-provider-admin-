@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{bookingdetail.bookingId}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" (click)="cancel()">
+        <ion-icon  name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content> 
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th style="background-color: black;color: white;">Address</th>
+        <th style="background-color: black;color: white;">Google Pin</th>
+        <th style="background-color: black;color: white;">Category</th>
+        <th style="background-color: black;color: white;">Sub Category</th> 
+        <th style="background-color: black;color: white;">Price</th>
+        <th style="background-color: black;color: white;">Started Time</th>
+        <th style="background-color: black;color: white;">Completed Time</th> 
+        <th style="background-color: black;color: white;">Rating</th>  
+      </tr>
+    </thead>
+    <tbody>
+      <td>{{bookingdetail.address.areaName}}, {{bookingdetail.address.cityName}}</td>
+      <td> <ion-button fill="outline" (click)="openMap(bookingdetail.address)">
+        <ion-icon name="location"></ion-icon>
+        Locate
+      </ion-button></td>
+      <td>{{getCategory(bookingdetail.service.category)}}</td>
+      <td>{{getSubCategory(bookingdetail.service.subCategory)}}</td>
+      <td>{{bookingdetail.service.price | currency:'INR':'symbol'}}</td>
+      <td>{{bookingdetail.startedTime}}</td>
+      <td>{{bookingdetail.completedTime}}</td>
+      <td>
+        <div *ngIf="bookingdetail.isRated">
+          <ion-text
+            [color]="bookingdetail.rating < 3 ? 'danger' : (bookingdetail.rating > 4 ? 'success' : 'warning')"
+          >
+            (<ion-icon
+              *ngFor="let star of getStars(bookingdetail.rating)"
+              name="star"
+            ></ion-icon
+            >)
+          </ion-text>
+        </div>
+      </td>
+    </tbody>
+  </table>
+
+</ion-content>

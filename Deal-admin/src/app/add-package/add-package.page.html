@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Add Package
+    </ion-title>
+  </ion-toolbar>
+</ion-header> 
+<ion-content class="ion-padding">
+ <div class="form">
+  <ion-grid>
+    <ion-row>
+      <ion-col sizeMd="6">  
+        <ion-item>
+        <ion-label position="floating">Package Name</ion-label>
+        <ion-select [(ngModel)]="package.name">
+          <ion-select-option [value]="item"  *ngFor="let item of packagesSelector.name">{{item}}</ion-select-option>
+        </ion-select>
+       </ion-item>
+      </ion-col>
+      <ion-col sizeMd="6">
+        <ion-item>
+          <ion-label position="floating">No. of Bookings</ion-label>
+          <ion-select [(ngModel)]="package.noOfBookings">
+            <ion-select-option [value]="item"  *ngFor="let item of packagesSelector.noOfBookings">{{item | titlecase}}</ion-select-option>
+          </ion-select>
+         </ion-item>
+      </ion-col>
+      <ion-col sizeMd="6">
+        <ion-item>
+          <ion-label position="floating">Duration</ion-label>
+          <ion-select [(ngModel)]="package.duration">
+            <ion-select-option [value]="item"  *ngFor="let item of packagesSelector.duration">{{item}}</ion-select-option>
+          </ion-select>
+         </ion-item>
+      </ion-col>
+      <ion-col sizeMd="6">
+        <ion-item>
+          <ion-label position="floating">Cost</ion-label>
+          <ion-select [(ngModel)]="package.cost">
+            <ion-select-option [value]="item"  *ngFor="let item of packagesSelector.cost">{{item}}</ion-select-option>
+          </ion-select>
+         </ion-item>
+      </ion-col>
+      <ion-col sizeMd="6" style="margin-left: auto;margin-right: auto;margin-top:30px;">
+      <ion-button (click)="addPackages()" mode="ios" expand="block">Submit</ion-button>
+      </ion-col>
+</ion-row>
+</ion-grid>
+ </div>
+</ion-content> 

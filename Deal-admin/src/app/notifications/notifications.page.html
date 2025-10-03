@@ -1,0 +1,115 @@
+<!--
+  Authors : Coders Island
+  Website : https://codersisland.com
+  App Name : Deal - ionic 6 Buy and Sell, Admin, Admob
+  Created : 20-August-2022
+  This App Template Source code is licensed as per the
+  terms found in the Website https://codersisland.com/license
+  Copyright © 2022-present Coders Island.
+-->
+
+<!--===================== HEADER START =====================-->
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Notifications</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!--===================== CONTENT START =====================-->
+<ion-content class="ion-padding">
+  <ion-row *ngIf="desktop">
+    <ion-col size="9" class="ion-padding">
+      <div style="overflow-x:auto;">
+      <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th *ngIf="hasPermission(['delete_notifications'])">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let n of notifications">
+                <td>
+                  {{n.title}}
+                </td>
+                <td>{{n.description}}</td>
+                <td>{{n.date | date}}</td>
+                <td *ngIf="hasPermission(['delete_notifications'])">
+                  <ion-button (click)="remove(n.id)" fill="outline" color="danger" >Delete</ion-button>
+                </td>
+            </tr>
+      </table>
+      </div>
+
+
+    </ion-col>
+    <ion-col size="3" class="generate">
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Title</ion-label>
+          <ion-input type="text" [(ngModel)]="notification.title"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Description</ion-label>
+          <ion-textarea type="text" [(ngModel)]="notification.description"></ion-textarea>
+        </ion-item>
+        <div class="ion-padding">
+          <ion-button size="block" mode="ios" (click)="add()" *ngIf="hasPermission(['add_notifications'])">Send Message</ion-button>
+        </div>
+      </ion-list>
+    </ion-col> 
+  </ion-row>
+
+
+  <!-- <ion-row *ngIf="!desktop">
+    <ion-col size="12" class="generate">
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Title</ion-label>
+          <ion-input type="text" [(ngModel)]="notification.title"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Description</ion-label>
+          <ion-textarea type="text" [(ngModel)]="notification.description"></ion-textarea>
+        </ion-item>
+
+        <div class="ion-padding">
+          <ion-button size="block" mode="ios" (click)="add()">Send Message</ion-button>
+        </div>
+      </ion-list>
+    </ion-col> 
+    <ion-col size="12" class="ion-padding">
+      <div style="overflow-x:auto;">
+      <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let n of notifications">
+                <td>
+                  {{n.title}}
+                </td>
+                <td>{{n.description}}</td>
+                <td>{{n.date | date}}</td>
+                <td>
+                  <ion-button (click)="remove(n.id)" fill="outline" color="danger">Delete</ion-button>
+                </td>
+            </tr>
+      </table>
+      </div>
+
+
+    </ion-col>
+
+  </ion-row> -->
+</ion-content>

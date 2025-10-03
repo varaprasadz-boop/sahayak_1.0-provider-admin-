@@ -1,0 +1,256 @@
+/*
+  Authors : initappz (Rahul Jograna)
+  Website : https://initappz.com/
+  App Name : ionic6clone apps Pack
+  This App Template Source code is licensed as per the
+  terms found in the Website https://initappz.com/license
+  Copyright and Good Faith Purchasers © 2021-present initappz.
+*/
+ion-content {
+  --background: #fff;
+}
+
+.main_content_div {
+    .back_images {
+      width: 100%;
+      height: 230px;
+    }
+    .content_div {
+      padding: 16px;
+  
+      .bold_lbl {
+        text-align: center;
+        font-family: "semi-bold";
+        font-size: 20px;
+        margin-bottom: 20px;
+      }
+  
+      .flex_div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+  
+        .line_div {
+          width: 100%;
+          height: 1px;
+          background: lightgrey;
+        }
+        ion-label {
+          white-space: nowrap;
+          margin-left: 8px;
+          margin-right: 8px;
+          font-family: "medium";
+          font-size: 14px;
+        }
+      }
+  
+      .ip_flex {
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+
+        ion-select, ion-textarea {
+            border-radius: 10px;
+            border: 1px solid lightgrey;
+            height: 48px;
+            width: 100%;
+            font-family: "regular";
+            --padding-start: 16px;
+          }
+  
+        ion-input {
+          border-radius: 10px;
+          border: 1px solid lightgrey;
+          height: 48px;
+          font-family: "regular";
+          --padding-start: 16px;
+        }
+      }
+      ion-button {
+        margin-bottom: 5px;
+      }
+  
+      .social_flex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+  
+        .round_div {
+          width: 50px;
+          min-width: 50px;
+          height: 50px;
+          border: 1px solid lightgrey;
+          border-radius: 100%;
+          margin-left: 10px;
+          margin-right: 10px;
+          padding: 12px;
+        }
+      }
+  
+      .grey_lbl {
+        text-align: center;
+        font-size: 12px;
+        color: grey;
+        margin-bottom: 2px;
+  
+        span {
+          border-bottom: 1px dashed lightgrey;
+        }
+      }
+    }
+  }
+
+  .error{
+    color: red;
+  }
+
+
+  .color_shape{
+    height: 80px;
+    width: 80px;
+    min-width: 80px;
+    border-radius: 10px;
+  
+    ion-icon{
+        position:relative;
+        top:50%;
+        font-size: 30px;
+        left:50%;
+        transform:translate(-50%,-50%);
+        color: white;
+    }
+}
+
+.back_image {
+    height: 80px;
+    width: 80px;
+    min-width: 80px;
+    border-radius: 10px;
+  
+    ion-icon{
+        position:relative;
+        font-size: 30px;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%);
+        color: white;
+    }
+  }
+
+  ion-textarea {
+    border-radius: 10px;
+    border: 1px solid lightgrey;
+    width: 100%;
+    font-family: "regular";
+  }
+
+.selected {
+  border: 4px solid var(--ion-color-secondary);
+  border-radius: 10px;
+  margin: 5px;
+}
+
+.notselected {
+  border: 2px solid gray;
+  border-radius: 10px;
+  margin: 5px;
+}
+
+.form {
+      padding-top: 20px;
+      ion-item {
+        --padding-start: 2px;
+        --background: transparent !important;
+        --background-activated: transparent !important;
+        --background-focused: transparent !important;
+        ion-icon {
+          margin-top: 20px !important;
+        }
+      }
+      ion-label {
+        font: 400 12px/1 "Open Sans", Arial, sans-serif;
+      }
+
+      ion-button {
+        margin-top: 20px;
+      }
+    }
+
+
+
+
+    .green-border {
+      border-color: var(--ion-color-primary) !important;
+  }
+  
+  .list-array {
+      border: 3.5px solid black;
+      // height: 120px;
+      // width: 85%;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 13px;
+      // padding: 10px;
+      margin-top: 20px;
+  }
+  
+  .checkbox {
+      float: right;
+      // margin-top: -15px;
+      margin-right: 10px;
+      --border-color:black;
+      --border-width:2px;
+  }
+  
+  .main2 {
+      height: 40px;
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+  }
+  
+  .second-div-sec {
+      width: 50px;
+      height: 40px;
+      float: left;
+      text-align: center;
+      padding-top: 2px;
+  }
+  
+  .text-of {
+      text-align: center;
+      float: left;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: 6px;
+  }
+  
+  .proplan {
+      text-align: center;
+      color: #F77736;
+  }
+  
+  .primium {
+      margin-top: 20px;
+      width: 50px;
+      height: 50px;
+  }
+  
+  .icon-dismiss {
+      font-size: 35px;
+      float: right;
+      margin-top: 10px;
+      margin-right: 10px;
+  }
+  .button-continue{
+      margin-top:20px;width:85%;margin-left: auto;margin-right: auto;
+  }
+  .main-of-div{height: 100%;
+  }
+  .second-sec{
+      background-image: linear-gradient(to bottom,black,var(--ion-color-primary));height:100%;
+  }
+
+ 

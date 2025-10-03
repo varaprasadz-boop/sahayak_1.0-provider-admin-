@@ -1,0 +1,34 @@
+<ion-tabs (ionTabsDidChange)="setSelectedTab()">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home">
+      <ion-icon [name]="selected == 'home' ? 'home' : 'home-outline'"></ion-icon>
+      <ion-label>{{ 'Home' | translate }}</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="book-now" *ngIf="loggIn === 'true'">
+      <ion-icon [name]="selected == 'book-now' ? 'calendar-number' : 'calendar-number-outline'"></ion-icon>
+      <ion-label>{{ 'Bookings' | translate }}</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="earnings" *ngIf="loggIn === 'true'">
+      <ion-icon [name]="selected == 'earnings' ? 'wallet' : 'wallet-outline'"></ion-icon>
+      <ion-label>{{ 'Earnings' | translate }}</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="profile" *ngIf="loggIn === 'true'">
+      <ion-icon [name]="selected == 'profile' ? 'person-circle' : 'person-circle-outline'"></ion-icon>
+      <ion-label>{{ 'Profile' | translate }}</ion-label>
+    </ion-tab-button>
+    <ion-tab-button *ngIf="loggIn != 'true'" (click)="presentModal()">
+      <ion-icon name="calendar-outline"></ion-icon>
+      <ion-label>{{ 'Bookings' | translate }}</ion-label>
+    </ion-tab-button>
+    <ion-tab-button  *ngIf="loggIn != 'true'" (click)="presentModal()">
+      <ion-icon name="wallet-outline"></ion-icon>
+      <ion-label>{{ 'Earnings' | translate }}</ion-label>
+    </ion-tab-button>
+    <ion-tab-button *ngIf="loggIn != 'true'" (click)="presentModal()">
+      <ion-icon name="person-circle-outline"></ion-icon>
+      <ion-label>{{ 'Profile' | translate }}</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
+<!-- ================ TABS END ============== -->
+

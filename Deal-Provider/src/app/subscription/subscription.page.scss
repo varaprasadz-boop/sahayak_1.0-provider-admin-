@@ -1,0 +1,31 @@
+.package-item {
+    // display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0.5rem 1rem 0.5rem;
+    // border-bottom: 1px solid #ccc;
+  }
+  .package-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  .package-bookings {
+    font-size: 1rem;
+    color: #666;
+  }
+  .package-price {
+    text-align: right;
+  }
+  .package-price p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #999;
+  }
+  .package-price h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  ion-button {
+    margin-left: 1rem;
+  }

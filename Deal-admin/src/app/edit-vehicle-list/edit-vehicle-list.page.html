@@ -1,0 +1,101 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+     Edit Service
+    </ion-title>
+  </ion-toolbar>
+</ion-header> 
+<ion-content>
+  <div class="main_content_div">
+    <div class="content_div">
+       
+      <ion-grid>
+        <ion-row>
+        
+        </ion-row>
+      </ion-grid>
+      <div class="categories-card" scrollX="true">
+        <div lines="none"   class="category-list scrollX ion-padding-end">
+          <!-- <div class="bg_image back_image" [style.backgroundImage]="'url('+ image +')'"> -->
+            <!-- <ion-icon name="trash" ></ion-icon> -->
+          </div>
+        </div>
+      </div> 
+      <div class="content_div">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6"> 
+            <ion-label>Category</ion-label>
+            <ion-select  class="ion-margin-top" placeholder="{{'Category'}}"  [(ngModel)]="item.category"  label-placement="floating" fill="solid" style="border:1px solid lightgrey;border-radius:10px;height:50px;padding-right:10px;" (ionChange)="getSubcategoryByCategory(item.category)">
+                <ion-select-option [value]="cat.id" *ngFor="let cat of categories">{{cat.name}}</ion-select-option>
+            </ion-select>
+            </ion-col>
+            <ion-col size="6">
+              <ion-label>Subcategory</ion-label>
+                <ion-select class="ion-margin-top" placeholder="{{'Subcategory'}}" [(ngModel)]="item.subCategory" label-placement="floating" fill="solid" style="border:1px solid lightgrey;border-radius:10px;height:50px;padding-right:10px;">
+                  <ion-select-option [value]="subcat.id" *ngFor="let subcat of subcategories">{{subcat.name}}</ion-select-option>
+                </ion-select>
+            </ion-col>
+          <ion-col>
+            <ion-label  size="6">Service Name</ion-label>
+            <div class="ion-margin-top" style="border:1px solid lightgrey;width:100%;margin-left: auto;margin-right: auto;border-radius:10px;height:50px;padding-top:5px;">
+              <ion-input type="text"   placeholder="{{'Service Name'}}"  [(ngModel)]="item.name"> </ion-input>
+            </div> 
+          </ion-col>
+          <ion-col  size="6">
+            <ion-label>Price (Including GST)</ion-label>
+            <div class="ion-margin-top" style="border:1px solid lightgrey;width:100%;margin-left: auto;margin-right: auto;border-radius:10px;height:50px;padding-top:5px;">
+              <ion-input type="number" placeholder="{{ 'Price' }}" [(ngModel)]="item.price" (ionChange)="updateServiceProviderCharge()"></ion-input>
+            </div> 
+          </ion-col>
+          
+          <ion-col size="6">
+            <ion-label>Commission (%) (Including GST)</ion-label>
+            <div class="ion-margin-top" style="border:1px solid lightgrey;width:100%;margin-left: auto;margin-right: auto;border-radius:10px;height:50px;padding-top:5px;">
+              <ion-input type="text" placeholder="{{ 'Commission' }}" [(ngModel)]="item.commission" (ionChange)="updateServiceProviderCharge()"></ion-input>
+            </div> 
+          </ion-col>
+          
+          <ion-col size="6">
+            <ion-label>Service Provider Charge (Including GST)</ion-label>
+            <div class="ion-margin-top" style="border:1px solid lightgrey;width:100%;margin-left: auto;margin-right: auto;border-radius:10px;height:50px;padding-top:5px;">
+              <ion-input type="text" placeholder="{{ 'Service Provider Charge' }}" [(ngModel)]="item.serviceProviderCharge" readonly></ion-input>
+            </div> 
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      </div>
+        <!-- <ion-grid>
+          <ion-row>
+            <ion-col (click)="shareLocation()"> 
+              <ion-item  style="height:30px;"><ion-label><b>Location</b></ion-label></ion-item>
+              <div  style="border:1px solid lightgrey;width:95%;margin-left: auto;margin-right: auto;border-radius:10px;height:50px;padding-top:5px;margin-top:20px;">
+                <ion-input type="text"   placeholder="Location" [(ngModel)]="item.location"></ion-input>
+              </div>
+            </ion-col>
+            <ion-col>
+              <ion-item  style="height:30px;"><ion-label><b>Edit Location</b></ion-label></ion-item>
+              <div  style="border:1px solid lightgrey;width:95%;margin-left: auto;margin-right: auto;border-radius:10px;height:50px;padding-top:5px;margin-top:20px;">
+                <ion-input type="text" placeholder="{{ 'Location'   }}"  [(ngModel)]="item.location"></ion-input>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid> -->
+        <ion-textarea type="text" autoGrow="true" placeholder="{{'Description'}}"  [(ngModel)]="item.description"></ion-textarea>
+        <h6>Upload image (Image resolution 500x500) </h6>
+        <div class="ion-margin-top" *ngIf="!item.image" (click)="uploadImage()" style="margin-top: 20px;">
+          <img src="assets/placeholder.jpg" width="500px" height="300px" style="object-fit: contain;"/>
+        </div>
+        <div *ngIf="item.image" (click)="uploadImage()" style="margin-top: 20px;">
+          <img src="{{item.image}}" width="500px" height="300px" style="object-fit: contain;"/>
+        </div>
+      <br/>
+      <ion-button (click)="updateVehicleList()" expand="block" mode="ios" class="block_btn" style="width: 95%;margin-left: auto;margin-right: auto;">
+        {{ 'Update'  }}
+      </ion-button>
+    </div>
+ 
+</ion-content>

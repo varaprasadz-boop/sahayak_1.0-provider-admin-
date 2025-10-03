@@ -1,0 +1,123 @@
+/*
+  Authors : Coders Island
+  Website : https://codersisland.com
+  App Name : Connect - ionic 6 Social Forum FirebaseV9 
+  Created : 01-July-2022
+  This App Template Source code is licensed as per the
+  terms found in the Website https://codersisland.com/license
+  Copyright © 2022-present Coders Island.
+*/
+
+.ion-padding {
+   --padding-start: var(--ion-padding, 0px); 
+   --padding-end: var(--ion-padding, 0px); 
+   --padding-top: var(--ion-padding, 0px); 
+   --padding-bottom: var(--ion-padding, 0px); 
+  padding-left: var(--ion-padding, 16px);
+  padding-right: var(--ion-padding, 16px);
+  padding-top: var(--ion-padding, 16px);
+  padding-bottom: var(--ion-padding, 16px);
+}
+ion-content {
+  --background: #fff;
+}
+
+.main_content_div {
+    position: relative;
+    height: 70vh; 
+    .container {
+      width: 150px;
+      height: 150px;
+      display: block;
+      margin: 0 auto;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      
+    }
+    .profile-pic {
+      width: 150px;
+      height: 150px;
+    }
+    .outer {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 150px !important; /* any size */
+      max-height: 150px !important; /* any size */
+      margin: auto;
+      border-radius: 100%;
+      position: relative;
+      background-size: 150px 150px;
+    }
+    .inner {
+      background-color: var(--ion-color-secondary);
+      width: 45px;
+      height: 45px;
+      border-radius: 100%;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .camera-icon {
+      height: 30px;
+      width: 30px;
+      color: white;
+    }
+  
+    /*.profile {
+      padding: 40px;
+      .profile-item {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+      }
+      .profile-picture {
+        border-radius: 100%;
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+        margin: 0 auto;
+        width: 110px;
+        height: 110px;
+        overflow: hidden;
+        box-shadow: 0px 0px 10px var(--box-shadow-color);
+        --box-shadow-color: #d7d8da;
+      }
+      .profile-name {
+        font-size: 20px;
+        color: var(--ion-color-black);
+        text-transform: capitalize;
+      }
+    }*/
+  
+    ion-input {
+      font-size: 15px;
+      border-bottom: 1px solid lightgray;
+    }
+ 
+    ion-row {
+      padding: 10px 0px;
+    }
+  
+    .title {
+      font-size: 20px;
+      font-family: "bold";
+      padding-left:20px;
+    }
+    .btn {
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 25px;
+      margin-bottom:25px; 
+    }
+    .line {
+      border-bottom: 1px solid lightgray;
+      box-shadow: 0px 0px 10px var(--box-shadow-color);
+      --box-shadow-color: #d7d8da;
+      margin: 30px 0px;
+    }
+  }
+  

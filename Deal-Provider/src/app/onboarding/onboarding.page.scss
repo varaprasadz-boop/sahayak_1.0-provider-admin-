@@ -1,0 +1,41 @@
+swiper {
+    height: 100%;
+    div {
+    align-items: center;
+    justify-content: center;
+    //margin-top: 60px;
+    }
+ 
+}
+ 
+.swiper-pagination-bullet {
+    background-color: red !important;
+}
+
+.slide1{
+    // background: #111111;
+    color: black;
+    height: 100%;
+    margin: 0;
+}
+
+.slide2 {
+    // background: #111111;
+    color: black;
+    height: 100%;
+    margin: 0;
+}
+
+.slide3 {
+    // background: #111111;
+    color: black;
+    height: 100%;
+    margin: 0;
+}
+
+.button_skip{
+    display: flex;
+    justify-content: space-between;
+    bottom: 10px;
+
+}

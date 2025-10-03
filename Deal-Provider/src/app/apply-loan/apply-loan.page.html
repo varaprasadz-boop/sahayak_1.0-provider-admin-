@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title> Apply For Loan </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<div style="padding-top:15px;">
+  <ion-label style="width: 100%;margin-left:20px;"><b>Select For Loan</b></ion-label>
+  <ion-item lines="none" style="width:100%;margin-left: auto;margin-right: auto;">
+    <ion-select label="Default label" placeholder="Select For Loan" [(ngModel)]="applyForLoan.loanFor">
+      <ion-select-option value="Used Car" >User Car</ion-select-option>
+      <ion-select-option value="New Car Loan">New Car Loan</ion-select-option>
+    </ion-select>
+  </ion-item>
+</div>
+<div style="padding-top:15px;">
+  <ion-label style="width: 100%;margin-left:20px;"><b>Name</b></ion-label>
+  <ion-item lines="none" style="width:100%;margin-left: auto;margin-right: auto;margin-top:10px;">
+  <ion-input placeholder="Name" [(ngModel)]="applyForLoan.name"></ion-input>
+  </ion-item>
+</div>
+<div style="padding-top:15px;">
+  <ion-label style="width: 100%;margin-left:20px;"><b>Mobile Number</b></ion-label>
+  <ion-item lines="none" style="width:100%;margin-left: auto;margin-right: auto;margin-top:10px;">
+  <ion-input placeholder="Mobile Number" type="number" [(ngModel)]="applyForLoan.phone"></ion-input>
+  </ion-item>
+</div>
+<div style="padding-top:15px;">
+  <ion-label style="width: 100%;margin-left:20px;"><b>Brand</b></ion-label>
+  <ion-item lines="none" style="width:100%;margin-left: auto;margin-right: auto;margin-top:10px;">
+  <ion-input placeholder="Brand" [(ngModel)]="applyForLoan.brand"></ion-input>
+  </ion-item>
+</div>
+<div style="padding-top:15px;">
+  <ion-label style="width: 100%;margin-left:20px;"><b>Model</b></ion-label>
+  <ion-item lines="none" style="width:100%;margin-left: auto;margin-right: auto;margin-top:10px;">
+  <ion-input placeholder="Model" [(ngModel)]="applyForLoan.model"></ion-input>
+  </ion-item>
+</div>
+<div style="padding-top:15px;">
+  <ion-label style="width: 100%;margin-left:20px;"><b>Year of Manufacturing</b></ion-label>
+  <ion-item lines="none" style="width:100%;margin-left: auto;margin-right: auto;margin-top:10px;">
+  <ion-input placeholder="Year of Manufacturing" [(ngModel)]="applyForLoan.manufacturing"></ion-input>
+  </ion-item>
+</div>
+<div style="padding-top:15px;">
+  <ion-label style="width: 100%;margin-left:20px;"><b>Loan amount required</b></ion-label>
+  <ion-item lines="none" style="width:100%;margin-left: auto;margin-right: auto;margin-top:10px;">
+  <ion-input placeholder="Loan amount required" [(ngModel)]="applyForLoan.loan"></ion-input>
+  </ion-item>
+</div>
+<div style="padding-top:15px;">
+  <ion-label style="width: 100%;margin-left:20px;"><b>PAN No.</b></ion-label>
+  <ion-item lines="none" style="width:100%;margin-left: auto;margin-right: auto;margin-top:10px;">
+  <ion-input placeholder="PAN No." [(ngModel)]="applyForLoan.panNo"></ion-input>
+  </ion-item>
+</div>
+<ion-button expand="block" style="width:90%;margin-left: auto;margin-right: auto;margin-top:20px;margin-bottom:20px;"
+(click)="submit()" 
+[disabled]=" !applyForLoan.loanFor || !applyForLoan.name ||
+!applyForLoan.phone || !applyForLoan.brand ||
+!applyForLoan.model || !applyForLoan.manufacturing || !applyForLoan.loan || !applyForLoan.panNo">Submit
+</ion-button>
+ 
+</ion-content>

@@ -1,0 +1,408 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'Register' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">Name</ion-label>
+        <ion-item class="ion-no-padding"
+          [ngClass]="{
+            'border-default': !name.touched,
+            'border-error': name.invalid && name.touched,
+            'border-success': name.valid && (name.dirty || name.touched)
+          }"
+          style="border-radius: 10px; margin-top: 10px;">
+          <ion-input style="padding-left: 0px;" placeholder="Name" [(ngModel)]="addService.name" #name="ngModel"
+            required>
+          </ion-input>
+        </ion-item>
+        <div *ngIf="name.invalid && name.touched" style="color: red; padding-left: 10px;">
+          Name is required.
+        </div>
+      </ion-col>
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">Location</ion-label>
+        <ion-item class="ion-no-padding"
+          [ngClass]="{
+            'border-default': !locationn.touched,
+            'border-error': locationn.invalid && locationn.touched,
+            'border-success': locationn.valid && (locationn.dirty || locationn.touched)
+          }"
+          style="border-radius: 10px; margin-top: 10px;">
+          <ion-input (click)="shareLocation()" readonly="true" style="padding-left: 0px;" placeholder="Location" [(ngModel)]="addService.location" #locationn="ngModel"
+            required>
+          </ion-input>
+        </ion-item>
+        <div *ngIf="locationn.invalid && locationn.touched" style="color: red; padding-left: 10px;">
+          Location is required.
+        </div>
+      </ion-col>
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">Address</ion-label>
+        <ion-item class="ion-no-padding" lines="none"
+        [ngClass]="{
+          'border-default': !address.touched,
+          'border-error': address.invalid && address.touched,
+          'border-success': address.valid && (address.dirty || address.touched)
+        }"
+        style="border-radius: 10px; margin-top: 10px;">
+          <ion-input placeholder="Address" [(ngModel)]="addService.address" #address="ngModel" required>
+          </ion-input>
+        </ion-item>
+        <div *ngIf="address.invalid && address.touched" style="color: red; padding-left: 10px;">
+          Address is required.
+        </div>
+      </ion-col>
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">Landmark</ion-label>
+        <ion-item class="ion-no-padding" lines="none"
+        [ngClass]="{
+          'border-default': !landmark.touched,
+          'border-error': landmark.invalid && landmark.touched,
+          'border-success': landmark.valid && (landmark.dirty || landmark.touched)
+        }"
+        style="border-radius: 10px; margin-top: 10px;">
+          <ion-input placeholder="Landmark" [(ngModel)]="addService.landmark" #landmark="ngModel" required>
+          </ion-input>
+        </ion-item>
+        <div *ngIf="landmark.invalid && landmark.touched" style="color: red; padding-left: 10px;">
+          Landmark is required.
+        </div>
+      </ion-col>
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">Phone Number</ion-label>
+        <ion-item class="ion-no-padding" lines="none"
+        [ngClass]="{
+          'border-default': !mobile.touched,
+          'border-error': mobile.invalid && mobile.touched,
+          'border-success': mobile.valid && (mobile.dirty || mobile.touched)
+        }"  style="border-radius: 10px; margin-top: 10px;">
+          <ion-text class="country-code">
+            <p>+91</p>
+          </ion-text>
+          <ion-input [readonly]="isOtpVerified" placeholder="Mobile" [(ngModel)]="addService.mobile" #mobile="ngModel" required
+            pattern="^[0-9]{10}$">
+          </ion-input>
+          <ion-button (click)="!isOtpVerified && signinWithPhoneNumber()" mode="ios" style="height: 40px;" [disabled]="isOtpVerified || !addService.mobile"  [color]="isOtpVerified ? 'success' : 'primary' "> 
+            {{isOtpVerified ? 'Verified' : 'Verify'}}
+          </ion-button>
+        </ion-item>
+        <div *ngIf="mobile.invalid && mobile.touched" style="color: red; padding-left: 10px;">
+          Valid phone number is required.
+        </div>
+      </ion-col>
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">Email</ion-label>
+        <ion-item class="ion-no-padding" lines="none"
+        [ngClass]="{
+          'border-default': !email.touched,
+          'border-error': email.invalid && email.touched,
+          'border-success': email.valid && (email.dirty || email.touched)
+        }"  style="border-radius: 10px; margin-top: 10px;">
+          <ion-input placeholder="Email" [(ngModel)]="addService.email" #email="ngModel" required email>
+          </ion-input>
+        </ion-item>
+        <div *ngIf="email.invalid && email.touched" style="color: red; padding-left: 10px;">
+          Valid email is required.
+        </div>
+      </ion-col>
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">Password</ion-label>
+        <ion-item class="ion-no-padding" lines="none"
+        [ngClass]="{
+          'border-default': !password.touched,
+          'border-error': password.invalid && password.touched,
+          'border-success': password.valid && (password.dirty || password.touched)
+        }"  style="border-radius: 10px; margin-top: 10px;">
+          <ion-input type="{{ showPassword ? 'text' : 'password' }}" placeholder="Password"
+            [(ngModel)]="addService.password" #password="ngModel" required minlength="6">
+          </ion-input>
+          <ion-icon name="{{ showPassword ? 'eye-off' : 'eye' }}" (click)="togglePasswordVisibility()"
+            style="font-size: 20px"></ion-icon>
+        </ion-item>
+        <div *ngIf="password.invalid && password.touched" style="color: red; padding-left: 10px;">
+          Password must be at least 6 characters long.
+        </div>
+      </ion-col>
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">City</ion-label>
+        <!-- <ion-item class="ion-no-padding" lines="none"
+        [ngClass]="{
+          'border-default': !city.touched,
+          'border-error': city.invalid && city.touched,
+          'border-success': city.valid && (city.dirty || city.touched)
+        }"  style="border-radius: 10px; margin-top: 10px;">
+          <ion-select aria-label="agents" placeholder="Select City" [(ngModel)]="addService.city" #city="ngModel"
+            required (ionChange)="selectCity($event)">
+            <ion-select-option [value]="item.id" *ngFor="let item of allCities">{{item.name}}</ion-select-option>
+          </ion-select>
+        </ion-item> -->
+        <ion-item class="ion-no-padding" lines="none" style="border-radius: 10px; margin-top: 10px; border:1px solid rgb(155, 155, 155);">
+          <ionic-selectable
+            style="padding-left: 10px; width: 100%;"
+            item-content  
+            placeholder="Select City"
+            [items]="allCities"
+            [itemValueField]="'id'"
+            [itemTextField]="'name'"
+            (onChange)="selectCity($event)"
+            class="ionic-selectable-item-is-selected">
+          </ionic-selectable>
+        </ion-item>
+        <!-- <div *ngIf="city.invalid && city.touched" style="color: red; padding-left: 10px;">
+          City is required.
+        </div> -->
+      </ion-col>
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">Area</ion-label>
+        <!-- <ion-item class="ion-no-padding" lines="none"
+        [ngClass]="{
+          'border-default': !area.touched,
+          'border-error': area.invalid && area.touched,
+          'border-success': area.valid && (area.dirty || area.touched)
+        }"  style="border-radius: 10px; margin-top: 10px;">
+          <ion-select aria-label="agents" placeholder="Select Area" [(ngModel)]="addService.area" #area="ngModel"
+            required>
+            <ion-select-option [value]="item.id" *ngFor="let item of allAreas">{{item.name}}</ion-select-option>
+          </ion-select>
+        </ion-item> -->
+        <ion-item class="ion-no-padding" lines="none" style="border-radius: 10px; margin-top: 10px; border:1px solid rgb(155, 155, 155);">
+          <ionic-selectable
+            style="padding-left: 10px; width: 100%;"
+            item-content  
+            placeholder="Select Area"  
+            [items]="allAreas"
+            [itemValueField]="'id'"
+            [itemTextField]="'name'"
+            class="ionic-selectable-item-is-selected"
+            (onChange)="selectAreaEvent($event)">
+          </ionic-selectable>
+        </ion-item>
+        <!-- <div *ngIf="area.invalid && area.touched" style="color: red; padding-left: 10px;">
+          Area is required.
+        </div> -->
+      </ion-col>
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">Category</ion-label>
+        <!-- <ion-item class="ion-no-padding" lines="none"
+        [ngClass]="{
+          'border-default': !category.touched,
+          'border-error': category.invalid && category.touched,
+          'border-success': category.valid && (category.dirty || category.touched)
+        }"  style="border-radius: 10px; margin-top: 10px;"> -->
+          <!-- <ion-select aria-label="agents" placeholder="Select Category" [(ngModel)]="addService.category"
+            #category="ngModel" required (ionChange)="categoriesById($event)"
+            class="custom-select">
+  <ion-select-option [value]="item.id" *ngFor="let item of categories">{{item.name}}</ion-select-option>
+</ion-select> -->
+<ion-item class="ion-no-padding" lines="none" style="border-radius: 10px; margin-top: 10px;border:1px solid rgb(155, 155, 155);">
+  <ionic-selectable style="padding-left: 10px;"
+    item-content  
+    placeholder="Select Category"
+    [items]="categories"
+    [itemValueField]="'id'"
+    [itemTextField]="'name'" 
+    (onChange)="categoriesById($event)">
+  </ionic-selectable>
+      </ion-item>
+      </ion-col>
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">Sub Category</ion-label>
+        <!-- <ion-item class="ion-no-padding" lines="none"
+        [ngClass]="{
+          'border-default': !subCategory.touched,
+          'border-error': subCategory.invalid && subCategory.touched,
+          'border-success': subCategory.valid && (subCategory.dirty || subCategory.touched)
+        }"  style="border-radius: 10px; margin-top: 10px;"> -->
+          <!-- <ion-select multiple="true" aria-label="agents" placeholder="Select Sub Category" [(ngModel)]="addService.subCategory"
+            (ionChange)="selectServices()" #subCategory="ngModel" required>
+            <ion-select-option [value]="item.id" *ngFor="let item of subCategories">{{item.name}}</ion-select-option>
+          </ion-select> -->
+          <ion-item class="ion-no-padding" lines="none" style="border-radius: 10px; margin-top: 10px; border:1px solid rgb(155, 155, 155);">
+            <ionic-selectable
+              style="padding-left: 10px; width: 100%;"
+              item-content  
+              placeholder="Select SubCategory"     
+              [items]="subCategories"
+              [itemValueField]="'id'"
+              [itemTextField]="'name'"
+              [isMultiple]="true"
+              (onChange)="selectServices($event)" 
+              class="ionic-selectable-item-is-selected">
+            </ionic-selectable>
+          </ion-item>
+      </ion-col>
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">Services</ion-label>
+        <!-- <ion-item class="ion-no-padding" lines="none"
+        [ngClass]="{
+          'border-default': !services.touched,
+          'border-error': services.invalid && services.touched,
+          'border-success': services.valid && (services.dirty || services.touched)
+        }"  style="border-radius: 10px; margin-top: 10px;">
+          <ion-select class="ion-select-max-height" aria-label="agents" placeholder="Select Services" [(ngModel)]="addService.services" 
+            multiple="true" #services="ngModel" required>
+            <ion-select-option [value]="item.id" *ngFor="let item of servicesList">{{item.name}}</ion-select-option>
+          </ion-select>
+        </ion-item> -->
+        <!-- <ion-item class="ion-no-padding" lines="none" style="border-radius: 10px; margin-top: 10px; border:1px solid rgb(155, 155, 155);">
+          <ionic-selectable
+            style="padding-left: 10px; width: 100%;"
+            item-content  
+            placeholder="Select Services"
+            [items]="servicesList"
+            [itemValueField]="'id'"
+            [itemTextField]="'name'"
+            [isMultiple]="true"
+            class="ionic-selectable-item-is-selected"
+            (onChange)="selectServiceList($event)"
+            >
+          </ionic-selectable>
+        </ion-item> -->
+        <!-- <div *ngIf="services.invalid && services.touched" style="color: red; padding-left: 10px;">
+          Services is required.
+        </div> -->
+      </ion-col>
+      <!-- <ion-col size="12">
+        <ion-label style="padding-left: 10px;">GST</ion-label>
+        <ion-item class="ion-no-padding" lines="none"
+        [ngClass]="{
+          'border-default': !gst.touched,
+          'border-error': gst.invalid && gst.touched,
+          'border-success': gst.valid && (gst.dirty || gst.touched)
+        }"  style="border-radius: 10px; margin-top: 10px;">
+          <ion-input style="padding-left: 0px;" placeholder="GST" [(ngModel)]="addService.gst" #gst="ngModel" required>
+          </ion-input>
+        </ion-item>
+        <div *ngIf="gst.invalid && gst.touched" style="color: red; padding-left: 10px;">
+          GST is required.
+        </div>
+      </ion-col> -->
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">Bank Name</ion-label>
+        <ion-item class="ion-no-padding" lines="none"
+        [ngClass]="{
+          'border-default': !bankName.touched,
+          'border-error': bankName.invalid && bankName.touched,
+          'border-success': bankName.valid && (bankName.dirty || bankName.touched)
+        }"  style="border-radius: 10px; margin-top: 10px;">
+          <ion-input style="padding-left: 0px;" placeholder="Bank Name" [(ngModel)]="addService.bankName"
+            #bankName="ngModel" required>
+          </ion-input>
+        </ion-item>
+        <div *ngIf="bankName.invalid && bankName.touched" style="color: red; padding-left: 10px;">
+          Bank Name is required.
+        </div>
+      </ion-col>
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;"> Account Holder Name</ion-label>
+        <ion-item class="ion-no-padding" lines="none"
+        [ngClass]="{
+          'border-default': !accountHolderName.touched,
+          'border-error': accountHolderName.invalid && accountHolderName.touched,
+          'border-success': accountHolderName.valid && (accountHolderName.dirty || accountHolderName.touched)
+        }"  style="border-radius: 10px; margin-top: 10px;">
+          <ion-input style="padding-left: 0px;" placeholder="Account Holder Name"
+            [(ngModel)]="addService.accountHolderName" #accountHolderName="ngModel" required>
+          </ion-input>
+        </ion-item>
+        <div *ngIf="name.invalid && name.touched" style="color: red; padding-left: 10px;">
+          Account Holder Name is required.
+        </div>
+      </ion-col>
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">Bank Account Number</ion-label>
+        <ion-item class="ion-no-padding" lines="none"
+        [ngClass]="{
+          'border-default': !accountNumber.touched,
+          'border-error': accountNumber.invalid && accountNumber.touched,
+          'border-success': accountNumber.valid && (accountNumber.dirty || accountNumber.touched)
+        }"  style="border-radius: 10px; margin-top: 10px;">
+          <ion-input style="padding-left: 0px;" placeholder="Account Number" [(ngModel)]="addService.accountNumber"
+            #accountNumber="ngModel" required>
+          </ion-input>
+        </ion-item>
+        <div *ngIf="accountNumber.invalid && accountNumber.touched" style="color: red; padding-left: 10px;">
+          Account Number is required.
+        </div>
+      </ion-col>
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">Ifsc</ion-label>
+        <ion-item class="ion-no-padding" lines="none"
+        [ngClass]="{
+          'border-default': !ifsc.touched,
+          'border-error': ifsc.invalid && ifsc.touched,
+          'border-success': ifsc.valid && (ifsc.dirty || ifsc.touched)
+        }"  style="border-radius: 10px; margin-top: 10px;">
+          <ion-input style="padding-left: 0px;" placeholder="Ifsc" [(ngModel)]="addService.ifsc" #ifsc="ngModel"
+            required>
+          </ion-input>
+        </ion-item>
+        <div *ngIf="ifsc.invalid && ifsc.touched" style="color: red; padding-left: 10px;">
+          Ifsc is required.
+        </div>
+      </ion-col>
+      <ion-col size="12" mode="ios">
+        <ion-label style="padding-left: 10px;">Aadhaar Card</ion-label>
+        <ion-item (click)="presentActionSheet('kyc1')" class="ion-no-padding" lines="none"
+          style="border:1px solid rgb(155, 155, 155); border-radius: 10px; margin-top: 10px; padding-left: 10px;">
+          <span *ngIf="isSelectedKyc">Select Aadhaar Card</span> {{this.fileTypeName.kyc1}}
+        </ion-item>
+        <img *ngIf="kycImageUrl" [src]="kycImageUrl" alt="KYC Document 1" style="max-width: 60px;height: 60px;margin-top: 10px;border-radius: 5px;" />
+        <input placeholder="Choose KYC1" style="display: none;" type="file" id="kyc1" accept=".pdf, .doc, .docx" (change)="onFileSelected($event)"
+          required> 
+        <div *ngIf="uploadMessage" style="color: green; padding-top: 5px;">
+          {{ uploadMessage }}
+        </div>
+      </ion-col>
+      
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">PAN Card</ion-label>
+        <ion-item (click)="presentActionSheet5('kyc2')" class="ion-no-padding" lines="none"
+          style="border:1px solid rgb(155, 155, 155); border-radius: 10px; margin-top: 10px; padding-left: 10px;">
+          <span *ngIf="isSelectedKyc2">Select PAN Card  </span> {{this.fileTypeName.kyc2}}
+        </ion-item>
+        <img *ngIf="kycImageUrl2" [src]="kycImageUrl2" alt="KYC Document 1" style="max-width: 60px;height: 60px;margin-top: 10px;border-radius: 5px;" />
+        <input style="display: none;" id="kyc2" type="file" (change)="onFileSelected2($event)" accept=".pdf, .doc, .docx" required>
+        <div *ngIf="uploadMessage2" style="color: green; padding-top: 5px;">
+          {{ uploadMessage2 }}
+      </div>
+      </ion-col>
+      <ion-col size="12">
+        <ion-label style="padding-left: 10px;">Police Verification</ion-label>
+        <ion-item (click)="presentActionSheet8('kyc3')" class="ion-no-padding" lines="none"
+          style="border:1px solid rgb(155, 155, 155); border-radius: 10px; margin-top: 10px; padding-left: 10px;">
+          <span *ngIf="isSelectedKyc3">Select Police Verification </span>  {{this.fileTypeName.kyc3}}
+        </ion-item>
+        <img *ngIf="kycImageUrl3" [src]="kycImageUrl3" alt="KYC Document 1" style="max-width: 60px;height: 60px;margin-top: 10px;border-radius: 5px;" />
+        <input style="display: none;" id="kyc3" type="file" (change)="onFileSelected3($event)" accept=".pdf, .doc, .docx" required>
+        <div *ngIf="uploadMessage3" style="color: green; padding-top: 5px;">
+          {{ uploadMessage3 }}
+      </div>
+      </ion-col>
+      <ion-checkbox class="ion-padding" (ionChange)="onCheckboxChange()" labelPlacement="end">I agree with <a
+          style="color: var(--ion-color-primary);text-decoration: underline;" (click)="openTermsCondition()">Terms & Conditions</a></ion-checkbox>
+    </ion-row>
+    <div class="ion-text-center" style="width: 50%;margin-left: auto;margin-right: auto;margin-top: 30px;">
+      <ion-button [disabled]="!addService.name||!addService.address||!addService.mobile||!addService.email||!addService.password||!addService.city||!addService.area||!addService.category||!addService.subCategory||!privacyPolicyChecked" *ngIf="!isRegister" expand="block" mode="ios" (click)="setup()"
+       >Register</ion-button>
+       
+      <div class="ion-text-center" *ngIf="isRegister">
+        <ion-spinner color="secondary"></ion-spinner>
+      </div>
+    </div>
+    <div id="sign-in-button" style="display: none;"></div>
+  </ion-grid> 
+</ion-content>
+<ion-footer class="ion-no-border">
+  <ion-button (click)="goToLogin()" style="text-transform:none; font-size: 13px" class="block_btn" fill="clear"
+    expand="block" color="dark">
+    {{ 'Already have an account, ' }} &nbsp; <a style="text-decoration: underline; font-size: larger;" >Login</a>
+  </ion-button>
+</ion-footer>

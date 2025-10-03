@@ -1,0 +1,81 @@
+<ion-content scroll-y="false">
+  <div class="row">
+    <div class="column sidebar_image" style="background-color:#111111">
+      <img class="image_box back_image" src="../../assets/logo.jpg" alt="">
+    </div>  
+    <div class="column" style="background-color:white">
+      <div class="main_content_div">
+        <div class="gateway_logo ion-text-center">
+          <img src="../../assets/logo/logo.png"/>
+          <h3>Admin Dashboard</h3>
+        </div>
+        <form [formGroup]="authForm" (ngSubmit)="login()" novalidate (keydown.enter)="login()">
+          <ion-label>Email Address</ion-label>
+          <div class="email_side">
+            <div class="item_inner">
+              <ion-icon name="mail-outline" class="icon_email"></ion-icon>
+              <ion-input autocomplete="false" formControlName="email" type="email" mode="md" placeholder="Email" class="input"></ion-input>
+            </div>
+          </div>
+          <p class="error" *ngIf="isSubmitted && errorControl.email.errors?.required">Email is required!</p>
+          <p class="error" *ngIf="isSubmitted && errorControl.email.errors?.pattern">Please enter valid email!</p>
+          <ion-label>Password</ion-label>
+          <div class="email_side">
+            <div class="item_inner">
+              <ion-icon name="lock-closed-outline" class="icon_email"></ion-icon>
+              <ion-input [type]="showPsw ? 'text' : 'password'" autocomplete="false" placeholder="Password" formControlName="password" mode="md" class="input"></ion-input>
+              <ion-icon [name]="showPsw ? 'eye-off-outline' : 'eye-outline'" class="icon_hidepassword" (click)="showPassword()"></ion-icon>
+            </div>
+          </div>
+          <p class="error" *ngIf="isSubmitted && errorControl.password.errors?.required">Password is required.</p>
+          <p class="error" *ngIf="isSubmitted && errorControl.password.errors?.minlength">Password should be min 6 chars long.</p>
+          <ion-button *ngIf="!isLogin" type="submit" color="primary" expand="block" size="large">Login</ion-button>
+          <div class="ion-text-center" *ngIf="isLogin">
+            <ion-spinner name="circles" color="secondary"></ion-spinner>
+          </div>
+        </form>
+        <div class="ion-text-center">
+          <p style="padding-top: 45px;">Develop by <span style="color:#000;">Trade2online Pvt Limited</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div style="background-color:#fff;">
+      <div class="main_content_div">
+        <div class="gateway_logo ion-text-center">
+          <img src="assets/img/deal.png"/>
+          <h3>Admin Dashboard</h3>
+        </div>
+        <form [formGroup]="authForm" (submit)="login()" novalidate (keydown.enter)="login()">
+          <ion-label>Email Address</ion-label>
+          <div class="email_side">
+            <div class="item_inner">
+              <ion-icon name="mail-outline" class="icon_email"></ion-icon>
+              <ion-input autocomplete="false" formControlName="email" type="email" mode="md" placeholder="Email" class="input"></ion-input>
+            </div>
+          </div>
+          <p class="error" *ngIf="isSubmitted && errorControl.email.errors?.required">Email is required!</p>
+          <p class="error" *ngIf="isSubmitted && errorControl.email.errors?.pattern">Please enter a valid email!</p>
+          <ion-label>Password</ion-label>
+          <div class="email_side">
+            <div class="item_inner">
+              <ion-icon name="lock-closed-outline" class="icon_email"></ion-icon>
+              <ion-input [type]="showPsw ? 'text' : 'password'" autocomplete="false" placeholder="Password" formControlName="password" mode="md" class="input"></ion-input>
+              <ion-icon [name]="showPsw ? 'eye-off-outline' : 'eye-outline'" class="icon_hidepassword" (click)="showPassword()"></ion-icon>
+            </div>
+          </div>
+          <p class="error" *ngIf="isSubmitted && errorControl.password.errors?.required">Password is required.</p>
+          <p class="error" *ngIf="isSubmitted && errorControl.password.errors?.minlength">Password should be at least 6 characters long.</p>
+          <ion-button *ngIf="!isLogin" type="submit" color="primary" expand="block" size="large">Login</ion-button>
+          <div class="ion-text-center" *ngIf="isLogin">
+            <ion-spinner name="circles" color="secondary"></ion-spinner>
+          </div>
+        </form>
+        <div class="ion-text-center">
+          <p style="padding-top: 45px;">Develop by <span style="color:#ff8533;">Trade2online Pvt Limited</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

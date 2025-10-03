@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="modalController.dismiss()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Complaint Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="timeline">
+    <div class="container right">
+      <div class="content">
+        <ion-list lines="none">{{complaint.created_at.toDate() | date:'yyyy-MM-dd'}}</ion-list>
+        <p>Your Complaint has been raised by {{complaint.agentName}}</p>
+      </div>
+    </div>
+    <div class="container right">
+      <div class="content">
+        <ion-list lines="none">{{complaint.created_at.toDate() | date:'yyyy-MM-dd'}}</ion-list>
+        <p>Complaint has been raised against booking  <a style="color: var(--ion-color-primary); text-decoration: underline" (click)="openBooking(complaint.bookingId)">{{complaint.bookingId}}</a></p>
+      </div>
+    </div>
+    <div class="container right" *ngIf="complaint.status == 'close'">
+      <div class="content">
+        <ion-list lines="none">{{complaint.closed_at.toDate() | date:'yyyy-MM-dd'}}</ion-list>
+        <p>Complaint has been closed by {{complaint.closedBy}}</p>
+        <br>
+        <p>Solution Offered</p>
+        <p>{{complaint.solutionOffered}}</p>
+      </div>
+    </div>
+  </div>
+</ion-content>

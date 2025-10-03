@@ -1,0 +1,118 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>edit-service-provider</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row> 
+      <ion-col sizeLg="4">
+        <ion-item>  
+          <ion-input placeholder="Name" [(ngModel)]="this.editServiceProvider.name"></ion-input>
+        </ion-item>
+      </ion-col> 
+      <ion-col sizeLg="4">
+        <ion-item>
+          <ion-input placeholder="Address" [(ngModel)]="this.editServiceProvider.address"></ion-input>
+        </ion-item>
+      </ion-col> 
+      <ion-col size="4" sizeLg="4">
+        <ion-item>
+          <ion-input placeholder="Mobile" [(ngModel)]="this.editServiceProvider.mobile"></ion-input>
+        </ion-item>
+      </ion-col> 
+      <ion-col sizeLg="4">
+        <ion-item>
+          <ion-input placeholder="Email" [(ngModel)]="this.editServiceProvider.email"></ion-input>
+        </ion-item>
+      </ion-col> 
+      <!-- <ion-col sizeLg="4">
+        <ion-item>
+          <ion-input placeholder="password" [(ngModel)]="this.editServiceProvider.password"></ion-input>
+        </ion-item>
+      </ion-col>  -->
+      <ion-col sizeLg="4">
+        <ion-item> 
+          <ion-select aria-label="agents" placeholder="Select City" [(ngModel)]="this.editServiceProvider.city" (ionChange)="selectCity($event)">
+            <ion-select-option [value]="item.id" *ngFor="let item of allCities">{{item.name}}</ion-select-option>
+          </ion-select>  
+        </ion-item>
+      </ion-col> 
+      <ion-col size="4" sizeLg="4">
+        <ion-item>
+          <ion-select aria-label="agents" placeholder="Select Area" [(ngModel)]="this.editServiceProvider.area">
+            <ion-select-option [value]="item.id"  *ngFor="let item of allAreas">{{item.name}}</ion-select-option>
+          </ion-select> 
+        </ion-item>
+      </ion-col> 
+      <ion-col sizeLg="4">
+        <ion-item>
+          <ion-select aria-label="agents" placeholder="Select Category" [(ngModel)]="this.editServiceProvider.category" (ionChange)="categoriesById($event)">
+            <ion-select-option [value]="item.id" *ngFor="let item of categories">{{item.name}}</ion-select-option>
+          </ion-select>  
+        </ion-item>
+      </ion-col> 
+      <ion-col sizeLg="4">
+        <ion-item>
+          <ion-select aria-label="agents" placeholder="Select Sub Category"  [multiple]="true" [(ngModel)]="this.editServiceProvider.subCategory">
+            <ion-select-option  [value]="item.id" *ngFor="let item of subCategories">{{item.name}}</ion-select-option>
+          </ion-select>   
+        </ion-item>
+      </ion-col> 
+       <ion-col sizeLg="4">
+        <ion-item>  
+          <ion-input placeholder="Account Holder Name" [(ngModel)]="this.editServiceProvider.accountHolderName"></ion-input>
+        </ion-item>
+      </ion-col> 
+      <ion-col sizeLg="4">
+        <ion-item>
+          <ion-input placeholder="Bank Account Number" [(ngModel)]="this.editServiceProvider.accountNumber"></ion-input>
+        </ion-item>
+      </ion-col> 
+      <ion-col size="4" sizeLg="4">
+        <ion-item>
+          <ion-input placeholder="Bank Name" [(ngModel)]="this.editServiceProvider.bankName"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="4" sizeLg="4">
+        <ion-item>
+          <ion-input placeholder="GST" [(ngModel)]="this.editServiceProvider.gst"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="4" sizeLg="4">
+        <ion-label class="ion-padding">PAN Card</ion-label>
+        <ion-item lines="none" style="border:1px solid rgb(155, 155, 155); border-radius: 10px; margin-top: 10px;">
+          <input [placeholder]="editServiceProvider.kycDoc1" type="file"  (change)="onFileSelected($event, 'kycDoc1')"  accept=".pdf, .doc, .docx" >
+        </ion-item>
+      </ion-col>
+      <ion-col size="4" sizeLg="4">
+        <ion-label class="ion-padding">Aadhar Card</ion-label>
+         <ion-item lines="none" style="border:1px solid rgb(155, 155, 155) ;border-radius: 10px;margin-top: 10px;">
+           <input [placeholder]="editServiceProvider.kycDoc2" type="file" (change)="onFileSelected($event, 'kycDoc2')" accept=".pdf, .doc, .docx"  >
+         </ion-item>
+       </ion-col> 
+       <ion-col size="4" sizeLg="4">
+        <ion-label >Police Verification</ion-label>
+         <ion-item lines="none" style="border:1px solid rgb(155, 155, 155) ;border-radius: 10px;margin-top: 10px;">
+           <input [placeholder]="editServiceProvider.kycDoc3"  type="file" (change)="onFileSelected($event, 'kycDoc3')" accept=".pdf, .doc, .docx"   >
+         </ion-item>
+       </ion-col> 
+       <ion-col sizeLg="4">
+        <ion-item lines="none">  
+          <div *ngIf="!this.editServiceProvider.photoURL " (click)="uploadImage()">
+            <img src="assets/placeholder.jpg" width="500px" height="500px" style="object-fit: contain;"/>
+          </div>
+          <div *ngIf="this.photo" (click)="uploadImage()">
+            <img src="{{this.photo}}" width="500px" height="500px" style="object-fit: contain;"/>
+          </div>
+        </ion-item>
+      </ion-col> 
+      <div class="ion-text-center" style="width: 100%;margin-left: auto;margin-right: auto;margin-top: 30px;">
+        <ion-button expand="block" mode="ios" (click)="update()">Update Service Provider</ion-button>
+      </div>
+    </ion-row>
+  </ion-grid>
+</ion-content>

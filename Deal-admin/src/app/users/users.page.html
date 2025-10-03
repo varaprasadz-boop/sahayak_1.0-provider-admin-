@@ -1,0 +1,98 @@
+<!--
+  Authors : Coders Island
+  Website : https://codersisland.com
+  App Name : Deal - ionic 6 Buy and Sell, Admin, Admob
+  Created : 20-August-2022
+  This App Template Source code is licensed as per the
+  terms found in the Website https://codersisland.com/license
+  Copyright © 2022-present Coders Island.
+-->
+
+<!--===================== HEADER START =====================-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> Users </ion-title>
+    <!-- <ion-buttons slot="end">
+      <ion-button
+        *ngIf="hasPermission(['add_users'])"
+      >
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+        Add User
+      </ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+
+<!--===================== CONTENT START =====================-->
+<ion-content>
+
+  <ion-searchbar placeholder="Search Name" [(ngModel)]="searchText"></ion-searchbar>
+  <div style="overflow-x: auto">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>City</th>
+          <th>Area</th>
+          <!-- <th>Status</th> -->
+          <!-- <th *ngIf="hasPermission(['delete_users'])">Delete</th> -->
+          <th *ngIf="hasPermission(['edit_users'])">Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of users | search:searchText:'displayName' | paginate: { itemsPerPage: 10, currentPage: p }">
+          <td>
+            <ion-avatar>
+              <img src="{{item.photoURL}}" />
+            </ion-avatar>
+          </td>
+          <td>{{item.displayName}}</td>
+          <td>{{item.phoneNumber}}</td>
+          <td>{{item.email}}</td>
+          <td>{{getCityName(item.city)}}</td>
+          <td>{{getAreaName(item.area)}}</td>
+          <!-- <td>
+            <ion-chip mode="ios" [color]="item.block == 'true' ? 'danger' : 'success'">
+              {{item.block == 'true' ? 'InActive' : 'Active'}}
+            </ion-chip>
+          </td> -->
+          <!-- <td *ngIf="hasPermission(['delete_users'])"> 
+              <ion-button
+                mode="ios"
+                fill="outline"
+                color="danger"
+                (click)="presentConfirm(item.id)"
+              >
+                <ion-icon slot="start" name="trash" color="danger"></ion-icon>
+                Delete
+              </ion-button>
+          </td> -->
+          <td  *ngIf="hasPermission(['edit_users'])">
+              <ion-button
+                mode="ios"
+                fill="outline"
+                [color]="item.block == 'true'  ? 'danger' : 'success'"
+              >
+                <ion-select
+                  style="margin: 0px !important"
+                  aria-label="Status"
+                  value="{{item.block}}"
+                  (ionChange)="changeStatus($event, item.id)"
+                >
+                  <ion-select-option value="true">In Active</ion-select-option>
+                  <ion-select-option value="false">Active</ion-select-option>
+                </ion-select>
+              </ion-button> 
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</ion-content>

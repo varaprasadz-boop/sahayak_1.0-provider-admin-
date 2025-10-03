@@ -1,0 +1,45 @@
+<!--
+  Authors : Coders Island
+  Website : https://codersisland.com
+  App Name : Deal - ionic 6 Buy and Sell, Admin, Admob
+  Created : 20-August-2022
+  This App Template Source code is licensed as per the
+  terms found in the Website https://codersisland.com/license
+  Copyright © 2022-present Coders Island.
+-->
+
+<!--===================== HEADER START =====================-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Edit Category
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!--===================== CONTENT START =====================-->
+<ion-content class="ion-padding">
+ <div class="form">
+
+   <ion-item>
+    <ion-label position="floating">Name</ion-label>
+    <ion-input [(ngModel)]="name"></ion-input>
+   </ion-item>
+
+   <h6>Upload image (Image resolution 500x500) </h6>
+    <div *ngIf="!imageView" (click)="uploadImage()">
+      <img src="assets/placeholder.jpg" width="200px" height="200px"/>
+    </div>
+    <div *ngIf="imageView" (click)="uploadImage()">
+      <img src="{{imageView}}" width="200px" height="200px"/>
+    </div>
+
+  <ion-button *ngIf="!spin" size="large" mode="ios" (click)="update()" [disabled]="!name || !imageView">Submit</ion-button>
+  <div class="ion-text-center" *ngIf="spin">
+    <ion-spinner color="secondary"></ion-spinner>
+  </div>
+ </div>
+</ion-content>

@@ -1,0 +1,85 @@
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> Subadmin List</ion-title>
+    <ion-buttons slot="end" >
+      <!-- *ngIf="hasPermission(['add_subadmins'])" -->
+      <ion-button fill="outline" color="light" (click)="addSubadmins()" 
+        >
+        <ion-icon name="add"></ion-icon>
+        Add Subadmin</ion-button
+      >
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div style="overflow-x:auto;">
+    <table class="styled-table">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th  *ngIf="hasPermission(['edit_subadmins'])">View Permission</th>
+              <th  *ngIf="hasPermission(['edit_subadmins'])">Edit</th>
+              <th  *ngIf="hasPermission(['delete_subadmins'])">Delete</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of subAdmins">
+              <td>
+                {{item.name}}
+              </td>
+              <td>{{item.email}}</td>
+              <td>
+                <ion-chip mode="ios" [color]="!item.block ? 'success' : 'danger'">
+                  {{item.block ? 'Blocked' : 'Active'}}
+                </ion-chip>
+              </td>
+              <td  *ngIf="hasPermission(['edit_subadmins'])">
+                <ion-button fill="outline" color="secondary" (click)="openModal(item)" >
+                  <ion-icon slot="start" name="eye" color="secondary"></ion-icon>
+                  View / Edit
+                </ion-button>
+                <!-- <ion-button fill="outline" color="secondary" (click)="editPermissions(item,'open-selector')" >
+                  <ion-icon slot="start" name="create" color="secondary"></ion-icon>
+                  Edit
+                </ion-button> -->
+                <ion-select id="view-permission" [hidden]="true" [(ngModel)]="item.permissions" aria-label="Permission" placeholder=" Select Permissions" [multiple]="true">
+                  <ion-select-option disabled="true" *ngFor="let Permission of item.permissions" value="{{Permission}}">{{Permission}}</ion-select-option>
+                </ion-select>
+                <ion-select id="edit-permission" [hidden]="true" [(ngModel)]="item.permissions" aria-label="Permission" placeholder=" Select Permissions" [multiple]="true" (ionChange)="editPermissions(item, 'update')">
+                  <ion-select-option  *ngFor="let Permission of permissionsList" value="{{Permission}}">{{Permission}}</ion-select-option>
+                </ion-select>
+              </td>
+              <td  *ngIf="hasPermission(['edit_subadmins'])">
+                <ion-button fill="outline" [color]="getStatusColor(item.block)" (ionChange)="changeStatus($event,item.id)">
+                  <ion-select style="margin: 0px !important;" aria-label="Status" [value]="item.block" >
+                  <ion-select-option [value]="false">Active</ion-select-option>
+                  <ion-select-option [value]="true">In Active</ion-select-option>
+                </ion-select>
+                </ion-button>
+                <!-- <ion-button fill="outline" color="primary" (click)="edit(item)">
+                  <ion-icon slot="start" name="pencil" color="primary"></ion-icon>
+                  Edit
+                </ion-button> -->
+              </td>
+              <td  *ngIf="hasPermission(['delete_subadmins'])">
+                <ion-button fill="outline" color="danger" (click)="presentConfirm(item.id)">
+                  <ion-icon slot="start" name="trash" color="danger"></ion-icon>
+                  Delete
+                </ion-button>
+              </td>
+          </tr>
+    </table>
+  </div>
+ 
+ <!-- <div class="ion-text-center" *ngFor="let item of dummyArray">
+  <ion-spinner color="danger"></ion-spinner>
+ </div> -->
+
+</ion-content>

@@ -1,0 +1,47 @@
+<ion-app>
+  <ion-split-pane contentId="main-content">
+    <ion-menu contentId="main-content" type="overlay">
+      <ion-header class="ion-no-border">
+        <ion-toolbar color="primary">
+          <ion-title class="ion-text-center">ADMIN</ion-title>
+          
+        </ion-toolbar>
+      </ion-header>
+      <ion-list style=" height: 140px;">
+        <ion-avatar>
+          <img class="ion-margin-top" src="../assets/logo.jpg" />
+        </ion-avatar>
+      </ion-list>
+      <ion-content>
+        <ion-menu-toggle auto-hide="false">
+          <ion-item lines="none" detail="false" routerLink="/home" routerLinkActive="active" routerDirection="root">
+            <ion-icon slot="start" name="home-outline"></ion-icon>
+            <ion-label>Home</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-accordion-group #accordionGroup>
+          <ion-accordion *ngFor="let p of appPages" [value]="p.title" >
+            <ion-item  slot="header"  routerDirection="root" [routerLink]="[p.route]" lines="none" detail="false" routerLinkActive="selected" [ngStyle]="{ 'display': hasPermission(p.permission.permissions) ? 'block' : ''  }">
+              <ion-icon slot="start" [md]="p.icon + '-outline'"></ion-icon>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              <!-- You can add additional content here if needed -->
+              <ion-item *ngFor="let p of p.subItems" slot="header"  routerDirection="root" [routerLink]="[p.route]" lines="none" detail="false" routerLinkActive="selected" [ngStyle]="{ 'display': hasPermission(p.permission.permissions) ? 'block' : 'none'  }">
+                <ion-icon slot="start" [md]="p.icon + '-outline'"></ion-icon>
+                <ion-label>{{ p.title }}</ion-label>
+              </ion-item>
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+        <ion-menu-toggle auto-hide="false">
+          <ion-item lines="none" detail="false" (click)="logout()">
+            <ion-icon slot="start" name="log-out-outline"></ion-icon>
+            <ion-label>Logout</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

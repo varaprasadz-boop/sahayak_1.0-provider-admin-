@@ -1,0 +1,26 @@
+
+  <div class="timeline" *ngIf="booking.length > 0; else noBooking">
+    <div class="container right" *ngFor="let booking of booking" (click)="bookingDetail(booking)">
+      <div class="content" >
+        <ion-list lines="none">{{convertTo12HourFormat(booking.schedule.time)}}</ion-list>
+        <ion-card>
+          <ion-card-header>
+            <ion-chip [color]="booking.jobStatus == 'completed' ? 'success' : 'warning'">{{booking.jobStatus | titlecase}}</ion-chip>
+            <ion-card-title>{{booking.service.name}}</ion-card-title>
+           
+            <ion-card-subtitle>{{booking.schedule.date}}</ion-card-subtitle>
+          </ion-card-header>
+        
+          <ion-card-content>
+            <p>{{booking.address.location}}</p>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noBooking>
+    <ion-text class="ion-text-center">
+      <h1>No bookings</h1>
+    </ion-text>
+  </ng-template>

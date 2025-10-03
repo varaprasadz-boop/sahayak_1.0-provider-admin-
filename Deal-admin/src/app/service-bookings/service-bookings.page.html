@@ -1,0 +1,670 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+        <ion-button (click)="openSplitPane()" >
+          <ion-icon slot="icon-only" name="menu"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+    <ion-title>Service Bookings</ion-title>
+  </ion-toolbar>
+  <ion-segment
+    [(ngModel)]="segment"
+    (ionChange)="filterData($event)"
+    color="dark"
+  >
+    <ion-segment-button value="all">
+      <ion-label>All</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="upcoming">
+      <ion-label>Upcoming</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="pending">
+      <ion-label>Pending</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="cancel">
+      <ion-label>Cancelled By Admin</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="in-progress">
+      <ion-label>In Progress</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="completed">
+      <ion-label>Completed</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+<!--===================== CONTENT START =====================-->
+<ion-content>
+  <ion-searchbar
+    placeholder="Search Bookings"
+    (ionChange)="searchData($event)"
+  ></ion-searchbar>
+  <div class="main-class-overflow table-container">
+    <div class="table-responsive">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Booking Id#</th>
+            <th>Customer</th>
+            <th>City</th>
+            <th>Area</th> 
+            <th>Service Name</th> 
+            <th>Created At</th>
+            <th>Booking Time</th>
+            <th>Booking Date</th>
+            <th>Booking Status</th>
+            <th>Payment Status</th>
+            <th>Agent Status</th>
+            <th>Job Status</th>
+            <th>Agent Payment Status</th>
+             <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let item of filteredItems | search:search:'bookingId' | paginate: { itemsPerPage: 10, currentPage: p } let i = index"
+          >
+            <td>{{item.bookingId}}</td>
+            <td>{{getuser(item.uid)}}</td>
+            <td>{{item.address.cityName}}</td>
+            <td>
+              {{item.address.areaName}}
+            </td>
+            <td>{{item.service.name}}</td>
+            <td>{{item.date | date:'dd/MM/yyyy'}}</td>
+            <td>{{item.schedule.time}}</td>
+            <td>{{item.schedule.date | date:'dd/MM/yyyy'}}</td>
+            <td>
+              <ion-button
+                fill="outline"
+                [color]="getStatusColor('booking',item.bookingStatus)"
+              >
+                <ion-select
+                  style="margin: 0px !important"
+                  aria-label="Booking Status"
+                  value="{{item.bookingStatus}}"
+                  (ionChange)="changeStatus($event, item.id)"
+                >
+                  <ion-select-option value="pending">Pending</ion-select-option>
+                  <ion-select-option value="confirm"
+                    >Successful</ion-select-option
+                  >
+                </ion-select>
+              </ion-button>
+            </td>
+            <td>
+              <ion-button
+                fill="outline"
+                [color]="getStatusColor('payment',item.paymentStatus)"
+              >
+                <ion-select
+                  [disabled]="item.paymentStatus=='paid'"
+                  style="margin: 0px !important; opacity: 1"
+                  aria-label="Payment Status"
+                  value="{{item.paymentStatus}}"
+                  (ionChange)="changePaymentStatus($event, item.id)"
+                >
+                  <ion-select-option value="pending">Pending</ion-select-option>
+                  <ion-select-option value="paid">Paid</ion-select-option>
+                </ion-select>
+              </ion-button>
+              <ion-button
+              fill="outline"
+              *ngIf="item.transactionId && item.paymentStatus === 'paid'"
+              (click)="openTransactionDetail(item)"
+            >
+              <ion-icon name="eye"></ion-icon>
+              View
+            </ion-button>
+            </td>
+            <td>
+              <ion-button
+                fill="outline"
+                [color]="getStatusColor('agent', item.agentStatus)"
+                (click)="item.agentStatus !== 'assigned' && changeagentStatus('assigned',item)"
+              >
+                <ion-select
+                  [disabled]="true"
+                  style="margin: 0px !important; opacity: 1"
+                  aria-label="Agent Status"
+                  [value]="item.agentStatus"
+                >
+                  <ion-select-option value="pending">Pending</ion-select-option>
+                  <ion-select-option value="assigned"
+                    >Assigned</ion-select-option
+                  >
+                </ion-select>
+              </ion-button>
+              <ion-button
+                fill="outline"
+                *ngIf="item.agentStatus === 'assigned'"
+                (click)="openProviderModal(item)"
+              >
+                <ion-icon name="eye"></ion-icon>
+                View
+              </ion-button>
+              <ion-button
+                fill="outline"
+                *ngIf="item.hasAgentRejected"
+                (click)="openProviderModal3(item)"
+              >
+                <ion-icon name="eye"></ion-icon>
+                View Rejections
+              </ion-button>
+            </td>
+            <td>
+              <ion-button
+                fill="outline"
+                [color]="getStatusColor('job',item.jobStatus)"
+              >
+                <ion-select
+                  style="margin: 0px !important"
+                  aria-label="Job Status"
+                  value="{{item.jobStatus}}"
+                  (ionChange)="changeJobStatus($event, item.id)"
+                >
+                  <ion-select-option value="pending">Pending</ion-select-option>
+                  <ion-select-option value="cancel"
+                    >Cancel by Admin</ion-select-option
+                  >
+                  <ion-select-option value="upcoming"
+                    >Upcoming</ion-select-option
+                  >
+                  <ion-select-option value="in-progress"
+                    >In Progress</ion-select-option
+                  >
+                  <ion-select-option value="completed"
+                    >Completed</ion-select-option
+                  >
+                </ion-select>
+              </ion-button>
+              <ion-button
+                fill="outline"
+                *ngIf="item.jobStatus === 'completed' && item.agentPaymentStatus !== 'paid' && item.agentStatus == 'assigned'"
+                (click)="openProviderModal2(item)"
+              >
+                <ion-icon name="create-outline"></ion-icon>
+                Create Payment
+              </ion-button>
+              <ion-button
+                fill="outline"
+                *ngIf="item.jobStatus === 'cancel' && item.customerRefundStatus !== 'paid'"
+                (click)="openProviderModal10(item)"
+              >
+                <ion-icon name="create-outline"></ion-icon>
+                Refund
+              </ion-button>
+              <ion-chip
+                color="success"
+                *ngIf="item.jobStatus === 'cancel' && item.customerRefundStatus === 'paid'"
+              >
+                <ion-icon name="checkmark-circle"></ion-icon>
+                <ion-label>Refunded</ion-label>
+              </ion-chip>
+              <ion-button
+                (click)="viewProviderInvoice(item)"
+                fill="outline"
+                *ngIf="item.jobStatus === 'completed' && item.agentPaymentStatus === 'paid'"
+              >
+                <ion-icon slot="start" name="cloud-download-outline"></ion-icon>
+                Provider Invoice
+              </ion-button>
+              <ion-button
+                (click)="viewUserInvoice(item)"
+                fill="outline"
+                *ngIf="item.jobStatus === 'completed' && item.agentPaymentStatus === 'paid'"
+              >
+                <ion-icon slot="start" name="cloud-download-outline"></ion-icon>
+                User Invoice
+              </ion-button>
+            </td>
+           
+            <td>
+              <ion-chip [color]="item.agentPaymentStatus && item.agentPaymentStatus == 'paid'? 'success':'danger'">{{(item.agentPaymentStatus && item.agentPaymentStatus? item.agentPaymentStatus :'Not Paid') | titlecase }}</ion-chip>
+             </td>
+             <td>
+              <ion-button (click)="viewBooking(item)">
+                <ion-icon name="eye"></ion-icon>
+                View
+              </ion-button>
+             </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <ion-button style="display: none" id="openModal"></ion-button>
+  <ion-modal trigger="openModal" #modal backdropDismiss="true">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button color="medium" (click)="cancelbutton()"
+              >Cancel</ion-button
+            >
+          </ion-buttons>
+          <ion-title class="ion-text-center">Choose Service Provider</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="assignServiceProvider()" [strong]="true"
+              >Submit</ion-button
+            >
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-searchbar
+          placeholder="Search City"
+          [(ngModel)]="search"
+        ></ion-searchbar>
+        <!-- <cdk-virtual-scroll-viewport [itemSize]="56" [minBufferPx]="900" [maxBufferPx]="1350"> -->
+        <ion-list>
+          <ion-item
+            lines="none"
+            *ngFor="let item of providers | search:search:'name' let i=index"
+            (ionChange)="checkboxChanged($event.target.checked, i, item)"
+          >
+            <ion-label>
+              <h2 style="float: left; margin-top: 13px">{{item.name}}</h2>
+            </ion-label>
+            <ion-checkbox
+              mode="ios"
+              style="float: right"
+              [checked]="item.checkboxChecked"
+            ></ion-checkbox>
+          </ion-item>
+        </ion-list>
+        <!-- </cdk-virtual-scroll-viewport> -->
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-button style="display: none" id="openModal3">second</ion-button>
+  <ion-modal trigger="openModal3" #modal3>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-buttons slot="start">
+            <ion-button>{{selectedProvider.SrNo}}</ion-button>
+          </ion-buttons>
+          <ion-title class="ion-text-center"
+            >{{selectedProvider.name}}</ion-title
+          >
+          <ion-buttons slot="end">
+            <ion-button (click)="modal3.dismiss()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div *ngIf="img" class="ion-text-center ion-margin-top">
+          <img *ngIf="selectedProvider.photoURL; else defaultImage" [src]="selectedProvider.photoURL" style="height: 100px;width: 100px;border-radius: 100px;" alt="">
+            <ng-template #defaultImage>
+              <img src="../../assets/Avatar-Profile-PNG-Photos.png" style="height:100px;width: 100px;" alt="">
+            </ng-template>
+        </div>
+        <ion-card>
+          <ion-grid>
+            <ion-row>
+              <ion-col
+                size="12"
+                *ngIf="selectedProvider.booking.hasAgentRejected"
+              >
+                <ion-label>
+                  <h6 style="color: black">
+                    <b>Number Of Rejected Bookings</b>
+                  </h6>
+                  <p>{{selectedProvider.noOfRejectedBookings}}</p>
+                </ion-label>
+              </ion-col>
+              <ion-col size="6">
+                <ion-label>
+                  <h6 style="color: black"><b>Service Provider Name</b></h6>
+                  <p>{{selectedProvider.name}}</p>
+                </ion-label>
+              </ion-col>
+              <ion-col size="6">
+                <ion-label>
+                  <h6 style="color: black"><b>Address</b></h6>
+                  <p>{{selectedProvider.address}}</p>
+                </ion-label>
+              </ion-col>
+              <ion-col size="6">
+                <ion-label>
+                  <h6 style="color: black"><b>Category</b></h6>
+                  <p>{{getCategory(selectedProvider.category)}}</p>
+                </ion-label>
+              </ion-col>
+              <ion-col size="6">
+                <ion-label>
+                  <h6 style="color: black"><b>Subcategory</b></h6>
+                  <p>{{getSubCategory(selectedProvider.subCategory)}}</p>
+                </ion-label>
+              </ion-col>
+              <ion-col size="6">
+                <ion-label>
+                  <h6 style="color: black"><b>City</b></h6>
+                  <p>{{getCities(selectedProvider.city)}}</p>
+                </ion-label>
+              </ion-col>
+              <ion-col size="6">
+                <ion-label>
+                  <h6 style="color: black"><b>Area</b></h6>
+                  <p>{{getArea(selectedProvider.area)}}</p>
+                </ion-label>
+              </ion-col>
+              <ion-col size="6">
+                <ion-label>
+                  <h6 style="color: black"><b>Phone Number</b></h6>
+                  <p>{{selectedProvider.mobile}}</p>
+                </ion-label>
+              </ion-col>
+              <ion-col size="6">
+                <ion-label>
+                  <h6 style="color: black"><b>Bank Name</b></h6>
+                  <p>{{selectedProvider.bankName}}</p>
+                </ion-label>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ion-content>
+      <ion-footer>
+        <ion-toolbar class="ion-text-center">
+          <ion-button
+            fill="solid"
+            (click)="changeagentStatus('assigned',selectedProvider.booking)"
+            (click)="modal3.dismiss()"
+          >
+            Re Assigned Service Provider
+          </ion-button>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
+  <ion-button style="display: none" id="openModal4">second</ion-button>
+  <ion-modal trigger="openModal4" #modal4>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title class="ion-text-center" style="margin-left: 50px"
+            >Create Payment
+          </ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="modal4.dismiss()">cancel</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="6">
+                <ion-label>
+                  <h6 style="color: black"><b>Bank Name</b></h6>
+                  <p>{{selectedProvider.bankName}}</p>
+                </ion-label>
+              </ion-col>
+              <ion-col size="6">
+                <ion-label>
+                  <h6 style="color: black"><b>Account Holder Name</b></h6>
+                  <p>{{selectedProvider.accountHolderName}}</p>
+                </ion-label>
+              </ion-col>
+              <ion-col size="6">
+                <ion-label>
+                  <h6 style="color: black"><b>Bank Account Number</b></h6>
+                  <p>{{selectedProvider.accountNumber}}</p>
+                </ion-label>
+              </ion-col>
+              <ion-col size="6">
+                <ion-label>
+                  <h6 style="color: black"><b>Phone Number</b></h6>
+                  <p>{{selectedProvider.mobile}}</p>
+                </ion-label>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+        <ion-card>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="6">
+                <ion-label>
+                  <h6 style="color: black"><b>Total Amount</b></h6>
+                  <p>
+                    {{selectedServiceProviderPrice.service.price |
+                    currency:'INR':'symbol':'1.2-2'}}
+                  </p>
+                </ion-label>
+              </ion-col>
+              <ion-col size="6">
+                <ion-label>
+                  <h6 style="color: black"><b>Commission (%)</b></h6>
+                  <p>{{selectedServiceProviderPrice.service.commission}}%</p>
+                </ion-label>
+              </ion-col>
+              <ion-col size="6">
+                <ion-label>
+                  <h6 style="color: black"><b>Agent Earning</b></h6>
+                  <p>
+                    {{selectedServiceProviderPrice.service.serviceProviderCharge
+                    | currency:'INR':'symbol':'1.2-2'}}
+                  </p>
+                </ion-label>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <ion-label>Payable Amount</ion-label>
+              <ion-item
+                style="
+                  border: 1px solid rgb(156, 156, 156);
+                  border-radius: 10px;
+                  margin-top: 10px;
+                "
+              >
+                <ion-input
+                  type="number"
+                  placeholder="Payable Amount"
+                  [(ngModel)]="totalPayableAmount"
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-label>Transfer ID</ion-label>
+              <ion-item
+                style="
+                  border: 1px solid rgb(156, 156, 156);
+                  border-radius: 10px;
+                  margin-top: 10px;
+                "
+              >
+                <ion-input
+                  type="text"
+                  placeholder="Transfer ID"
+                  [(ngModel)]="transferID"
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12">
+              <ion-label>Transfer Mode</ion-label>
+              <ion-item
+                style="
+                  border: 1px solid rgb(156, 156, 156);
+                  border-radius: 10px;
+                  margin-top: 10px;
+                "
+              >
+                <ion-input
+                  type="text"
+                  placeholder="Transfer Mode"
+                  value="UPI"
+                  [(ngModel)]="transferMode"
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-content>
+      <ion-footer>
+        <ion-toolbar class="ion-text-center">
+          <ion-button
+            [disabled]="!totalPayableAmount||!transferID "
+            fill="solid"
+            (click)="onClick()"
+            (click)="modal4.dismiss()"
+          >
+            Create Payment
+          </ion-button>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
+  <ion-button style="display: none" id="openModal5">second</ion-button>
+  <ion-modal trigger="openModal5" #modal5>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title class="ion-text-center" style="margin-left: 50px"
+            >Refund Payments
+          </ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="modal5.dismiss()">cancel</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <!-- <ion-card>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6">
+                  <ion-label>
+                    <h6 style="color: black;"><b>Total Amount</b></h6>
+                    <p> {{selectedServiceProviderPrice.service.price | currency:'INR':'symbol':'1.2-2'}}</p>
+                  </ion-label>
+                </ion-col>
+                <ion-col size="6">
+                  <ion-label>
+                    <h6 style="color: black;"><b>Commission (%)</b></h6>
+                    <p> {{selectedServiceProviderPrice.service.commission}}%</p>
+                  </ion-label>
+                </ion-col>
+                <ion-col size="6">
+                  <ion-label>
+                    <h6 style="color: black;"><b>Agent Earning</b></h6>
+                    <p> {{selectedServiceProviderPrice.service.serviceProviderCharge | currency:'INR':'symbol':'1.2-2'}}</p>
+                  </ion-label>
+                </ion-col>  
+              </ion-row>
+            </ion-grid> 
+          </ion-card> -->
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <ion-label>Payable Amount</ion-label>
+              <ion-item
+                style="
+                  border: 1px solid rgb(156, 156, 156);
+                  border-radius: 10px;
+                  margin-top: 10px;
+                "
+              >
+                <ion-input
+                  type="number"
+                  placeholder="Payable Amount"
+                  readonly="true"
+                  [(ngModel)]="this.refund.payableAmount"
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-label>Transfer ID</ion-label>
+              <ion-item
+                style="
+                  border: 1px solid rgb(156, 156, 156);
+                  border-radius: 10px;
+                  margin-top: 10px;
+                "
+              >
+                <ion-input
+                  type="text"
+                  placeholder="Transfer ID"
+                  [(ngModel)]="this.refund.transferID"
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12">
+              <ion-label>Transfer Mode</ion-label>
+              <ion-item
+                style="
+                  border: 1px solid rgb(156, 156, 156);
+                  border-radius: 10px;
+                  margin-top: 10px;
+                "
+              >
+                <ion-input
+                  type="text"
+                  placeholder="Transfer Mode"
+                  [(ngModel)]="this.refund.transferMode"
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-content>
+      <ion-footer>
+        <ion-toolbar class="ion-text-center">
+          <ion-button
+            [disabled]="!this.refund.payableAmount||!this.refund.transferID||!this.refund.transferMode"
+            fill="solid"
+            (click)="onClick3()"
+            (click)="modal5.dismiss()"
+          >
+            Refund Payment
+          </ion-button>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
+
+  <ion-button style="display: none;" id="openModal6">second</ion-button>
+    <ion-modal trigger="openModal6" #modal6>
+      <ng-template >
+        <ion-header>
+          <ion-toolbar color="primary">
+            <ion-title class="ion-text-center">Payment Details</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <ion-text  >Payment Method</ion-text>
+          <ion-item style="border: 1px solid rgb(156, 156, 156);border-radius: 10px;margin-top: 10px;margin-bottom: 10px;">
+            <ion-input 
+              type="text"
+              placeholder="Payment Method"
+              readonly="true"
+              [(ngModel)]="this.selectedProvider.paymentType"
+            ></ion-input>
+          </ion-item>
+          <ion-text  >Transaction ID</ion-text>
+          <ion-item style="border: 1px solid rgb(156, 156, 156);border-radius: 10px;margin-top: 10px;">
+            <ion-input 
+              type="text"
+              placeholder="Transaction ID"
+              readonly="true"
+              [(ngModel)]="this.selectedProvider.transactionId"
+            ></ion-input>
+          </ion-item>
+          <div  style="margin: auto;width: 40%;">
+          <ion-button expand="block" style="margin-top: 10px;" (click)="modal6.dismiss()">Close</ion-button>
+        </div>
+        </ion-content>
+      </ng-template>
+    </ion-modal>  
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </ion-toolbar>
+</ion-footer>
