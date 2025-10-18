@@ -11,7 +11,7 @@
         <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/push_icon_sahayak" />
         <activity
             android:exported="true"
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode|navigation"
             android:name="com.sahayak.provider.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBarLaunch"

@@ -4,7 +4,6 @@ const config: CapacitorConfig = {
   appId: 'com.sahayak.provider',
   appName: 'Sahayak Provider',
   webDir: 'www',
-  bundledWebRuntime: false,
 
   plugins: { 
     SplashScreen: {
@@ -18,6 +17,9 @@ const config: CapacitorConfig = {
     LocalNotifications: { 
       iconColor: "#111111",
       sound: "beep.wav",
+    },
+      EdgeToEdge: {
+      backgroundColor: "#f2f2f2",
     },
   },
 };

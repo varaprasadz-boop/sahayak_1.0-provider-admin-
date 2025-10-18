@@ -25,7 +25,6 @@ import {
 import { UtilityService } from '../model/utility';
 import { DataService } from '../services/data.service';
 import { TranslateService } from '@ngx-translate/core';
-import { AdMob } from '@capacitor-community/admob';
 import { Category, Subcategory } from '../model/category';
 
 
@@ -131,7 +130,6 @@ export class EditProfilePage implements OnInit {
   }
 
   async hideBanner() {
-    await AdMob.hideBanner();
   }
   categoriesById(event:any){
     this.dataService.getSubCategoriesByCategories(event.target.value).subscribe((data) => {

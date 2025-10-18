@@ -19,7 +19,6 @@ import { collection, addDoc, getFirestore } from 'firebase/firestore';
 import { AutoCompletePage } from '../auto-complete/auto-complete.page';
 import { UtilityService } from '../model/utility';
 import { TranslateService } from '@ngx-translate/core';
-import { AdMob } from '@capacitor-community/admob';
 
 @Component({
   selector: 'app-post-ads',
@@ -87,7 +86,6 @@ export class PostAdsPage implements OnInit  {
    }
 
    async hideBanner(){
-    await AdMob.hideBanner();
    }
 
    selectCat(ev){

@@ -52,7 +52,6 @@ export class BookNowPage implements OnInit {
     this.data.getCustomersList().subscribe((data) => {
       if (data != null) {
         this.customers = data;
-        console.log(this.customers);
       } else {
         console.log('No data');
       }

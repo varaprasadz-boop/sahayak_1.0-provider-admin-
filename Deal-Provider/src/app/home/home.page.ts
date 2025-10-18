@@ -28,13 +28,6 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { parse, formatISO, format } from 'date-fns';
 
-import {
-  AdMob,
-  AdOptions,
-  BannerAdOptions,
-  BannerAdPosition,
-  BannerAdSize,
-} from '@capacitor-community/admob';
 import { environment } from 'src/environments/environment';
 import { Item } from '../model/item';
 import { Service } from '../model/services';
@@ -294,32 +287,14 @@ export class HomePage implements ViewDidEnter, AfterViewInit {
     });
   }
   async bannerAds() {
-    //const adId = isPlatform('ios') ? 'ios-ad-id' : `${environment.bannerAdId}`;
-    const options: BannerAdOptions = {
-      adId: isPlatform('ios')
-        ? `${environment.bannerAdIdiOS}`
-        : `${environment.bannerAdId}`,
-      adSize: BannerAdSize.ADAPTIVE_BANNER,
-      position: BannerAdPosition.BOTTOM_CENTER,
-      margin: 60,
-      //isTesting: true,
-    };
-    await AdMob.showBanner(options);
+   
   }
 
   async hideBanner() {
-    await AdMob.hideBanner();
   }
 
   async showInterstitial() {
-    const options: AdOptions = {
-      adId: isPlatform('ios')
-        ? `${environment.interstitialAdIdiOS}`
-        : `${environment.interstitialAdId}`,
-      //isTesting: true,
-    };
-    await AdMob.prepareInterstitial(options);
-    await AdMob.showInterstitial();
+
   }
 
   viewDetails(id) {
@@ -448,5 +423,7 @@ export class HomePage implements ViewDidEnter, AfterViewInit {
     });
     await modal.present();
   }
- 
+  public callSupport(): void {
+    window.open(`tel:+917382791500`, '_system');
+  }
 }

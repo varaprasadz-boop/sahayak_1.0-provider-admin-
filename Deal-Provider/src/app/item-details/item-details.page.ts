@@ -21,7 +21,6 @@ import { Autoplay, SwiperOptions } from 'swiper';
 //import SwiperCore, {Pagination} from 'swiper/core';
 import { SwiperComponent } from 'swiper/angular';
 //SwiperCore.use([Pagination, Autoplay]);
-import { AdMob } from '@capacitor-community/admob';
 import { Service } from '../model/services'; 
 import { ModalPackagesComponent } from '../components/modal-packages/modal-packages.component';
 declare var google: any;
@@ -114,7 +113,6 @@ export class ItemDetailsPage  {
   }
 
   async hideBanner(){
-    await AdMob.hideBanner();
    }
 
   ngAfterContentChecked(){

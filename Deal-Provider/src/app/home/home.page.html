@@ -1,23 +1,39 @@
-<ion-header style=" background: #f2f2f2;">
-  <ion-toolbar style="--background: #f2f2f2;" [hidden]="backToTop">
+<ion-header style="background: #f2f2f2">
+  <ion-toolbar style="--background: #f2f2f2" [hidden]="backToTop">
     <!-- <img style="height:60px;width:65px;float: left;margin-left:10px;margin-top:8px;border-radius: 10px;" src="../../assets/logo-provider.png" alt=""> -->
-    <ion-title class="ion-text-start" style=" font-family: Argentic; font-size: 40px;">{{ 'Sahayak'}}</ion-title>
+    <ion-title
+      class="ion-text-start"
+      style="font-family: Argentic; font-size: 40px"
+      >{{ 'Sahayak'}}</ion-title
+    >
     <ion-buttons slot="end">
       <ion-button style="font-size: smaller" (click)="modal.present()">
         {{ location | slice:0:16 }} <ion-icon name="chevron-down"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <app-event-calendar (getBookings)="getBookings($event)" style="margin-bottom: 20px;"></app-event-calendar>
-</ion-header > 
-<ion-content [fullscreen]="true" [scrollEvents]="true" [scrollEvents]="true" (ionScroll)="getScrollPos($event)">
+  <app-event-calendar
+    (getBookings)="getBookings($event)"
+    style="margin-bottom: 20px"
+  ></app-event-calendar>
+</ion-header>
+<ion-content
+  [fullscreen]="true"
+  [scrollEvents]="true"
+  [scrollEvents]="true"
+  (ionScroll)="getScrollPos($event)"
+>
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <app-event-timeline [booking]="bookings"></app-event-timeline>
 
   <!-- Spinner loader -->
-  <div *ngFor="let item of dummyArray" class="ion-text-center" style="padding-top: 50px" >
+  <div
+    *ngFor="let item of dummyArray"
+    class="ion-text-center"
+    style="padding-top: 50px"
+  >
     <ion-spinner color="secondary"></ion-spinner>
   </div>
 
@@ -25,6 +41,14 @@
   <div class="back-to-top-btn" *ngIf="backToTop" (click)="gotToTop()">
     <ion-icon name="chevron-up-outline" color="light"></ion-icon>
   </div>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" [edge]="false">
+    <ion-fab-button size="small" (click)="callSupport()">
+      <ion-icon
+        size="small"
+        src="assets/svg/customer-service-icon.svg"
+      ></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
 <!-- ================== CONTENT END ================= -->
 
@@ -69,11 +93,13 @@
           >
         </ion-select>
       </ion-item>
-      <ion-button class="ion-margin-top" expand="block" (click)="modal.dismiss()"> Save </ion-button>
+      <ion-button
+        class="ion-margin-top"
+        expand="block"
+        (click)="modal.dismiss()"
+      >
+        Save
+      </ion-button>
     </ion-content>
   </ng-template>
 </ion-modal>
-
-
-
-
