@@ -2,7 +2,6 @@
 	"appId": "com.sahayak.provider",
 	"appName": "Sahayak Provider",
 	"webDir": "www",
-	"bundledWebRuntime": false,
 	"plugins": {
 		"SplashScreen": {
 			"launchAutoHide": false,
@@ -19,6 +18,9 @@
 		"LocalNotifications": {
 			"iconColor": "#111111",
 			"sound": "beep.wav"
+		},
+		"EdgeToEdge": {
+			"backgroundColor": "#f2f2f2"
 		}
 	}
 }
