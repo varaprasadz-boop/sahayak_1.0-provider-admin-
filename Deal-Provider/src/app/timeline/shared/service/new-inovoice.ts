@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import numWords from 'num-words';
+import { Booking } from 'src/app/model/booking.model';
 
 // Define a type for the PDFMake node/table context
 type TableLayoutNode = {
