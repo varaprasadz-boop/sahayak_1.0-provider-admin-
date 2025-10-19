@@ -8,7 +8,6 @@ import { BookNowPageRoutingModule } from './book-now-routing.module';
 
 import { BookNowPage } from './book-now.page';
 import { BookingDetailComponent } from '../booking-detail/booking-detail.component';
-import { TimelineComponent } from '../timeline/timeline.component';
 
 @NgModule({
   imports: [

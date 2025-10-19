@@ -2,11 +2,13 @@ export interface Address {
     id?: string;
     uid: string;
     name: string;
-    address: string;
+    address?: string;
+    flat?: string;
+    appartment?: string;
+    landmark?: string;
     phone: string;
     city: string;
     area: string;
-    landmark:string;
     cityName: string;
     areaName: string;
     location: string;

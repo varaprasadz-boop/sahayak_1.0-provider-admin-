@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import numWords from 'num-words';
 
-// Import the user's defined interfaces for type safety
-import { Booking } from 'src/app/model/booking.model';
-
 // Define a type for the PDFMake node/table context
 type TableLayoutNode = {
   table: {
@@ -14,17 +11,21 @@ type TableLayoutNode = {
 @Injectable({
   providedIn: 'root',
 })
-export class InvoiceService {
+export class NewInvoice {
   public constructor() {}
 
   public generateInvoice(booking: Booking, displayName: any): any {
     // --- Data Logic: USING BOOKING INTERFACE DATA ---
-    const servicePrice = +booking.service.price; 
+    const finalTotalAmount = +booking.service.price; 
     
-    // Admin Commission (30% flat)
-    const adminCommissionRate = 0.30; // 30%
-    const adminCommissionAmount = servicePrice * adminCommissionRate;
-    const finalTotalAmount = servicePrice - adminCommissionAmount; // Amount after commission deduction
+    // Split GST (18%) into CGST and SGST (9% each)
+    const gstRate = 0.18; // Total GST rate
+    const cgstRate = gstRate / 2; // 0.09
+    const sgstRate = gstRate / 2; // 0.09
+    
+    const taxableValue = finalTotalAmount / (1 + gstRate); // Base value before tax
+    const cgstAmount = taxableValue * cgstRate;
+    const sgstAmount = taxableValue * sgstRate;
     const discount = 0; 
     
     // --- Invoice Styling & Helpers ---
@@ -135,23 +136,15 @@ export class InvoiceService {
                 },
               ],
             },
-            // Right: ORIGINAL INVOICE (Sahayak Partner Invoice)
+            // Right: ORIGINAL TAX INVOICE
             {
               width: '*',
               stack: [
                 {
-                  text: 'ORIGINAL INVOICE',
+                  text: 'ORIGINAL TAX INVOICE',
                   fontSize: 16,
                   bold: true,
                   alignment: 'right',
-                },
-                {
-                  text: '(Sahayak Partner Invoice)',
-                  fontSize: 10,
-                  bold: true,
-                  alignment: 'right',
-                  color: '#005a8d',
-                  margin: [0, 2, 0, 0],
                 },
               ],
             },
@@ -312,7 +305,7 @@ export class InvoiceService {
                   margin: [0, 3, 0, 3],
                 },
                 {
-                  text: 'Amount',
+                  text: 'Taxable Value',
                   fontSize: 10,
                   bold: true,
                   fillColor: headerBgColor,
@@ -330,7 +323,7 @@ export class InvoiceService {
                       text: serviceName,
                       fontSize: 10,
                       bold: true,
-                      margin: [0, 3, 0, 1],
+                      margin: [0, 3, 0, 1], // Reduced margin
                     },
                     {
                       text: `SAC: ${ucSAC}`,
@@ -339,57 +332,134 @@ export class InvoiceService {
                     },
                   ],
                   border: [false, false, false, false],
-                  margin: [0, 3, 0, 5],
+                  margin: [0, 3, 0, 5], // Reduced margin
                 },
                 {
-                  text: `Rs. ${formatCurrency(servicePrice)}`,
+                  text: `Rs. ${formatCurrency(taxableValue)}`,
                   fontSize: 10,
                   alignment: 'right',
                   border: [false, false, false, false],
-                  margin: [0, 3, 0, 5],
+                  margin: [0, 3, 0, 5], // Reduced margin
                 },
               ],
-              // Service Price (Gross Amount)
+              // Gross Amount row
               [
                 {
-                  text: 'Service Price',
+                  text: 'Gross Amount',
                   fontSize: 9,
                   alignment: 'right',
                   border: [false, false, false, false],
-                  margin: [0, 1, 0, 1],
+                  margin: [0, 1, 0, 1], // Reduced margin
                 },
                 {
-                  text: `Rs. ${formatCurrency(servicePrice)}`,
+                  text: `Rs. ${formatCurrency(taxableValue)}`,
                   fontSize: 9,
                   alignment: 'right',
                   border: [false, false, false, false],
-                  margin: [0, 1, 0, 1],
+                  margin: [0, 1, 0, 1], // Reduced margin
                 },
               ],
-              // Admin Commission row
+              // Discount row
+              [
+                {
+                  text: 'Discount',
+                  fontSize: 9,
+                  alignment: 'right',
+                  border: [false, false, false, false],
+                  margin: [0, 1, 0, 1], // Reduced margin
+                },
+                {
+                  text: `- Rs. ${formatCurrency(discount)}`,
+                  fontSize: 9,
+                  alignment: 'right',
+                  border: [false, false, false, false],
+                  margin: [0, 1, 0, 1], // Reduced margin
+                },
+              ],
+              // Taxable Value row
               [
                 {
                   stack: [
-                    { 
-                      text: `Admin Commission (${adminCommissionRate * 100}%)`, 
-                      fontSize: 9, 
-                      alignment: 'right' 
-                    },
+                    { text: 'Taxable Value', fontSize: 9, alignment: 'right' },
                   ],
-                  border: [false, false, false, true],
-                  borderColor: [lineStyle.color, lineStyle.color, lineStyle.color, lineStyle.color],
-                  margin: [0, 1, 0, 3],
+                  border: [false, false, false, false],
+                  margin: [0, 1, 0, 1], // Reduced margin
                 },
                 {
                   stack: [
                     {
-                      text: `- Rs. ${formatCurrency(adminCommissionAmount)}`,
+                      text: `Rs. ${formatCurrency(taxableValue)}`,
                       fontSize: 9,
                       alignment: 'right',
                       margin: [0, 0, 0, 1],
                     },
                     {
-                      text: `(${numToWords(adminCommissionAmount, true)})`,
+                      text: `(${numToWords(taxableValue)})`,
+                      fontSize: 7,
+                      alignment: 'right',
+                      color: '#666666',
+                    },
+                  ],
+                  border: [false, false, false, false],
+                  margin: [0, 1, 0, 1], // Reduced margin
+                },
+              ],
+              // CGST @9% row
+              [
+                {
+                  stack: [
+                    {
+                      text: `CGST @${cgstRate * 100}%`,
+                      fontSize: 9,
+                      alignment: 'right',
+                    },
+                  ],
+                  border: [false, false, false, false], 
+                  margin: [0, 1, 0, 3], // Reduced margin
+                },
+                {
+                  stack: [
+                    {
+                      text: `Rs. ${formatCurrency(cgstAmount)}`,
+                      fontSize: 9,
+                      alignment: 'right',
+                      margin: [0, 0, 0, 1],
+                    },
+                    {
+                      text: `(${numToWords(cgstAmount, true)})`,
+                      fontSize: 7,
+                      alignment: 'right',
+                      color: '#666666',
+                    },
+                  ],
+                  border: [false, false, false, false], 
+                  margin: [0, 1, 0, 3], // Reduced margin
+                },
+              ],
+              // SGST @9% row
+              [
+                {
+                  stack: [
+                    {
+                      text: `SGST @${sgstRate * 100}%`,
+                      fontSize: 9,
+                      alignment: 'right',
+                    },
+                  ],
+                  border: [false, false, false, true],
+                  borderColor: [lineStyle.color, lineStyle.color, lineStyle.color, lineStyle.color],
+                  margin: [0, 1, 0, 3], // Reduced margin
+                },
+                {
+                  stack: [
+                    {
+                      text: `Rs. ${formatCurrency(sgstAmount)}`,
+                      fontSize: 9,
+                      alignment: 'right',
+                      margin: [0, 0, 0, 1],
+                    },
+                    {
+                      text: `(${numToWords(sgstAmount, true)})`,
                       fontSize: 7,
                       alignment: 'right',
                       color: '#666666',
@@ -397,7 +467,7 @@ export class InvoiceService {
                   ],
                   border: [false, false, false, true],
                   borderColor: [lineStyle.color, lineStyle.color, lineStyle.color, lineStyle.color],
-                  margin: [0, 1, 0, 3],
+                  margin: [0, 1, 0, 3], // Reduced margin
                 },
               ],
               // TOTAL AMOUNT row
@@ -465,14 +535,14 @@ export class InvoiceService {
             },
             {
               ol: [
-                'We hereby declare that the above particulars are true and correct. The amount shown is the partner earnings after 30% admin commission deduction.',
-                'The invoice is issued by Swayamkrushi Home Services Limited as a service partner earnings statement.',
-                '100% payment will be released after completion of the service and submission of the final invoice, as per terms and conditions.',
-                'We declare that all particulars stated in this invoice are true and correct, and the services have been rendered as per specifications.',
+                'We hereby declare that the above particulars are true and correct. The amount indicated is in accordance with the PO and applicable GST laws',
+                'The invoice is raised in accordance with GST rules. Swayamkrushi Home Services Limited undertakes to comply with all applicable GST.',
+                '100% payment will be released after completion of the event/services and upon submission of the final tax invoice, as per PO conditions.',
+                'We declare that all particulars stated in this invoice are true and correct, and the services have been rendered as per the PO specifications.',
               ],
               fontSize: 8,
-              lineHeight: 1.2,
-              margin: [0, 0, 0, 5]
+              lineHeight: 1.2, // Reduced line height
+              margin: [0, 0, 0, 5] // Reduced margin
             },
 
             // Company Name and Closing Statement

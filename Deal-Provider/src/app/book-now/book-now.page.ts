@@ -6,7 +6,16 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { BookingDetailComponent } from '../booking-detail/booking-detail.component';
 import { Router } from '@angular/router';
 import { User } from '../model/user';
-import { collection, doc, getDocs, getFirestore, increment, query, updateDoc, where } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDocs,
+  getFirestore,
+  increment,
+  query,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 
 @Component({
   selector: 'app-book-now',
@@ -15,8 +24,8 @@ import { collection, doc, getDocs, getFirestore, increment, query, updateDoc, wh
 })
 export class BookNowPage implements OnInit {
   public isApproved: boolean = true;
-  public selectedBooking:any;
-  public overAllBookings:any=[]
+  public selectedBooking: any;
+  public overAllBookings: any = [];
   public isProviderAvailable: boolean = false;
   private db = getFirestore();
   public bookings: Booking[];
@@ -35,8 +44,8 @@ export class BookNowPage implements OnInit {
 
   public ngOnInit(): void {
     this.getAllBookings();
-    this.getOverAllBookings()
-    this.getAllProviders()
+    this.getOverAllBookings();
+    this.getAllProviders();
     this.data.getCategories().subscribe((data) => {
       if (data != null) {
         this.categories = data;
@@ -69,43 +78,45 @@ export class BookNowPage implements OnInit {
     this.filterBookings();
   }
   public getAllBookings(): void {
-    this.data.getBookings(localStorage.getItem('providerUid')).subscribe((res) => {
-      this.bookings = res.sort(this.compareDates);
-      console.log(this.bookings);
-      this.filterBookings();
+    this.data
+      .getBookings(localStorage.getItem('providerUid'))
+      .subscribe((res) => {
+        this.bookings = res.sort(this.compareDates);
+        console.log(this.bookings);
+        this.filterBookings();
+      });
+  }
+  public getOverAllBookings() {
+    this.data.getAllBookings().subscribe((res) => {
+      this.overAllBookings = res;
+      console.log(this.overAllBookings);
     });
   }
- public getOverAllBookings(){
-  this.data.getAllBookings().subscribe(res=>{
-    this.overAllBookings = res 
-    console.log(this.overAllBookings); 
-  })
- }
 
- public getAllProviders(): any {
-  this.providers = [];
-  this.data.getAllProviders().subscribe(
-    (res: any) => {
-      if (Array.isArray(res)) {
-        res.forEach((item) => {
-          if (
-            this.selectedBooking?.service?.id && // Ensure service and id exist
-            Array.isArray(item.services) &&
-            item.services.includes(this.selectedBooking.service.id)
-          ) {
-            this.providers.push(item);
-            console.log('Matching Provider:', this.providers);
-          }
-        });
-      } else {
-        console.error('Response is not an array:', res);
+  public getAllProviders(): any {
+    this.providers = [];
+    this.data.getAllProviders().subscribe(
+      (res: any) => {
+        if (Array.isArray(res)) {
+          res.forEach((item) => {
+            if (
+              this.selectedBooking?.service?.id && // Ensure service and id exist
+              Array.isArray(item.services) &&
+              item.services.includes(this.selectedBooking.service.id)
+            ) {
+              this.providers.push(item);
+              console.log('Matching Provider:', this.providers);
+            }
+          });
+        } else {
+          console.error('Response is not an array:', res);
+        }
+      },
+      (error) => {
+        console.error('Error fetching providers:', error);
       }
-    },
-    (error) => {
-      console.error('Error fetching providers:', error);
-    }
-  );
-}
+    );
+  }
 
   public compareDates(a: any, b: any): number {
     // Compare dates first
@@ -130,7 +141,11 @@ export class BookNowPage implements OnInit {
         (booking) =>
           booking.jobStatus !== 'completed' &&
           booking.jobStatus !== 'pending' &&
-          (booking.agentAcceptedStatus === 'pending' || booking.agentAcceptedStatus === 'accepted' || (booking.agentAcceptedStatus === 'rejected' && booking.agentWhoRejected !== localStorage.getItem('providerUid') as string))
+          (booking.agentAcceptedStatus === 'pending' ||
+            booking.agentAcceptedStatus === 'accepted' ||
+            (booking.agentAcceptedStatus === 'rejected' &&
+              booking.agentWhoRejected !==
+                (localStorage.getItem('providerUid') as string)))
       );
     } else {
       this.filteredBookings = this.bookings.filter(
@@ -180,189 +195,122 @@ export class BookNowPage implements OnInit {
     return `${adjustedHour}:${minute.padStart(2, '0')} ${ampm}`;
   }
 
- 
-
   public async rejectBooking(booking: any, value: any): Promise<void> {
     this.selectedBooking = booking;
     if (value) {
-        await this.handleProviderRejection(); // Call to handle provider rejection
+      await this.handleProviderRejection(); // Call to handle provider rejection
     } else {
-        await this.presentAlertConfirm(booking);
+      await this.presentAlertConfirm(booking);
     }
-}
-private async handleProviderRejection(): Promise<void> {
-  try {
+  }
+  private async handleProviderRejection(): Promise<void> {
+    try {
       // Set booking status to rejected and reassign
       await this.updateBookingStatus('rejected');
 
       // Attempt to reassign the booking
       await this.checkProviderAvailability();
-  } catch (error) {
-      console.error("Error handling provider rejection:", error);
+    } catch (error) {
+      console.error('Error handling provider rejection:', error);
+    }
   }
-}
-private async updateBookingStatus(status: string): Promise<void> {
-  const bookingRef = doc(this.db, 'bookings', this.selectedBooking.id);
-  await updateDoc(bookingRef, {
+  private async updateBookingStatus(status: string): Promise<void> {
+    const bookingRef = doc(this.db, 'bookings', this.selectedBooking.id);
+    await updateDoc(bookingRef, {
       agentAcceptedStatus: status,
-      jobStatus: status === 'rejected' ? 'pending' : this.selectedBooking.jobStatus,
+      jobStatus:
+        status === 'rejected' ? 'pending' : this.selectedBooking.jobStatus,
       agentId: '',
       agentName: '',
-      agentStatus: status === 'rejected' ? 'pending' : this.selectedBooking.agentStatus,
-  });
-}
-private async checkProviderAvailability(): Promise<void> {
-  if (Array.isArray(this.overAllBookings) && Array.isArray(this.providers)) {
+      agentStatus:
+        status === 'rejected' ? 'pending' : this.selectedBooking.agentStatus,
+    });
+  }
+  private async checkProviderAvailability(): Promise<void> {
+    if (Array.isArray(this.overAllBookings) && Array.isArray(this.providers)) {
       // Find available providers
-      console.log(this.providers)
-      const availableProviders:any = this.providers.filter((provider: any) => {
-          return (
-              provider.address.city === this.selectedBooking.address.city &&
-              provider.address.area === this.selectedBooking.address.area &&
-              provider.uid !== localStorage.getItem('providerUid') &&
-              !this.overAllBookings.some((booking) => {
-                  return (
-                      booking.agentId === provider.uid &&
-                      booking.schedule.date === this.selectedBooking.schedule.date &&
-                      booking.schedule.time === this.selectedBooking.schedule.time
-                  );
-              })
-          );
+      console.log(this.providers);
+      const availableProviders: any = this.providers.filter((provider: any) => {
+        return (
+          provider.address.city === this.selectedBooking.address.city &&
+          provider.address.area === this.selectedBooking.address.area &&
+          provider.uid !== localStorage.getItem('providerUid') &&
+          !this.overAllBookings.some((booking) => {
+            return (
+              booking.agentId === provider.uid &&
+              booking.schedule.date === this.selectedBooking.schedule.date &&
+              booking.schedule.time === this.selectedBooking.schedule.time
+            );
+          })
+        );
       });
 
       console.log('Available Providers:', availableProviders);
 
       if (availableProviders.length > 0) {
-          try {
-              const bookingRef = doc(this.db, 'bookings', this.selectedBooking.id);
+        try {
+          const bookingRef = doc(this.db, 'bookings', this.selectedBooking.id);
 
-              // Assign the first available provider
-              await updateDoc(bookingRef, {
-                  agentId: availableProviders[0].uid,
-                  agentName: availableProviders[0].displayName,
-                  agentStatus: 'assigned',
-                  jobStatus: 'upcoming',
-                  agentAcceptedStatus: 'pending',
-                  hasAgentAccepted: true
-              });
+          // Assign the first available provider
+          await updateDoc(bookingRef, {
+            agentId: availableProviders[0].uid,
+            agentName: availableProviders[0].displayName,
+            agentStatus: 'assigned',
+            jobStatus: 'upcoming',
+            agentAcceptedStatus: 'pending',
+            hasAgentAccepted: true,
+          });
 
-              console.log("Booking reassigned successfully to provider:", availableProviders[0]);
-              this.isProviderAvailable = true;
-          } catch (error) {
-              console.error("Error updating booking with new provider:", error);
-          }
+          console.log(
+            'Booking reassigned successfully to provider:',
+            availableProviders[0]
+          );
+          this.isProviderAvailable = true;
+        } catch (error) {
+          console.error('Error updating booking with new provider:', error);
+        }
       } else {
-          console.log('No providers available for the selected date and time.');
-          this.isProviderAvailable = false;
+        console.log('No providers available for the selected date and time.');
+        this.isProviderAvailable = false;
       }
-  } else {
+    } else {
       console.error('Bookings or Providers are not arrays.');
+    }
   }
-}
 
-// private async checkProviderAvailability(): Promise<void> {
-//     if (Array.isArray(this.overAllBookings) && Array.isArray(this.providers)) {
-//         // Find available providers
-//         const availableProviders = this.providers.filter((provider: any) => {
-//             return (
-//                 provider.address.city === this.selectedBooking.address.city &&
-//                 provider.address.area === this.selectedBooking.address.area &&
-//                 provider.uid !== localStorage.getItem('providerUid') &&
-//                 !this.overAllBookings.some((booking) => {
-//                     return (
-//                         booking.agentId === provider.id &&
-//                         booking.schedule.date === this.selectedBooking.schedule.date &&
-//                         booking.schedule.time === this.selectedBooking.schedule.time
-//                     );
-//                 })
-//             );
-//         });
-
-//         console.log('Available Providers:', availableProviders);
-//         if (availableProviders.length > 0) {
-//             try {
-//                 const bookingRef = doc(this.db, 'bookings', this.selectedBooking.id);
-                
-//                 // Assign the first available provider
-//                 await updateDoc(bookingRef, {
-//                     agentId: availableProviders[0].id,
-//                     agentName: availableProviders[0].displayName,
-//                     agentStatus: 'assigned',
-//                     jobStatus: 'upcoming',
-//                     agentAcceptedStatus: 'pending',
-//                     hasAgentAccepted: true // Ensure to set this to true if booking is assigned
-//                 });
-
-//                 console.log("Booking reassigned successfully to provider:", availableProviders[0]);
-//                 this.isProviderAvailable = true;
-
-//             } catch (error) {
-//                 console.error("Error handling rejected booking:", error);
-//             }
-//         } else {
-//             try {
-//                 const bookingRef = doc(this.db, 'bookings', this.selectedBooking.id);
-                
-//                 // Update booking to indicate no available providers
-//                 await updateDoc(bookingRef, {
-//                     hasAgentAccepted: false,
-//                     agentAcceptedStatus: 'rejected',
-//                 });
-                
-//                 console.log('No providers available for the selected date and time.');
-//                 this.isProviderAvailable = false;
-//             } catch (error) {
-//                 console.error("Error handling rejected booking:", error);
-//             }
-//         }
-//     } else {
-//         console.error('Bookings or Providers are not arrays.');
-//     }
-// }
-
-// You might want to call this method to handle rejection from a provider
-// private async handleProviderRejection(providerId: string): Promise<void> {
-//     // Find and reassign booking if the current provider rejects it
-//     await this.checkProviderAvailability();
-// }
-
-
-
-  
-  public acceptBooking(booking, value:boolean): void {
+  public acceptBooking(booking, value: boolean): void {
     if (value) {
       const bookingRef = doc(this.db, 'bookings', booking.id);
       updateDoc(bookingRef, {
         hasAgentAccepted: true,
         agentAcceptedStatus: 'accepted',
       });
-    }
-    else {
+    } else {
       this.presentAlertConfirm(booking);
     }
-
   }
   async presentAlertConfirm(booking: Booking) {
     const alert = await this.alertController.create({
-        header: 'Confirm Cancel',
-        message: 'Are you sure you want to cancel this booking?',
-        buttons: [
-            {
-                text: 'Cancel',
-                role: 'cancel',
-                cssClass: 'secondary',
-                handler: () => {
-                    console.log('Cancel booking action.');
-                }
-            }, {
-                text: 'Reject',
-                handler: async () => {
-                    await this.handleProviderRejection(); // Ensure this is called
-                }
-            }
-        ]
+      header: 'Confirm Cancel',
+      message: 'Are you sure you want to cancel this booking?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Cancel booking action.');
+          },
+        },
+        {
+          text: 'Reject',
+          handler: async () => {
+            await this.handleProviderRejection(); // Ensure this is called
+          },
+        },
+      ],
     });
 
     await alert.present();
-}
+  }
 }

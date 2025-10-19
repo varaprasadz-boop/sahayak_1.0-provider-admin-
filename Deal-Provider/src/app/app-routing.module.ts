@@ -193,14 +193,19 @@ const routes: Routes = [
     loadChildren: () => import('./earnings/earnings.module').then( m => m.EarningsPageModule),
     canActivate: [AuthGuardGuard]
   },
-  {
-    path: 'booking-view',
-    loadChildren: () => import('./booking-view/booking-view.module').then( m => m.BookingViewPageModule),
-    canActivate: [AuthGuardGuard]
-  },
+  // {
+  //   path: 'booking-view',
+  //   loadChildren: () => import('./booking-view/booking-view.module').then( m => m.BookingViewPageModule),
+  //   canActivate: [AuthGuardGuard]
+  // },
   {
     path: 'view-detail',
     loadChildren: () => import('./view-detail/view-detail.module').then( m => m.ViewDetailPageModule),  
+    canActivate: [AuthGuardGuard]
+  },
+  {
+    path: 'booking-view',
+    loadChildren: () => import('./booking-details/booking-details.module').then( m => m.BookingDetailsPageModule),
     canActivate: [AuthGuardGuard]
   },
 ];
