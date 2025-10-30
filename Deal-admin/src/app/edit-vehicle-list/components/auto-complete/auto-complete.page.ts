@@ -1,12 +1,4 @@
-/*
-  Authors : Coders Island
-  Website : https://codersisland.com
-  App Name : Deal - ionic 6 Buy and Sell, Admin, Admob
-  Created : 20-August-2022
-  This App Template Source code is licensed as per the
-  terms found in the Website https://codersisland.com/license
-  Copyright © 2022-present Coders Island.
-*/
+ 
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { Geolocation } from '@capacitor/geolocation';

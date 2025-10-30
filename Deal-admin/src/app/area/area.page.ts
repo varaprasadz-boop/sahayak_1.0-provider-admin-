@@ -17,6 +17,7 @@ export class AreaPage implements OnInit {
   public cities: any = [];
   public areas: any = [];
   public db = getFirestore();
+p: any;
   public constructor(public router:Router ,private modalCtrl: ModalController, private data: DataService, private alertController: AlertController,  public permsision: CheckPermissionService) {
    this.data.getAllCities().subscribe((data) => {
      this.cities = data;

@@ -1,12 +1,4 @@
-/*
-  Authors : Coders Island
-  Website : https://codersisland.com
-  App Name : Deal - ionic 6 Buy and Sell, Admin, Admob
-  Created : 20-August-2022
-  This App Template Source code is licensed as per the
-  terms found in the Website https://codersisland.com/license
-  Copyright © 2022-present Coders Island.
-*/
+ 
 
 import { Component, OnInit } from '@angular/core';
 import { AlertController, isPlatform } from '@ionic/angular';
@@ -28,6 +20,7 @@ export class UsersPage implements OnInit {
   desktop = false;
   mobile = false;
   db = getFirestore()
+  p:any
 
   constructor(public dataService: DataService, public alertCtrl: AlertController,public permsision: CheckPermissionService) {
     this.dataService.getUsers().subscribe((data) => {

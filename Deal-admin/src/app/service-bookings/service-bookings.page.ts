@@ -84,6 +84,7 @@ export class ServiceBookingsPage implements OnInit, AfterViewInit {
   cities: any[] = [];
   areas: any[] = [];
   private isMenuOpen: boolean = false;
+p: any;
   public constructor(
     private randomDataService: RandomDataService,
     private dataService: DataService,

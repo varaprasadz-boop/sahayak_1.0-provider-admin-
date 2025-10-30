@@ -261,7 +261,7 @@
           <ion-item
             lines="none"
             *ngFor="let item of providers | search:search:'name' let i=index"
-            (ionChange)="checkboxChanged($event.target.checked, i, item)"
+            (ionChange)="checkboxChanged($event.target['checked'], i, item)"
           >
             <ion-label>
               <h2 style="float: left; margin-top: 13px">{{item.name}}</h2>

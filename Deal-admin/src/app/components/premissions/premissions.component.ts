@@ -44,7 +44,7 @@ export class premissionsComponent implements OnInit {
   update() {
     return this.modalCtrl.dismiss(this.permissionsList, 'update');
   }
-  valuePass(event: CustomEvent, item: SubAdmin, permission: string) {
+  valuePass(event: any, item: SubAdmin, permission: string) {
     const isChecked = event.detail.checked;
     const index = this.permissionsList.findIndex(
       (subAdmin) => subAdmin.name === item.name

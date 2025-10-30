@@ -13,6 +13,7 @@ import { CheckPermissionService } from '../services/check-permission.service';
 export class CitiesPage implements OnInit {
   public cities: any = [];
   searchValue:string=''
+p: any;
   public constructor(private modalCtrl: ModalController, private data: DataService, private alertController: AlertController,
     public permsision: CheckPermissionService) {
    this.data.getAllCities().subscribe((data) => {
